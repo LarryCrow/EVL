@@ -13,3 +13,9 @@ E:\Study\3\arch\evl\evl\obj\Debug\evl.csproj.GenerateResource.Cache
 E:\Study\3\arch\evl\evl\obj\Debug\evl.csproj.CoreCompileInputs.cache
 E:\Study\3\arch\evl\evl\obj\Debug\evl.exe
 E:\Study\3\arch\evl\evl\obj\Debug\evl.pdb
+E:\Study\3\arch\evl\evl\obj\Debug\views\DataBase.g.cs
+E:\Study\3\arch\evl\evl\obj\Debug\views\DataImport.g.cs
+E:\Study\3\arch\evl\evl\obj\Debug\views\Projects.g.cs
+E:\Study\3\arch\evl\evl\obj\Debug\views\DataBase.baml
+E:\Study\3\arch\evl\evl\obj\Debug\views\DataImport.baml
+E:\Study\3\arch\evl\evl\obj\Debug\views\Projects.baml

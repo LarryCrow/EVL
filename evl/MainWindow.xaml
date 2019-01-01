@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:evl"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Оценка лояльности клиентов" Height="375" Width="600">
     <Grid>
-        
+        <Menu Height="25" VerticalAlignment="Top">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Импорт данных" ></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Проект" ></MenuItem>
+            <MenuItem Header="Раздел статистики" >
+                <MenuItem Header="База данных" ></MenuItem>
+                <MenuItem Header="Факторы" ></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Ввод новой информации" ></MenuItem>
+            <MenuItem Header="О программе" ></MenuItem>
+        </Menu>
     </Grid>
 </Window>
