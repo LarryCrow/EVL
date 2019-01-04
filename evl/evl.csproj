@@ -55,7 +55,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="controllers\ProjectC.cs" />
-    <Compile Include="models\Project.cs" />
     <Compile Include="views\DataBase.xaml.cs">
       <DependentUpon>DataBase.xaml</DependentUpon>
     </Compile>
