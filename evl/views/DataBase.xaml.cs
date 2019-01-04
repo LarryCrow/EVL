@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace evl.views
+namespace EVL.Views
 {
     /// <summary>
     /// Логика взаимодействия для DataBase.xaml

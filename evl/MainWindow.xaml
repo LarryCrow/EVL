@@ -1,13 +1,13 @@
-﻿<Window x:Class="evl.MainWindow"
+﻿<Window x:Class="EVL.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:evl"
+        xmlns:local="clr-namespace:EVL"
         mc:Ignorable="d"
         Title="Оценка лояльности клиентов" Height="375" Width="600">
     <Grid>
-        <Menu Height="25" VerticalAlignment="Top">
+        <Menu Height="Auto" VerticalAlignment="Top">
             <MenuItem Header="Файл">
                 <MenuItem Header="Импорт данных" ></MenuItem>
             </MenuItem>

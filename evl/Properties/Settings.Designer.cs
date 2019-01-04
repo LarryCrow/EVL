@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace evl.Properties
+namespace EVL.Properties
 {
 
 
