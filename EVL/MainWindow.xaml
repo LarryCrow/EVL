@@ -5,19 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EVL"
         mc:Ignorable="d"
-        Title="Оценка лояльности клиентов" Height="375" Width="600">
+        Title="Оценка лояльности клиентов" Height="375" MinHeight="300" Width="600" MinWidth="600" FontSize="14">
+    <Window.Resources>
+        <Style TargetType="MenuItem">
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Menu Height="Auto" VerticalAlignment="Top">
             <MenuItem Header="Файл">
-                <MenuItem Header="Импорт данных" ></MenuItem>
+                <MenuItem x:Name="ImportWinBtn" Header="Импорт данных" Click="ImportWinBtn_Click"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Проект" ></MenuItem>
+            <MenuItem x:Name="ProjectsWinBtn" Header="Проект" Click="ProjectsWinBtn_Click" ></MenuItem>
             <MenuItem Header="Раздел статистики" >
-                <MenuItem Header="База данных" ></MenuItem>
-                <MenuItem Header="Факторы" ></MenuItem>
+                <MenuItem x:Name="DBWinBtn" Header="База данных" ></MenuItem>
+                <MenuItem x:Name="FactorsWinBtn" Header="Факторы" ></MenuItem>
             </MenuItem>
-            <MenuItem Header="Ввод новой информации" ></MenuItem>
-            <MenuItem Header="О программе" ></MenuItem>
+            <MenuItem x:Name="InputWinBtn" Header="Ввод новой информации" ></MenuItem>
+            <MenuItem x:Name="AppDescriptionWinBtn" Header="О программе" ></MenuItem>
         </Menu>
     </Grid>
 </Window>
