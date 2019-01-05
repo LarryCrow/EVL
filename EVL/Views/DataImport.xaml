@@ -22,38 +22,38 @@
                     <ComboBox Margin="10,51,10,231" Grid.Column="1"></ComboBox>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="ImportParams" Header="Параметры импорта">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Margin="27,10,91,276">Начать импорт со строки:</TextBlock>
-                    <TextBox Margin="200,10,43,276" RenderTransformOrigin="0.139,0.619"></TextBox>
-                    <CheckBox Grid.Column="1" Margin="10,12,259,73" RenderTransformOrigin="1.667,1.032"/>
-                    <TextBlock Margin="0, 0, 0, 0" Grid.Column="1" Padding="30, 9, 0, 0">Первая строка является заголовком</TextBlock>
-                    <GroupBox Margin="15,50,288,73" Header="Символом разделителем является" Grid.ColumnSpan="2">
+            <TabItem Header="Параметры импорта">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <TextBlock Margin="10 10 5 10">Начать импорт со строки: </TextBlock>
+                        <TextBox Margin="5 10 5 10" Width="50"></TextBox>
+                        <CheckBox Margin="50 12.5 5 10"></CheckBox>
+                        <TextBlock Margin="2.5 10 5 10">Первая строка является заголовком</TextBlock>
+                    </StackPanel>
+                    <GroupBox Margin="0" Header="Символом разделителем является" Grid.ColumnSpan="2">
                         <StackPanel Margin="0,10,0,0">
                             <RadioButton Margin="3">Символ табуляции</RadioButton>
                             <RadioButton Margin="3">Пробел</RadioButton>
                             <RadioButton Margin="3">Точка</RadioButton>
                             <RadioButton Margin="3">Точка с запятой</RadioButton>
                             <RadioButton Margin="3">Запятая</RadioButton>
-                            <Grid>
-                                <RadioButton Margin="3,3,166,3">
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton Margin="3" Width="78">
                                     Другой
                                 </RadioButton>
-                                <TextBox Margin="88,3,129,7"></TextBox>
-                            </Grid>
+                                <TextBox Width="53"></TextBox>
+                            </StackPanel>
                         </StackPanel>
                     </GroupBox>
-                </Grid>
+                </DockPanel>
             </TabItem>
             <TabItem x:Name="Import" Header="Импорт">
-                <Grid>
-                    <Button Margin="10,10,468,276">Импорт</Button>
-                    <Button Margin="139,10,339,276">Просмотр</Button>
-                    <DataGrid x:Name="ProjectsTable" Margin="0,42,0,0" AutoGenerateColumns="False">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <Button Margin="10 10 5 10" Height="30" Width="100">Импорт</Button>
+                        <Button Margin="5 10 5 10" Width="100">Просмотр</Button>
+                    </StackPanel>
+                    <DataGrid x:Name="ProjectsTable" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Название свойства" />
                             <DataGridComboBoxColumn Header="Тип" />
@@ -65,7 +65,7 @@
 
                         </DataGrid.Items>
                     </DataGrid>
-                </Grid>
+                </DockPanel>
             </TabItem>
         </TabControl>
     </Grid>
