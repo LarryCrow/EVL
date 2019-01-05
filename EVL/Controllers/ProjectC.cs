@@ -13,6 +13,7 @@ namespace EVL.Controllers
     {
         public void AddProject(string name, string date, string description)
         {
+
         }
 
         public void DeleteProject(string name, string date, string description)

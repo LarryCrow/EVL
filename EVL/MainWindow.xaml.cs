@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using EVL.Views;
 
 namespace EVL
 {
@@ -23,6 +24,32 @@ namespace EVL
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ImportWinBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenWindow(new DataImport());
+        }
+
+        private void ProjectsWinBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenWindow(new Projects());
+        }
+
+        private void OpenWindow(Window win)
+        {
+            win.Show();
+            Close();
+        }
+
+        private void DBWinBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenWindow(new DataBase());
+        }
+
+        private void FactorsWinBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenWindow(new Factors());
         }
     }
 }

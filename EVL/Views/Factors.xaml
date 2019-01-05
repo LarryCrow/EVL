@@ -1,0 +1,49 @@
+﻿<Window x:Class="EVL.Views.Factors"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EVL.Views"
+        mc:Ignorable="d"
+        Title="Factors" Height="300" Width="300">
+    <Grid>
+        <ToolBar VerticalAlignment="Top">
+            <Button>Добавить</Button>
+            <Button>Удалить</Button>
+            <Button>Сохранить</Button>
+        </ToolBar>
+        <Grid Margin="0,32,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="1.6*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <DataGrid Grid.ColumnSpan="2">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="1*" Header="Сегмент"/>
+                    <DataGridTextColumn Width="1*" Header="Вероятность"/>
+                </DataGrid.Columns>
+                <DataGrid.Items>
+                </DataGrid.Items>
+            </DataGrid>
+            <DataGrid Grid.Row="1">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="1*" Header="Свойство"/>
+                </DataGrid.Columns>
+                <DataGrid.Items>
+                </DataGrid.Items>
+            </DataGrid>
+            <DataGrid Grid.Column="1" Grid.Row="1">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="1*" Header="Ответ"/>
+                    <DataGridTextColumn Width="1*" Header="Вероятность"/>
+                </DataGrid.Columns>
+                <DataGrid.Items>
+                </DataGrid.Items>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</Window>

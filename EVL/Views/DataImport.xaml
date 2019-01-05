@@ -5,13 +5,68 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EVL.Views"
         mc:Ignorable="d"
-        Title="DataImport" Height="300" Width="500">
+        Title="DataImport" Height="375" MinHeight="370" Width="600" MinWidth="600" FontSize="14">
     <Grid>
         <TabControl>
-            <TabItem x:Name="test"  Header="Параметры файла">
+            <TabItem x:Name="FileParams" Header="Параметры файла">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="31,10,10,273"> Имя файла:</TextBlock>
+                    <TextBox Margin="10,10,10,273" Grid.Column="1"></TextBox>
+                    <Button Margin="10,10,86,273" Grid.Column="2" Content="..."/>
+                    <TextBlock Margin="20,51,10,231"> Имя проекта:</TextBlock>
+                    <ComboBox Margin="10,51,10,231" Grid.Column="1"></ComboBox>
+                </Grid>
             </TabItem>
-            <TabItem Header="Параметры импорта">Вторая вкладка</TabItem>
-            <TabItem Header="Импорт"></TabItem>
+            <TabItem Header="Параметры импорта">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <TextBlock Margin="10 10 5 10">Начать импорт со строки: </TextBlock>
+                        <TextBox Margin="5 10 5 10" Width="50"></TextBox>
+                        <CheckBox Margin="50 12.5 5 10"></CheckBox>
+                        <TextBlock Margin="2.5 10 5 10">Первая строка является заголовком</TextBlock>
+                    </StackPanel>
+                    <GroupBox Margin="0" Header="Символом разделителем является" Grid.ColumnSpan="2">
+                        <StackPanel Margin="0,10,0,0">
+                            <RadioButton Margin="3">Символ табуляции</RadioButton>
+                            <RadioButton Margin="3">Пробел</RadioButton>
+                            <RadioButton Margin="3">Точка</RadioButton>
+                            <RadioButton Margin="3">Точка с запятой</RadioButton>
+                            <RadioButton Margin="3">Запятая</RadioButton>
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton Margin="3" Width="78">
+                                    Другой
+                                </RadioButton>
+                                <TextBox Width="53"></TextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                </DockPanel>
+            </TabItem>
+            <TabItem x:Name="Import" Header="Импорт">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <Button Margin="10 10 5 10" Height="30" Width="100">Импорт</Button>
+                        <Button Margin="5 10 5 10" Width="100">Просмотр</Button>
+                    </StackPanel>
+                    <DataGrid x:Name="ProjectsTable" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Название свойства" />
+                            <DataGridComboBoxColumn Header="Тип" />
+                            <DataGridComboBoxColumn Header="Вид" />
+                            <DataGridComboBoxColumn Header="Назначение" />
+                            <DataGridTextColumn Header="Удельный вес"/>
+                        </DataGrid.Columns>
+                        <DataGrid.Items>
+
+                        </DataGrid.Items>
+                    </DataGrid>
+                </DockPanel>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>
