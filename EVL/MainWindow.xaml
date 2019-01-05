@@ -18,8 +18,8 @@
             </MenuItem>
             <MenuItem x:Name="ProjectsWinBtn" Header="Проект" Click="ProjectsWinBtn_Click" ></MenuItem>
             <MenuItem Header="Раздел статистики" >
-                <MenuItem x:Name="DBWinBtn" Header="База данных" ></MenuItem>
-                <MenuItem x:Name="FactorsWinBtn" Header="Факторы" ></MenuItem>
+                <MenuItem x:Name="DBWinBtn" Header="База данных" Click="DBWinBtn_Click" ></MenuItem>
+                <MenuItem x:Name="FactorsWinBtn" Header="Факторы" Click="FactorsWinBtn_Click"></MenuItem>
             </MenuItem>
             <MenuItem x:Name="InputWinBtn" Header="Ввод новой информации" ></MenuItem>
             <MenuItem x:Name="AppDescriptionWinBtn" Header="О программе" ></MenuItem>

@@ -41,5 +41,15 @@ namespace EVL
             win.Show();
             Close();
         }
+
+        private void DBWinBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenWindow(new DataBase());
+        }
+
+        private void FactorsWinBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenWindow(new Factors());
+        }
     }
 }

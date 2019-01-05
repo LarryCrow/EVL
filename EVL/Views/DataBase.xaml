@@ -5,8 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EVL.Views"
         mc:Ignorable="d"
-        Title="DataBase" Height="300" Width="300">
+        Title="База данных" Height="420" Width="688">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <DataGrid>
+            
+        </DataGrid>
+        <DataGrid Grid.Column="1">
+            
+        </DataGrid>
+        <DataGrid Grid.Row="1">
+
+        </DataGrid>
+        <DataGrid Grid.Column="1" Grid.Row="1">
+
+        </DataGrid>
     </Grid>
 </Window>
