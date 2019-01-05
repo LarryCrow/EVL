@@ -228,8 +228,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\Model.csproj">
-      <Project>{1e91d66c-f613-4bd8-be76-0b3c81f9c790}</Project>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{8ecd9b2d-8cf5-40c2-8fad-1206676bc86e}</Project>
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
