@@ -16,3 +16,6 @@
 !.vscode/extensions.json
 .vscode/settings.json
 
+packages/ 
+*/bin/
+*/obj/
