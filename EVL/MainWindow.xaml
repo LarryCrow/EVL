@@ -27,8 +27,9 @@
             </Menu>
 
             <ContentPresenter x:Name="MainScope"
-                              HorizontalAlignment="Left"
-                              VerticalAlignment="Top"></ContentPresenter>
+                              Width="Auto" Height="Auto"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"></ContentPresenter>
         </DockPanel>
     </Grid>
 </Window>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EVL.Views"
         mc:Ignorable="d"
-        MaxHeight="375" MinHeight="300" MinWidth="600" FontSize="14">
+        FontSize="14">
     <Grid>
         <ToolBar Height="30" VerticalAlignment="Top">
             <ToggleButton x:Name="AddProjectBtn">Добавить</ToggleButton>
