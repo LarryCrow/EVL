@@ -10,7 +10,6 @@
         <ToolBar Height="30" VerticalAlignment="Top">
             <ToggleButton x:Name="AddProjectBtn">Добавить</ToggleButton>
             <ToggleButton x:Name="DeleteProjectBtn">Удалить</ToggleButton>
-            <ToggleButton x:Name="SaveProjectBtn">Сохранить</ToggleButton>
         </ToolBar>
         <DataGrid x:Name="ProjectsTable" Margin="0,30,0,0" AutoGenerateColumns="False">
             <DataGrid.Columns>
