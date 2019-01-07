@@ -5,20 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EVL.Views"
         mc:Ignorable="d"
-        Title="Проекты" MaxHeight="375" MinHeight="300" MaxWidth="600" MinWidth="700" FontSize="14">
+        FontSize="14">
     <Grid>
         <StackPanel VerticalAlignment="Top">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="5">Название:</TextBlock>
-                <TextBox Width="130" Margin="0 5"></TextBox>
+                <TextBox x:Name ="TitleInput" Width="130" Margin="0 5"></TextBox>
                 <TextBlock Margin="10 5">Дата добаления:</TextBlock>
-                <TextBox Width="130" Margin="0 5"></TextBox>
+                <TextBox x:Name="DateInput" Width="130" Margin="0 5"></TextBox>
                 <TextBlock Margin="10 5">Описание:</TextBlock>
-                <TextBox Width="130" Margin="0 5"></TextBox>
+                <TextBox x:Name="DescriptionInput" Width="130" Margin="0 5"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5">
-                <Button Height="25" Width="90">Добавить</Button>
-                <Button Margin="15 0" Width="90">Удалить</Button>
+                <Button x:Name="AddProject" Height="25" Width="90" Click="AddProject_Click">Добавить</Button>
+                <Button x:Name="DeleteProject" Margin="15 0" Width="90" Click="DeleteProject_Click">Удалить</Button>
             </StackPanel>
         </StackPanel>
         <DataGrid x:Name="ProjectsTable" Margin="0,70,0,0" AutoGenerateColumns="False">
