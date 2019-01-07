@@ -28,28 +28,22 @@ namespace EVL
 
         private void ImportWinBtn_Click(object sender, RoutedEventArgs e)
         {
-            OpenWindow(new DataImport());
+            MainScope.Content = new DataImportView();
         }
 
         private void ProjectsWinBtn_Click(object sender, RoutedEventArgs e)
         {
-            OpenWindow(new Projects());
-        }
-
-        private void OpenWindow(Window win)
-        {
-            win.Show();
-            Close();
+            MainScope.Content = new ProjectsView();
         }
 
         private void DBWinBtn_Click(object sender, RoutedEventArgs e)
         {
-            OpenWindow(new DataBase());
+            MainScope.Content = new DataBaseView();
         }
 
         private void FactorsWinBtn_Click(object sender, RoutedEventArgs e)
         {
-            OpenWindow(new Factors());
+            MainScope.Content = new FactorsView();
         }
     }
 }

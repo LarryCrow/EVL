@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace EVL.Views
 {
     /// <summary>
-    /// Логика взаимодействия для DataImport.xaml
+    /// Логика взаимодействия для DataImportView.xaml
     /// </summary>
-    public partial class DataImport : Window
+    public partial class DataImportView : UserControl
     {
-        public DataImport()
+        public DataImportView()
         {
             InitializeComponent();
         }
