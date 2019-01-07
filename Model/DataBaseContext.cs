@@ -1,11 +1,15 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Model
 {
     public class DataBaseContext : DbContext
     {
+        public DataBaseContext(DbContextOptions options)
+            : base(options)
+        {
+
+        }
+
         public DbSet<Answer> Answers { get; set; }
         public DbSet<AAnswer> AAnswers { get; set; }
         public DbSet<RAnswer> RAnswers { get; set; }
@@ -28,8 +32,5 @@ namespace Model
 
         public DbSet<Experiment> Experiments { get; set; }
         public DbSet<Company> Companies { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-            optionsBuilder.UseSqlite("Data Source=mydb.db;");
     }
 }

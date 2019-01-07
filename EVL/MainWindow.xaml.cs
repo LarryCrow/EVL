@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using EVL.Views;
 using EVL.Controllers;
 using Model;
+using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 namespace EVL
 {
@@ -25,10 +27,10 @@ namespace EVL
     {
         private ProjectC _projectController;
         
-        public MainWindow()
+        public MainWindow(ProjectC controller)
         {
             InitializeComponent();
-            _projectController = new ProjectC(new DataBaseContext());
+            _projectController = controller;
         }
 
         private void ImportWinBtn_Click(object sender, RoutedEventArgs e)

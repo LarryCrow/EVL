@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using EVL.Controllers;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Model;
 using System.Configuration;
-using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace EVL
@@ -11,7 +11,27 @@ namespace EVL
     /// <summary>
     /// Логика взаимодействия для App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : Application, IDesignTimeDbContextFactory<DataBaseContext>
     {
+        // required for migrations (maybe refactor)
+        public DataBaseContext CreateDbContext(string[] args)
+        {
+            var connString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
+            var options = new DbContextOptionsBuilder().UseSqlite(connString).Options;
+            return new DataBaseContext(options);
+        }
+
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            using(var model = CreateDbContext(null))
+            {
+                model.Database.Migrate();
+
+                var controller = new ProjectC(model);
+                var view = new MainWindow(controller);
+
+                view.ShowDialog();
+            }
+        }
     }
 }
