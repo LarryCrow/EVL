@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace EVL.Views
 {
     /// <summary>
-    /// Логика взаимодействия для DataBase.xaml
+    /// Логика взаимодействия для ProjectsView.xaml
     /// </summary>
-    public partial class DataBase : Window
+    public partial class ProjectsView : UserControl
     {
-        public DataBase()
+        public ProjectsView()
         {
             InitializeComponent();
         }

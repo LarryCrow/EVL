@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace EVL.Views
 {
     /// <summary>
-    /// Логика взаимодействия для Factors.xaml
+    /// Логика взаимодействия для FactorsView.xaml
     /// </summary>
-    public partial class Factors : Window
+    public partial class FactorsView : UserControl
     {
-        public Factors()
+        public FactorsView()
         {
             InitializeComponent();
         }
