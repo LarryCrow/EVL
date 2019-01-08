@@ -13,6 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using EVL.Views;
+using EVL.Controllers;
+using Model;
+using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 namespace EVL
 {
@@ -21,9 +25,12 @@ namespace EVL
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private ProjectC _projectController;
+        
+        public MainWindow(ProjectC controller)
         {
             InitializeComponent();
+            _projectController = controller;
         }
 
         private void ImportWinBtn_Click(object sender, RoutedEventArgs e)
@@ -33,7 +40,8 @@ namespace EVL
 
         private void ProjectsWinBtn_Click(object sender, RoutedEventArgs e)
         {
-            MainScope.Content = new ProjectsView();
+            //MainScope.Content = new ProjectsView(null, null);
+            _projectController.ShowProjectsView(this);
         }
 
         private void DBWinBtn_Click(object sender, RoutedEventArgs e)

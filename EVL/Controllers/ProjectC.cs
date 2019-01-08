@@ -3,26 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using EVL.Views;
+using Model;
 
 namespace EVL.Controllers
 {
     /// <summary>
     /// ProjectC = Project controls
     /// </summary>
-    class ProjectC
+    public class ProjectC
     {
-        public void AddProject(string name, string date, string description)
-        {
+        private ApplicationModel _model;
 
+        public ProjectC(ApplicationModel projectModel)
+        {
+            if (projectModel == null)
+                throw new ArgumentNullException("projectModel is null");
+            _model = projectModel;
         }
 
-        public void DeleteProject(string name, string date, string description)
+        public void AddProject(Project project)
         {
+            _model.AddProject(project);
         }
 
-        public void SaveProjects()
+        public void DeleteProject(Project project)
         {
-            // В документе не сказано, что именно она должна сохранять
+            _model.DeleteProject(project);
+        }
+
+        public void ShowProjectsView(MainWindow mainWin)
+        {
+            mainWin.MainScope.Content = new ProjectsView(_model, this);
         }
     }
 }

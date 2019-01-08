@@ -7,19 +7,28 @@
         mc:Ignorable="d"
         FontSize="14">
     <Grid>
-        <ToolBar Height="30" VerticalAlignment="Top">
-            <ToggleButton x:Name="AddProjectBtn">Добавить</ToggleButton>
-            <ToggleButton x:Name="DeleteProjectBtn">Удалить</ToggleButton>
-        </ToolBar>
-        <DataGrid x:Name="ProjectsTable" Margin="0,30,0,0" AutoGenerateColumns="False">
+        <StackPanel VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="5">Название:</TextBlock>
+                <TextBox x:Name ="TitleInput" Width="130" Margin="0 5"></TextBox>
+                <TextBlock Margin="10 5">Дата добаления:</TextBlock>
+                <TextBox x:Name="DateInput" Width="130" Margin="0 5"></TextBox>
+                <TextBlock Margin="10 5">Описание:</TextBlock>
+                <TextBox x:Name="DescriptionInput" Width="130" Margin="0 5"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Button x:Name="AddProject" Height="25" Width="90" Click="AddProject_Click">Добавить</Button>
+                <Button x:Name="DeleteProject" Margin="15 0" Width="90" Click="DeleteProject_Click">Удалить</Button>
+            </StackPanel>
+        </StackPanel>
+        <DataGrid x:Name="ProjectsTable" Margin="0,70,0,0" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="№ Проекта" />
-                <DataGridTextColumn Header="Название" />
-                <DataGridTextColumn Header="Дата проекта" />
-                <DataGridTextColumn Header="Описание" />
+                <DataGridTextColumn Header="№ Проекта" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Дата проекта" Binding="{Binding ProjectDate}"/>
+                <DataGridTextColumn Header="Описание" Binding="{Binding Description}"/>
             </DataGrid.Columns>
             <DataGrid.Items>
-                
             </DataGrid.Items>
         </DataGrid>
     </Grid>
