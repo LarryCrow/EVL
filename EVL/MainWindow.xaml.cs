@@ -40,7 +40,7 @@ namespace EVL
 
         private void ImportWinBtn_Click(object sender, RoutedEventArgs e)
         {
-            MainScope.Content = new ProjectsView(model, projectC);
+            MainScope.Content = new DataImportView(model, importC);
         }
 
         private void ProjectsWinBtn_Click(object sender, RoutedEventArgs e)
