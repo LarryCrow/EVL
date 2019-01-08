@@ -14,9 +14,9 @@ namespace EVL.Controllers
     /// </summary>
     public class ProjectC
     {
-        private DataBaseContext _model;
+        private ApplicationModel _model;
 
-        public ProjectC(DataBaseContext projectModel)
+        public ProjectC(ApplicationModel projectModel)
         {
             if (projectModel == null)
                 throw new ArgumentNullException("projectModel is null");
@@ -25,17 +25,12 @@ namespace EVL.Controllers
 
         public void AddProject(Project project)
         {
-            _model.Projects.Add(project);
-            _model.SaveChanges();
+            _model.AddProject(project);
         }
 
-        public void DeleteProject(string name, string date, string description)
+        public void DeleteProject(Project project)
         {
-        }
-
-        public void SaveProjects()
-        {
-            // В документе не сказано, что именно она должна сохранять
+            _model.DeleteProject(project);
         }
 
         public void ShowProjectsView(MainWindow mainWin)

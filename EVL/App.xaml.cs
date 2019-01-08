@@ -27,7 +27,7 @@ namespace EVL
             {
                 model.Database.Migrate();
 
-                var controller = new ProjectC(model);
+                var controller = new ProjectC(new ApplicationModel(model));
                 var view = new MainWindow(controller);
 
                 view.ShowDialog();

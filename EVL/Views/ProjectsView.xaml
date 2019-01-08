@@ -23,13 +23,12 @@
         </StackPanel>
         <DataGrid x:Name="ProjectsTable" Margin="0,70,0,0" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="№ Проекта" />
-                <DataGridTextColumn Header="Название" />
-                <DataGridTextColumn Header="Дата проекта" />
-                <DataGridTextColumn Header="Описание" />
+                <DataGridTextColumn Header="№ Проекта" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Дата проекта" Binding="{Binding ProjectDate}"/>
+                <DataGridTextColumn Header="Описание" Binding="{Binding Description}"/>
             </DataGrid.Columns>
             <DataGrid.Items>
-
             </DataGrid.Items>
         </DataGrid>
     </Grid>
