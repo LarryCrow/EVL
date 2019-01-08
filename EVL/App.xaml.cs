@@ -30,8 +30,10 @@ namespace EVL
 
                 var viewState = ViewState.RetrieveDataFrom(model);
 
-                var controller = new ProjectController(viewState, model);
-                var view = new MainWindow(viewState, controller);
+                var projectC = new ProjectController(viewState, model);
+                var importC = new ImportController(viewState, model);
+
+                var view = new MainWindow(viewState, importC, projectC);
 
                 view.ShowDialog();
             }

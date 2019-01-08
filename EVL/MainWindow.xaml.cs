@@ -27,24 +27,25 @@ namespace EVL
     public partial class MainWindow : Window
     {
         private readonly IReadOnlyViewState model;
-        private readonly ProjectController controller;
+        private readonly ImportController importC;
+        private readonly ProjectController projectC;
 
-        public MainWindow(IReadOnlyViewState model, ProjectController controller)
+        public MainWindow(IReadOnlyViewState model, ImportController importC, ProjectController projectC)
         {
             InitializeComponent();
             this.model = model;
-            this.controller = controller;
+            this.importC = importC;
+            this.projectC = projectC;
         }
 
         private void ImportWinBtn_Click(object sender, RoutedEventArgs e)
         {
-            MainScope.Content = new DataImportView();
+            MainScope.Content = new ProjectsView(model, projectC);
         }
 
         private void ProjectsWinBtn_Click(object sender, RoutedEventArgs e)
         {
-            MainScope.Content = new ProjectsView(model, controller);
-            //projectController.ShowProjectsView(this);
+            MainScope.Content = new ProjectsView(model, projectC);
         }
 
         private void DBWinBtn_Click(object sender, RoutedEventArgs e)
