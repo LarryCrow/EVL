@@ -26,21 +26,22 @@ namespace EVL
     public partial class MainWindow : Window
     {
         private ProjectC _projectController;
+        private ImportController _importController;
         
-        public MainWindow(ProjectC controller)
+        public MainWindow(ProjectC projectC, ImportController importC)
         {
             InitializeComponent();
-            _projectController = controller;
+            _projectController = projectC;
+            _importController = importC;
         }
 
         private void ImportWinBtn_Click(object sender, RoutedEventArgs e)
         {
-            MainScope.Content = new DataImportView();
+            _importController.ShowImportView(this);
         }
 
         private void ProjectsWinBtn_Click(object sender, RoutedEventArgs e)
         {
-            //MainScope.Content = new ProjectsView(null, null);
             _projectController.ShowProjectsView(this);
         }
 
