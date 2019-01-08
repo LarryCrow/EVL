@@ -34,6 +34,13 @@ namespace EVL.Views
             ProjectList.ItemsSource = _model.Projects;
             ProjectList.DisplayMemberPath = "Name";
             _model.GetAllProjects();
+            QuestionsTable.ItemsSource = _model.questions;
+            TypeComboBox.ItemsSource = _model.GetAllQuestionType();
+            TypeComboBox.DisplayMemberPath = "Name";
+            ViewComboBox.ItemsSource = _model.GetAllQuestionView();
+            ViewComboBox.DisplayMemberPath = "Name";
+            PurposeComboBox.ItemsSource = _model.GetAllQuestionPurpose();
+            PurposeComboBox.DisplayMemberPath = "Name";
         }
 
         private void ChooseFileBtn_Click(object sender, RoutedEventArgs e)
@@ -56,7 +63,7 @@ namespace EVL.Views
 
         private void DisplayBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            _controller.ParseFile(FilePathInput.Text, ",", 1, false, 1);
         }
     }
 }

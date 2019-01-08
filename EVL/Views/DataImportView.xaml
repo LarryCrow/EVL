@@ -59,12 +59,12 @@
                         <Button x:Name="ImportBtn" Margin="10 10 5 10" Height="30" Width="100" Click="ImportBtn_Click">Импорт</Button>
                         <Button x:Name="DisplayBtn" Margin="5 10 5 10" Width="100" Click="DisplayBtn_Click">Просмотр</Button>
                     </StackPanel>
-                    <DataGrid x:Name="ProjectsTable" AutoGenerateColumns="False">
+                    <DataGrid x:Name="QuestionsTable" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Название свойства" />
-                            <DataGridComboBoxColumn Header="Тип" />
-                            <DataGridComboBoxColumn Header="Вид" />
-                            <DataGridComboBoxColumn Header="Назначение" />
+                            <DataGridTextColumn Header="Название свойства" Binding="{Binding Name}" />
+                            <DataGridComboBoxColumn x:Name="TypeComboBox" Header="Тип" SelectedItemBinding="{Binding QuestionType.Name}"/>
+                            <DataGridComboBoxColumn x:Name="ViewComboBox" Header="Вид" SelectedItemBinding="{Binding QuestionView.Name}"/>
+                            <DataGridComboBoxColumn x:Name="PurposeComboBox" Header="Назначение" SelectedItemBinding="{Binding QuestionPurpose.Name}"/>
                             <DataGridTextColumn Header="Удельный вес"/>
                         </DataGrid.Columns>
                         <DataGrid.Items>
