@@ -17,6 +17,7 @@ using EVL.Controllers;
 using Model;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
+using EVL.Model;
 
 namespace EVL
 {
@@ -25,12 +26,14 @@ namespace EVL
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ProjectC _projectController;
-        
-        public MainWindow(ProjectC controller)
+        private readonly IReadOnlyViewState model;
+        private readonly ProjectController controller;
+
+        public MainWindow(IReadOnlyViewState model, ProjectController controller)
         {
             InitializeComponent();
-            _projectController = controller;
+            this.model = model;
+            this.controller = controller;
         }
 
         private void ImportWinBtn_Click(object sender, RoutedEventArgs e)
@@ -40,8 +43,8 @@ namespace EVL
 
         private void ProjectsWinBtn_Click(object sender, RoutedEventArgs e)
         {
-            //MainScope.Content = new ProjectsView(null, null);
-            _projectController.ShowProjectsView(this);
+            MainScope.Content = new ProjectsView(model, controller);
+            //projectController.ShowProjectsView(this);
         }
 
         private void DBWinBtn_Click(object sender, RoutedEventArgs e)

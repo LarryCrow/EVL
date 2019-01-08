@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using EVL.Controllers;
+using EVL.Model;
 using Model;
 
 namespace EVL.Views
@@ -21,42 +23,55 @@ namespace EVL.Views
     /// </summary>
     public partial class ProjectsView : UserControl
     {
-        private ApplicationModel _model;
-        private ProjectC _controller;
+        private readonly ProjectController controller;
+        private readonly IReadOnlyViewState viewState;
+        private readonly string[] dateFormats = new[] { "dd.MM.yyyy", "dd/MM/yyyy" };
 
-        public ProjectsView(ApplicationModel projectModel, ProjectC projectController)
+        public ProjectsView(IReadOnlyViewState viewState, ProjectController controller)
         {
             InitializeComponent();
-            _model = projectModel;
-            _controller = projectController;
-            ProjectsTable.ItemsSource = _model.Projects;
-            _model.GetAllProjects();
+
+            this.viewState = viewState;
+            this.controller = controller;
+            ProjectsTable.ItemsSource = viewState.Projects;
+        }
+
+        private void ClearInput()
+        {
+            TitleInput.Clear();
+            DateInput.Clear();
+            DescriptionInput.Clear();
         }
 
         private void AddProject_Click(object sender, RoutedEventArgs e)
         {
-            Project p = new Project();
-            p.Name = TitleInput.Text;
-            try
+            var (culture, dtstyle) = (CultureInfo.CurrentUICulture, DateTimeStyles.None);
+
+            if (DateTime.TryParseExact(DateInput.Text, dateFormats, culture, dtstyle, out DateTime date))
             {
-                p.ProjectDate = Convert.ToDateTime(DateInput.Text);
-            } catch(FormatException ex)
-            {
-                MessageBox.Show("Введите дату в корректном формате.\nНапример: дд.мм.гггг или дд/мм/ггг");
-                return;
+                Project p = new Project
+                {
+                    Name = TitleInput.Text,
+                    Description = DescriptionInput.Text,
+                    ProjectDate = date
+                };
+
+                controller.AddProject(p);
+                ClearInput();
             }
-            p.Description = DescriptionInput.Text;
-            _controller.AddProject(p);
-            TitleInput.Text = "";
-            DateInput.Text = "";
-            DescriptionInput.Text = "";
+            else
+            {
+                MessageBox.Show("Введите дату в корректном формате.\nНапример: " 
+                                + string.Join(" или ", dateFormats));
+            }
         }
 
         private void DeleteProject_Click(object sender, RoutedEventArgs e)
         {
             Project p = (Project)ProjectsTable.SelectedItem;
+
             if (p != null)
-                _controller.DeleteProject(p);
+                controller.DeleteProject(p);
             else
                 MessageBox.Show("Элемент не выбран!");
         }
