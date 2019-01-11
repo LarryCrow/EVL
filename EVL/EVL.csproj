@@ -168,8 +168,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\ImportController.cs" />
-    <Compile Include="Controllers\ProjectC.cs" />
+    <Compile Include="Model\IReadOnlyViewState.cs" />
+    <Compile Include="Model\ViewState.cs" />
     <Compile Include="Views\DataBaseView.xaml.cs">
       <DependentUpon>DataBaseView.xaml</DependentUpon>
     </Compile>

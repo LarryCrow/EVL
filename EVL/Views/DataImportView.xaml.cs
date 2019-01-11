@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using EVL.Controllers;
 using Model;
+using EVL.Model;
 
 namespace EVL.Views
 {
@@ -23,32 +24,31 @@ namespace EVL.Views
     /// </summary>
     public partial class DataImportView : UserControl
     {
-        private ApplicationModel _model;
-        private ImportController _controller;
+        private IReadOnlyViewState viewState;
+        private ImportController controller;
 
-        public DataImportView(ApplicationModel model, ImportController importController)
+        public DataImportView(IReadOnlyViewState viewState, ImportController importController)
         {
             InitializeComponent();
-            _model = model;
-            _controller = importController;
-            ProjectList.ItemsSource = _model.Projects;
-            ProjectList.DisplayMemberPath = "Name";
-            _model.GetAllProjects();
-            QuestionsTable.ItemsSource = _model.questions;
-            TypeComboBox.ItemsSource = _model.GetAllQuestionType();
-            TypeComboBox.DisplayMemberPath = "Name";
-            ViewComboBox.ItemsSource = _model.GetAllQuestionView();
-            ViewComboBox.DisplayMemberPath = "Name";
-            PurposeComboBox.ItemsSource = _model.GetAllQuestionPurpose();
-            PurposeComboBox.DisplayMemberPath = "Name";
+            this.viewState = viewState;
+            this.controller = importController;
+
+            ProjectList.ItemsSource = viewState.Projects;
+            QuestionsTable.ItemsSource = viewState.Questions;
+            TypeComboBox.ItemsSource = viewState.QuestionTypes;
+            ViewComboBox.ItemsSource = viewState.QuestionViews;
+            PurposeComboBox.ItemsSource = viewState.QuestionPurposes;
         }
 
         private void ChooseFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog myDialog = new OpenFileDialog();
-            //myDialog.Filter = "CSV Files (*.csv)|*.csv)";
-            myDialog.CheckFileExists = true;
-            myDialog.Multiselect = true;
+            OpenFileDialog myDialog = new OpenFileDialog
+            {
+                //myDialog.Filter = "CSV Files (*.csv)|*.csv)";
+                CheckFileExists = true,
+                Multiselect = true
+            };
+
             if (myDialog.ShowDialog() == true)
             {
                 FilePathInput.Text = myDialog.FileName;
@@ -63,7 +63,7 @@ namespace EVL.Views
 
         private void DisplayBtn_Click(object sender, RoutedEventArgs e)
         {
-            _controller.ParseFile(FilePathInput.Text, ",", 1, false, 1);
+            controller.ParseFile(FilePathInput.Text, ",", 1, false, 1);
         }
     }
 }

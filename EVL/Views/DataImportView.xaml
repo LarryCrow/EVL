@@ -25,7 +25,7 @@
                     <Button x:Name="ChooseFileBtn" Grid.Column="2" HorizontalAlignment="Center" Width="60" Content="..." Click="ChooseFileBtn_Click"/>
 
                     <TextBlock Margin="0 10" Grid.Row="1"> Имя проекта:</TextBlock>
-                    <ComboBox x:Name="ProjectList" Margin="0 10" Grid.Row="1" Grid.Column="1"></ComboBox>
+                    <ComboBox x:Name="ProjectList" Margin="0 10" Grid.Row="1" Grid.Column="1" DisplayMemberPath="Name"></ComboBox>
                 </Grid>
             </TabItem>
             <TabItem Header="Параметры импорта">
@@ -62,9 +62,9 @@
                     <DataGrid x:Name="QuestionsTable" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Название свойства" Binding="{Binding Name}" />
-                            <DataGridComboBoxColumn x:Name="TypeComboBox" Header="Тип" SelectedItemBinding="{Binding QuestionType.Name}"/>
-                            <DataGridComboBoxColumn x:Name="ViewComboBox" Header="Вид" SelectedItemBinding="{Binding QuestionView.Name}"/>
-                            <DataGridComboBoxColumn x:Name="PurposeComboBox" Header="Назначение" SelectedItemBinding="{Binding QuestionPurpose.Name}"/>
+                            <DataGridComboBoxColumn x:Name="TypeComboBox" Header="Тип" DisplayMemberPath="Name" SelectedItemBinding="{Binding QuestionType.Name}"/>
+                            <DataGridComboBoxColumn x:Name="ViewComboBox" Header="Вид" DisplayMemberPath="Name" SelectedItemBinding="{Binding QuestionView.Name}"/>
+                            <DataGridComboBoxColumn x:Name="PurposeComboBox" Header="Назначение" DisplayMemberPath="Name" SelectedItemBinding="{Binding QuestionPurpose.Name}"/>
                             <DataGridTextColumn Header="Удельный вес"/>
                         </DataGrid.Columns>
                         <DataGrid.Items>

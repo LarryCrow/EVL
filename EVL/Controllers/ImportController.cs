@@ -6,25 +6,22 @@ using System.Threading.Tasks;
 using Model;
 using EVL.Views;
 using Microsoft.VisualBasic.FileIO;
+using EVL.Model;
 
 namespace EVL.Controllers
 {
     public class ImportController
     {
-        private ApplicationModel _model;
+        private ViewState viewState;
+        private readonly DataBaseContext context;
 
-        public ImportController(ApplicationModel importModel)
+        public ImportController(ViewState viewState, DataBaseContext context)
         {
-            if (importModel == null)
-                throw new ArgumentNullException("import model is null");
-            _model = importModel;
+            this.viewState = viewState ?? throw new ArgumentNullException("import model is null");
+            this.context = context;
         }
 
-        public void ShowImportView(MainWindow mainWin)
-        {
-            mainWin.MainScope.Content = new DataImportView(_model, this);
-        }
-
+        // move to model
         public void ParseFile(string filename, string separator, int startRow, bool hasHeader, int projectID)
         {
             using (TextFieldParser parser = new TextFieldParser(filename))
@@ -43,16 +40,19 @@ namespace EVL.Controllers
                 while (!parser.EndOfData)
                 {
                     string[] fields = parser.ReadFields();
-                    Question q = new Question();
-                    q.Name = fields[0];
-                    q.ProjectId = projectID;
-                    q.QuestionType = _model.GetQuestionType(fields[1]);
-                    q.QuestionTypeId = q.QuestionType.Id;
-                    q.QuestionView = _model.GetQuestionView(fields[2]);
-                    q.QuestionViewId = q.QuestionView.Id;
-                    q.QuestionPurpose = _model.GetQuestionPurpose(fields[3]);
-                    q.QuestionPurposeId = q.QuestionPurpose.Id;
-                    _model.questions.Add(q);
+                    Question q = new Question
+                    {
+                        Name = fields[0],
+                        ProjectId = projectID,
+                        QuestionType = viewState.QuestionTypes.Single(qt => qt.Name == fields[1]),
+                        QuestionView = viewState.QuestionViews.Single(qv => qv.Name == fields[2]),
+                        QuestionPurpose = viewState.QuestionPurposes.Single(qp => qp.Name == fields[3])
+                    };
+
+                    context.Questions.Add(q);
+                    context.SaveChanges();
+
+                    viewState.AddQuestion(q);
                 }
             }
         }
