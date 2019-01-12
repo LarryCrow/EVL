@@ -58,26 +58,39 @@ namespace EVL.Views
 
         private void ImportBtn_Click(object sender, RoutedEventArgs e)
         {
-            bool segment = viewState.Questions.Any(q => q.QuestionPurposeId == 3);
-            bool client = viewState.Questions.Any(q => q.QuestionPurposeId == 2);
-            bool everyoneHasType = viewState.Questions.All(q => !q.QuestionType.Name.Equals(""));
+            var segmentPurpose = viewState.QuestionPurposes[QuestionPurposeNames.Segment];
+            var clientPurpose = viewState.QuestionPurposes[QuestionPurposeNames.ClientRating];
+
+            bool segment = viewState.Questions.Any(q => q.QuestionPurpose == segmentPurpose);
+            bool client = viewState.Questions.Any(q => q.QuestionPurpose == clientPurpose);
+
+            bool everyoneHasType = viewState.Questions.All(q => !string.IsNullOrWhiteSpace(q.QuestionType.Name));
+
             if (segment != true && client != true)
             {
                 MessageBox.Show("Выберите поля для сегментирования и формирования клиентской базы." +
                     "Необходимо присвоить значение Сегмент и Название клиента.");
-                return;
             }
             else if (segment == true && client != true)
             {
                 MessageBox.Show("Выберите поля для формирования клиентской базы. Необходимо присвоить значение Название клиента.");
-                return;
             }
             else if (segment != true && client == true)
             {
                 MessageBox.Show("Выберите поля для сегментирования. Необходимо присвоить значение Сегмент.");
-                return;
             }
-            controller.ImportData(false, 1, 1);
+            else
+            {
+                try
+                {
+                    controller.TryImportData(viewState.Questions, 1);
+                    MessageBox.Show("Данные импортированы");
+                }
+                catch(InvalidOperationException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
 
         private void DisplayBtn_Click(object sender, RoutedEventArgs e)

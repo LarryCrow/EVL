@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Model.Migrations
 {
-    public partial class Initial1 : Migration
+    public partial class Initial2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -95,12 +95,13 @@ namespace Model.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     ProjectId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Segments", x => x.Id);
+                    table.UniqueConstraint("AK_Segments_Name", x => x.Name);
                     table.ForeignKey(
                         name: "FK_Segments_Projects_ProjectId",
                         column: x => x.ProjectId,
@@ -115,7 +116,7 @@ namespace Model.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     Weight = table.Column<double>(nullable: false),
                     ProjectId = table.Column<int>(nullable: false),
                     QuestionTypeId = table.Column<int>(nullable: false),
@@ -125,6 +126,7 @@ namespace Model.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Questions", x => x.Id);
+                    table.UniqueConstraint("AK_Questions_Name", x => x.Name);
                     table.ForeignKey(
                         name: "FK_Questions_Projects_ProjectId",
                         column: x => x.ProjectId,

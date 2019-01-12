@@ -7,6 +7,7 @@ using Model;
 using EVL.Views;
 using Microsoft.VisualBasic.FileIO;
 using EVL.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace EVL.Controllers
 {
@@ -49,26 +50,58 @@ namespace EVL.Controllers
                         QuestionPurpose = viewState.QuestionPurposes[fields[3]]
                     };
 
-                    context.Questions.Add(q);
-                    context.SaveChanges();
+                    //context.Questions.Add(q);
+                    //context.SaveChanges();
 
                     viewState.AddQuestion(q);
                 }
             }
         }
 
-        public void ImportData(bool hasHeader, int startRow, int projectID)
+        public void ImportData(IEnumerable<Question> newQuestions, int projectID)
         {
-            // Запись сегмента
-            viewState.GetSegments();
+            string message((string name, string type) errCause) =>
+                $"Элемент типа \'{errCause.type}\' c наименованием \'{errCause.name}\' уже существует в базе";
+            
+            foreach (var q in newQuestions)
+            {
+                (string name, string type) possibleErrorCause = ("", "");
 
-            // Запись вопросов (посмотри метод внутри, я там по айдишникам сравнивал, может что-то нужно изменить)
-            context.Questions.AddRange(viewState.GetQuestions());
+                switch (q.QuestionPurpose.Name)
+                {
+                    case QuestionPurposeNames.Characteristic:
+                    case QuestionPurposeNames.ClientRating:
+                        possibleErrorCause = (q.Name, "Вопрос");
 
-            // Это я пока не разобрался для чего
-            // Просто в листинге было. Думаю бесполезный кусок
-            // int[] clientsIndex = viewState.GetClientsIndex();
+                        context.Questions.Add(q);
+                        break;
+                    case QuestionPurposeNames.Segment:
+                        var segment = new Segment {Name = q.Name, ProjectId = projectID};
+                        possibleErrorCause = (segment.Name, "Сегмент");
+
+                        try
+                        {
+                            context.Segments.Add(segment);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new InvalidOperationException(message(possibleErrorCause), ex);
+                        }
+
+                        break;
+                }
+
+                try
+                {
+                    context.SaveChanges();
+                }
+                catch (DbUpdateException ex)
+                {
+                    throw new InvalidOperationException(message(possibleErrorCause), ex);
+                }
+            }
+
+            
         }
-
     }
 }

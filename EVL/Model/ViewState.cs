@@ -14,6 +14,13 @@ namespace EVL.Model
         private readonly ObservableCollection<Project> projects;
         private readonly ObservableCollection<Question> questions;
 
+        ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects => projects.AsReadOnly();
+        ReadOnlyObservableCollection<Question> IReadOnlyViewState.Questions => questions.AsReadOnly();
+
+        public ReadOnlyDictionary<string, QuestionType> QuestionTypes { get; }
+        public ReadOnlyDictionary<string, QuestionPurpose> QuestionPurposes { get; }
+        public ReadOnlyDictionary<string, QuestionView> QuestionViews { get; }
+
         private ViewState(DataBaseContext context)
         {
             this.projects = new ObservableCollection<Project>(context.Projects.Take(projectDisplayingCount));
@@ -26,16 +33,6 @@ namespace EVL.Model
 
         public static ViewState RetrieveDataFrom(DataBaseContext context)
             => new ViewState(context);
-
-        ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects
-            => new ReadOnlyObservableCollection<Project>(projects);
-
-        ReadOnlyObservableCollection<Question> IReadOnlyViewState.Questions
-            => new ReadOnlyObservableCollection<Question>(questions);
-
-        public ReadOnlyDictionary<string, QuestionType> QuestionTypes { get; }
-        public ReadOnlyDictionary<string, QuestionPurpose> QuestionPurposes { get; }
-        public ReadOnlyDictionary<string, QuestionView> QuestionViews { get; }
 
         public void AddProject(Project p)
         {
@@ -57,26 +54,16 @@ namespace EVL.Model
             projects.Remove(p);
         }
 
-        public string GetSegmentName()
-        {
-            Question question = questions.Where(q => q.QuestionPurposeId == 3).First();
-            return question.Name;
-        }
 
+        //TODO: move or remove
         public int[] GetClientsIndex()
         {
-            IEnumerable<Question> questions = this.questions.Where(q => q.QuestionPurposeId == 2);
-            List<int> indexes = new List<int>();
-            foreach(Question q in questions)
-            {
-                indexes.Add(this.questions.IndexOf(q));
-            }
-            return indexes.ToArray();
-        }
+            var ratingPurpose = QuestionPurposes[QuestionPurposeNames.ClientRating];
 
-        public IEnumerable<Question> GetQuestions()
-        {
-            return questions.Where(q => q.QuestionPurposeId != 3 && q.QuestionPurposeId != 4);
+            return questions
+                .Where(q => q.QuestionPurpose == ratingPurpose)
+                .Select(questions.IndexOf)
+                .ToArray();
         }
     }
 }

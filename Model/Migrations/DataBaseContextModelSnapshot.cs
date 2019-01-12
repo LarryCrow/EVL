@@ -195,7 +195,8 @@ namespace Model.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<int>("ProjectId");
 
@@ -208,6 +209,8 @@ namespace Model.Migrations
                     b.Property<double>("Weight");
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("Name");
 
                     b.HasIndex("ProjectId");
 
@@ -357,11 +360,14 @@ namespace Model.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<int>("ProjectId");
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("Name");
 
                     b.HasIndex("ProjectId");
 
