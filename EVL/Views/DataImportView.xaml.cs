@@ -35,9 +35,9 @@ namespace EVL.Views
 
             ProjectList.ItemsSource = viewState.Projects;
             QuestionsTable.ItemsSource = viewState.Questions;
-            TypeComboBox.ItemsSource = viewState.QuestionTypes;
-            ViewComboBox.ItemsSource = viewState.QuestionViews;
-            PurposeComboBox.ItemsSource = viewState.QuestionPurposes;
+            TypeComboBox.ItemsSource = viewState.QuestionTypes.Values;
+            ViewComboBox.ItemsSource = viewState.QuestionViews.Values;
+            PurposeComboBox.ItemsSource = viewState.QuestionPurposes.Values;
         }
 
         private void ChooseFileBtn_Click(object sender, RoutedEventArgs e)
