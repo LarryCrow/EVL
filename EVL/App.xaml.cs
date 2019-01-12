@@ -1,4 +1,5 @@
 ﻿using EVL.Controllers;
+using EVL.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Model;
@@ -27,8 +28,12 @@ namespace EVL
             {
                 model.Database.Migrate();
 
-                var controller = new ProjectC(new ApplicationModel(model));
-                var view = new MainWindow(controller);
+                var viewState = ViewState.RetrieveDataFrom(model);
+
+                var projectC = new ProjectController(viewState, model);
+                var importC = new ImportController(viewState, model);
+
+                var view = new MainWindow(viewState, importC, projectC);
 
                 view.ShowDialog();
             }
