@@ -81,8 +81,6 @@ namespace Model.Migrations
 
                     b.Property<int>("QuestionId");
 
-                    b.Property<string>("W");
-
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
@@ -206,6 +204,8 @@ namespace Model.Migrations
                     b.Property<int>("QuestionTypeId");
 
                     b.Property<int>("QuestionViewId");
+
+                    b.Property<double>("Weight");
 
                     b.HasKey("Id");
 

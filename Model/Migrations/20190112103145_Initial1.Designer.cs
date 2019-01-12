@@ -9,8 +9,8 @@ using Model;
 namespace Model.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20190112095926_Add Data")]
-    partial class AddData
+    [Migration("20190112103145_Initial1")]
+    partial class Initial1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -82,8 +82,6 @@ namespace Model.Migrations
                     b.Property<string>("Name");
 
                     b.Property<int>("QuestionId");
-
-                    b.Property<string>("W");
 
                     b.HasKey("Id");
 
@@ -208,6 +206,8 @@ namespace Model.Migrations
                     b.Property<int>("QuestionTypeId");
 
                     b.Property<int>("QuestionViewId");
+
+                    b.Property<double>("Weight");
 
                     b.HasKey("Id");
 
