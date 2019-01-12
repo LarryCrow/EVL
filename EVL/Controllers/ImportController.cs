@@ -59,7 +59,7 @@ namespace EVL.Controllers
             }
         }
 
-        public void ImportData(IEnumerable<QuestionUI> newQuestions, int projectID)
+        public void ImportData(IEnumerable<QuestionUI> newQuestions)
         {
             IEnumerable<string> FindIntersection<K>(IEnumerable<K> source1, IEnumerable<K> source2, Func<K, string> func)
                 => source2.Select(func).Intersect(source1.Select(func));
@@ -95,7 +95,7 @@ namespace EVL.Controllers
                             untrackedSegments.Add(new Segment
                             {
                                 Name = q.Name,
-                                ProjectId = projectID
+                                ProjectId = q.ProjectId
                             });
                             break;
                     }
