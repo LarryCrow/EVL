@@ -58,12 +58,31 @@ namespace EVL.Views
 
         private void ImportBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            bool segment = viewState.Questions.Any(q => q.QuestionPurposeId == 3);
+            bool client = viewState.Questions.Any(q => q.QuestionPurposeId == 2);
+            bool everyoneHasType = viewState.Questions.All(q => !q.QuestionType.Name.Equals(""));
+            if (segment != true && client != true)
+            {
+                MessageBox.Show("Выберите поля для сегментирования и формирования клиентской базы." +
+                    "Необходимо присвоить значение Сегмент и Название клиента.");
+                return;
+            }
+            else if (segment == true && client != true)
+            {
+                MessageBox.Show("Выберите поля для формирования клиентской базы. Необходимо присвоить значение Название клиента.");
+                return;
+            }
+            else if (segment != true && client == true)
+            {
+                MessageBox.Show("Выберите поля для сегментирования. Необходимо присвоить значение Сегмент.");
+                return;
+            }
+            controller.ImportData(false, 1, 1);
         }
 
         private void DisplayBtn_Click(object sender, RoutedEventArgs e)
         {
-            controller.ParseFile(FilePathInput.Text, ",", 1, false, 1);
+            controller.ParseFile(FilePathInput.Text, ",", 1);
         }
     }
 }

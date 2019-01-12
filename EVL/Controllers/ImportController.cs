@@ -22,20 +22,20 @@ namespace EVL.Controllers
         }
 
         // move to model
-        public void ParseFile(string filename, string separator, int startRow, bool hasHeader, int projectID)
+        public void ParseFile(string filename, string separator, int projectID)
         {
             using (TextFieldParser parser = new TextFieldParser(filename))
             {
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(separator);
 
-                if (hasHeader == true && !parser.EndOfData)
+                /*if (hasHeader == true && !parser.EndOfData)
                 {
                     parser.ReadFields();
                 }
 
                 while (parser.LineNumber < startRow && !parser.EndOfData)
-                    parser.ReadFields();
+                    parser.ReadFields();*/
 
                 while (!parser.EndOfData)
                 {
@@ -55,6 +55,19 @@ namespace EVL.Controllers
                     viewState.AddQuestion(q);
                 }
             }
+        }
+
+        public void ImportData(bool hasHeader, int startRow, int projectID)
+        {
+            // Запись сегмента
+            viewState.GetSegments();
+
+            // Запись вопросов (посмотри метод внутри, я там по айдишникам сравнивал, может что-то нужно изменить)
+            context.Questions.AddRange(viewState.GetQuestions());
+
+            // Это я пока не разобрался для чего
+            // Просто в листинге было. Думаю бесполезный кусок
+            // int[] clientsIndex = viewState.GetClientsIndex();
         }
 
     }

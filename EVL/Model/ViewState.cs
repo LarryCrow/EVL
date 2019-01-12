@@ -54,5 +54,27 @@ namespace EVL.Model
         {
             projects.Remove(p);
         }
+
+        public string GetSegmentName()
+        {
+            Question question = questions.Where(q => q.QuestionPurposeId == 3).First();
+            return question.Name;
+        }
+
+        public int[] GetClientsIndex()
+        {
+            IEnumerable<Question> questions = this.questions.Where(q => q.QuestionPurposeId == 2);
+            List<int> indexes = new List<int>();
+            foreach(Question q in questions)
+            {
+                indexes.Add(this.questions.IndexOf(q));
+            }
+            return indexes.ToArray();
+        }
+
+        public IEnumerable<Question> GetQuestions()
+        {
+            return questions.Where(q => q.QuestionPurposeId != 3 && q.QuestionPurposeId != 4);
+        }
     }
 }
