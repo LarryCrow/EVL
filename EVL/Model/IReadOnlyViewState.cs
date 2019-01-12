@@ -11,8 +11,8 @@ namespace EVL.Model
         ReadOnlyObservableCollection<Project> Projects { get; }
         ReadOnlyObservableCollection<Question> Questions { get; }
 
-        QuestionType[] QuestionTypes { get; }
-        QuestionPurpose[] QuestionPurposes { get; }
-        QuestionView[] QuestionViews { get; }
+        ReadOnlyDictionary<string, QuestionType> QuestionTypes { get; }
+        ReadOnlyDictionary<string, QuestionPurpose> QuestionPurposes { get; }
+        ReadOnlyDictionary<string, QuestionView> QuestionViews { get; }
     }
 }

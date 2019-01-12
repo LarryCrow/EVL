@@ -44,9 +44,9 @@ namespace EVL.Controllers
                     {
                         Name = fields[0],
                         ProjectId = projectID,
-                        QuestionType = viewState.QuestionTypes.Single(qt => qt.Name == fields[1]),
-                        QuestionView = viewState.QuestionViews.Single(qv => qv.Name == fields[2]),
-                        QuestionPurpose = viewState.QuestionPurposes.Single(qp => qp.Name == fields[3])
+                        QuestionType = viewState.QuestionTypes[fields[1]],
+                        QuestionView = viewState.QuestionViews[fields[2]],
+                        QuestionPurpose = viewState.QuestionPurposes[fields[3]]
                     };
 
                     context.Questions.Add(q);

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Model.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Initial1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -116,6 +116,7 @@ namespace Model.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true),
+                    Weight = table.Column<double>(nullable: false),
                     ProjectId = table.Column<int>(nullable: false),
                     QuestionTypeId = table.Column<int>(nullable: false),
                     QuestionViewId = table.Column<int>(nullable: false),
@@ -230,7 +231,6 @@ namespace Model.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true),
-                    W = table.Column<string>(nullable: true),
                     QuestionId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -395,6 +395,46 @@ namespace Model.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "QuestionPurposes",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "Свойство" });
+
+            migrationBuilder.InsertData(
+                table: "QuestionPurposes",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 2, "Оценка клиента" });
+
+            migrationBuilder.InsertData(
+                table: "QuestionPurposes",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 3, "Сегмент" });
+
+            migrationBuilder.InsertData(
+                table: "QuestionPurposes",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 4, "Неиспользуемое" });
+
+            migrationBuilder.InsertData(
+                table: "QuestionTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "Вещественный" });
+
+            migrationBuilder.InsertData(
+                table: "QuestionTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 2, "Строковый" });
+
+            migrationBuilder.InsertData(
+                table: "QuestionTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 3, "Дата/Время" });
+
+            migrationBuilder.InsertData(
+                table: "QuestionViews",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "Непрерывный" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AAnswers_AQuestionId",

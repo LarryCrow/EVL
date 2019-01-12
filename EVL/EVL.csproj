@@ -172,6 +172,7 @@
     <Compile Include="Controllers\ImportController.cs" />
     <Compile Include="Model\IReadOnlyViewState.cs" />
     <Compile Include="Model\ViewState.cs" />
+    <Compile Include="Utils\DictionaryExtensions.cs" />
     <Compile Include="Views\DataBaseView.xaml.cs">
       <DependentUpon>DataBaseView.xaml</DependentUpon>
     </Compile>

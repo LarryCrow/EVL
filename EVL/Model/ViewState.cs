@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using EVL.Utils;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,9 +18,10 @@ namespace EVL.Model
         {
             this.projects = new ObservableCollection<Project>(context.Projects.Take(projectDisplayingCount));
             this.questions = new ObservableCollection<Question>();
-            this.QuestionPurposes = context.QuestionPurposes.ToArray();
-            this.QuestionTypes = context.QuestionTypes.ToArray();
-            this.QuestionViews = context.QuestionViews.ToArray();
+
+            this.QuestionPurposes = context.QuestionPurposes.ToDictionary(qp => qp.Name).AsReadOnly();
+            this.QuestionTypes = context.QuestionTypes.ToDictionary(qt => qt.Name).AsReadOnly();
+            this.QuestionViews = context.QuestionViews.ToDictionary(qv => qv.Name).AsReadOnly();
         }
 
         public static ViewState RetrieveDataFrom(DataBaseContext context)
@@ -31,9 +33,9 @@ namespace EVL.Model
         ReadOnlyObservableCollection<Question> IReadOnlyViewState.Questions
             => new ReadOnlyObservableCollection<Question>(questions);
 
-        public QuestionType[] QuestionTypes { get; }
-        public QuestionPurpose[] QuestionPurposes { get; }
-        public QuestionView[] QuestionViews { get; }
+        public ReadOnlyDictionary<string, QuestionType> QuestionTypes { get; }
+        public ReadOnlyDictionary<string, QuestionPurpose> QuestionPurposes { get; }
+        public ReadOnlyDictionary<string, QuestionView> QuestionViews { get; }
 
         public void AddProject(Project p)
         {
@@ -41,7 +43,7 @@ namespace EVL.Model
             {
                 projects.RemoveAt(0);
             }
-            
+
             projects.Add(p);
         }
 
