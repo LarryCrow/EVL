@@ -35,9 +35,9 @@ namespace EVL.Views
 
             ProjectList.ItemsSource = viewState.Projects;
             QuestionsTable.ItemsSource = viewState.Questions;
-            TypeComboBox.ItemsSource = viewState.QuestionTypes.Values;
-            ViewComboBox.ItemsSource = viewState.QuestionViews.Values;
-            PurposeComboBox.ItemsSource = viewState.QuestionPurposes.Values;
+            TypeComboBox.ItemsSource = viewState.QuestionTypeNames;
+            ViewComboBox.ItemsSource = viewState.QuestionViewNames;
+            PurposeComboBox.ItemsSource = viewState.QuestionPurposeNames;
         }
 
         private void ChooseFileBtn_Click(object sender, RoutedEventArgs e)
@@ -58,13 +58,10 @@ namespace EVL.Views
 
         private void ImportBtn_Click(object sender, RoutedEventArgs e)
         {
-            var segmentPurpose = viewState.QuestionPurposes[QuestionPurposeNames.Segment];
-            var clientPurpose = viewState.QuestionPurposes[QuestionPurposeNames.ClientRating];
+            bool segment = viewState.Questions.Any(q => q.QuestionPurposeName == QuestionPurposeNames.Segment);
+            bool client = viewState.Questions.Any(q => q.QuestionPurposeName == QuestionPurposeNames.ClientRating);
 
-            bool segment = viewState.Questions.Any(q => q.QuestionPurpose == segmentPurpose);
-            bool client = viewState.Questions.Any(q => q.QuestionPurpose == clientPurpose);
-
-            bool everyoneHasType = viewState.Questions.All(q => !string.IsNullOrWhiteSpace(q.QuestionType.Name));
+            bool everyoneHasType = viewState.Questions.All(q => !string.IsNullOrWhiteSpace(q.QuestionTypeName));
 
             if (segment != true && client != true)
             {

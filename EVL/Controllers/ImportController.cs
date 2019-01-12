@@ -15,12 +15,12 @@ namespace EVL.Controllers
     public class ImportController
     {
         private ViewState viewState;
-        private readonly DataBaseContext context;
+        private readonly Func<DataBaseContext> createDbContext;
 
-        public ImportController(ViewState viewState, DataBaseContext context)
+        public ImportController(ViewState viewState, Func<DataBaseContext> createDbContext)
         {
             this.viewState = viewState ?? throw new ArgumentNullException("import model is null");
-            this.context = context;
+            this.createDbContext = createDbContext;
         }
 
         // move to model
@@ -42,13 +42,13 @@ namespace EVL.Controllers
                 while (!parser.EndOfData)
                 {
                     string[] fields = parser.ReadFields();
-                    Question q = new Question
+                    QuestionUI q = new QuestionUI
                     {
                         Name = fields[0],
                         ProjectId = projectID,
-                        QuestionType = viewState.QuestionTypes[fields[1]],
-                        QuestionView = viewState.QuestionViews[fields[2]],
-                        QuestionPurpose = viewState.QuestionPurposes[fields[3]]
+                        QuestionTypeName = fields[1],
+                        QuestionViewName = fields[2],
+                        QuestionPurposeName = fields[3]
                     };
 
                     //context.Questions.Add(q);
@@ -59,7 +59,7 @@ namespace EVL.Controllers
             }
         }
 
-        public void ImportData(IEnumerable<Question> newQuestions, int projectID)
+        public void ImportData(IEnumerable<QuestionUI> newQuestions, int projectID)
         {
             IEnumerable<string> FindIntersection<K>(IEnumerable<K> source1, IEnumerable<K> source2, Func<K, string> func)
                 => source2.Select(func).Intersect(source1.Select(func));
@@ -67,35 +67,55 @@ namespace EVL.Controllers
             var untrackedSegments = new List<Segment>();
             var untrackedQuestions = new List<Question>();
             
-            foreach (var q in newQuestions)
+            
+
+            using (var context = createDbContext())
             {
-                switch (q.QuestionPurpose.Name)
+                var qps = context.QuestionPurposes.ToDictionary(qp => qp.Name, qp => qp.Id);
+                var qvs = context.QuestionViews.ToDictionary(qv => qv.Name, qv => qv.Id);
+                var qts = context.QuestionTypes.ToDictionary(qt => qt.Name, qt => qt.Id);
+
+                foreach (var q in newQuestions)
                 {
-                    case QuestionPurposeNames.Characteristic:
-                    case QuestionPurposeNames.ClientRating:
-                        untrackedQuestions.Add(q);
-                        break;
-                    case QuestionPurposeNames.Segment:
-                        untrackedSegments.Add(new Segment { Name = q.Name, ProjectId = projectID });
-                        break;
+                    switch (q.QuestionPurposeName)
+                    {
+                        case QuestionPurposeNames.Characteristic:
+                        case QuestionPurposeNames.ClientRating:
+                            untrackedQuestions.Add(new Question
+                            {
+                                Name = q.Name,
+                                Weight = q.Weight,
+                                ProjectId = q.ProjectId,
+                                QuestionPurposeId = qps[q.QuestionPurposeName],
+                                QuestionTypeId = qts[q.QuestionTypeName],
+                                QuestionViewId = qvs[q.QuestionViewName]
+                            });
+                            break;
+                        case QuestionPurposeNames.Segment:
+                            untrackedSegments.Add(new Segment
+                            {
+                                Name = q.Name,
+                                ProjectId = projectID
+                            });
+                            break;
+                    }
+                }
+
+                try
+                {
+                    context.Segments.AddRange(untrackedSegments);
+                    context.Questions.AddRange(untrackedQuestions);
+                    context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    var copies1 = FindIntersection(context.Questions, untrackedQuestions, q => q.Name).Select(str => $"Вопрос: {str}");
+                    var copies2 = FindIntersection(context.Segments, untrackedSegments, s => s.Name).Select(str => $"Сегмент: {str}");
+
+                    throw new InvalidOperationException(
+                        $"Часть элементов уже существует в базе:\n{string.Join(",\n", copies1.Concat(copies2))}", ex);
                 }
             }
-
-            try
-            {
-                context.Segments.AddRange(untrackedSegments);
-                context.Questions.AddRange(untrackedQuestions);
-                context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                var copies1 = FindIntersection(context.Questions, untrackedQuestions, q => q.Name).Select(str => $"Вопрос: {str}");
-                var copies2 = FindIntersection(context.Segments, untrackedSegments, s => s.Name).Select(str => $"Сегмент: {str}");
-
-                throw new InvalidOperationException(
-                    $"Часть элементов уже существует в базе:\n{string.Join(",\n", copies1.Concat(copies2))}", ex);
-            }
-
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using EVL.Utils;
 using Model;
+using static Model.QuestionPurposeNames;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,23 +13,23 @@ namespace EVL.Model
     {
         private readonly int projectDisplayingCount = 10;
         private readonly ObservableCollection<Project> projects;
-        private readonly ObservableCollection<Question> questions;
+        private readonly ObservableCollection<QuestionUI> questions;
 
         ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects => projects.AsReadOnly();
-        ReadOnlyObservableCollection<Question> IReadOnlyViewState.Questions => questions.AsReadOnly();
+        ReadOnlyObservableCollection<QuestionUI> IReadOnlyViewState.Questions => questions.AsReadOnly();
 
-        public ReadOnlyDictionary<string, QuestionType> QuestionTypes { get; }
-        public ReadOnlyDictionary<string, QuestionPurpose> QuestionPurposes { get; }
-        public ReadOnlyDictionary<string, QuestionView> QuestionViews { get; }
+        public string[] QuestionTypeNames { get; }
+        public string[] QuestionPurposeNames { get; }
+        public string[] QuestionViewNames { get; }
 
         private ViewState(DataBaseContext context)
         {
             this.projects = new ObservableCollection<Project>(context.Projects.Take(projectDisplayingCount));
-            this.questions = new ObservableCollection<Question>();
+            this.questions = new ObservableCollection<QuestionUI>();
 
-            this.QuestionPurposes = context.QuestionPurposes.ToDictionary(qp => qp.Name).AsReadOnly();
-            this.QuestionTypes = context.QuestionTypes.ToDictionary(qt => qt.Name).AsReadOnly();
-            this.QuestionViews = context.QuestionViews.ToDictionary(qv => qv.Name).AsReadOnly();
+            this.QuestionPurposeNames = context.QuestionPurposes.Select(qp => qp.Name).ToArray();
+            this.QuestionTypeNames = context.QuestionTypes.Select(qt => qt.Name).ToArray();
+            this.QuestionViewNames = context.QuestionViews.Select(qv => qv.Name).ToArray();
         }
 
         public static ViewState RetrieveDataFrom(DataBaseContext context)
@@ -44,7 +45,7 @@ namespace EVL.Model
             projects.Add(p);
         }
 
-        public void AddQuestion(Question q)
+        public void AddQuestion(QuestionUI q)
         {
             questions.Add(q);
         }
@@ -58,10 +59,8 @@ namespace EVL.Model
         //TODO: move or remove
         public int[] GetClientsIndex()
         {
-            var ratingPurpose = QuestionPurposes[QuestionPurposeNames.ClientRating];
-
             return questions
-                .Where(q => q.QuestionPurpose == ratingPurpose)
+                .Where(q => q.QuestionPurposeName == ClientRating)
                 .Select(questions.IndexOf)
                 .ToArray();
         }

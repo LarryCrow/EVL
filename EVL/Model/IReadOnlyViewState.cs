@@ -9,10 +9,10 @@ namespace EVL.Model
     public interface IReadOnlyViewState
     {
         ReadOnlyObservableCollection<Project> Projects { get; }
-        ReadOnlyObservableCollection<Question> Questions { get; }
+        ReadOnlyObservableCollection<QuestionUI> Questions { get; }
 
-        ReadOnlyDictionary<string, QuestionType> QuestionTypes { get; }
-        ReadOnlyDictionary<string, QuestionPurpose> QuestionPurposes { get; }
-        ReadOnlyDictionary<string, QuestionView> QuestionViews { get; }
+        string[] QuestionTypeNames { get; }
+        string[] QuestionViewNames { get; }
+        string[] QuestionPurposeNames { get; }
     }
 }
