@@ -83,7 +83,7 @@ namespace EVL.Views
             {
                 try
                 {
-                    controller.TryImportData(viewState.Questions, 1);
+                    controller.ImportData(viewState.Questions, 1);
                     MessageBox.Show("Данные импортированы");
                 }
                 catch(InvalidOperationException ex)

@@ -8,6 +8,7 @@ using EVL.Views;
 using Microsoft.VisualBasic.FileIO;
 using EVL.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 
 namespace EVL.Controllers
 {
@@ -60,48 +61,41 @@ namespace EVL.Controllers
 
         public void ImportData(IEnumerable<Question> newQuestions, int projectID)
         {
-            string message((string name, string type) errCause) =>
-                $"Элемент типа \'{errCause.type}\' c наименованием \'{errCause.name}\' уже существует в базе";
+            IEnumerable<string> FindIntersection<K>(IEnumerable<K> source1, IEnumerable<K> source2, Func<K, string> func)
+                => source2.Select(func).Intersect(source1.Select(func));
+
+            var untrackedSegments = new List<Segment>();
+            var untrackedQuestions = new List<Question>();
             
             foreach (var q in newQuestions)
             {
-                (string name, string type) possibleErrorCause = ("", "");
-
                 switch (q.QuestionPurpose.Name)
                 {
                     case QuestionPurposeNames.Characteristic:
                     case QuestionPurposeNames.ClientRating:
-                        possibleErrorCause = (q.Name, "Вопрос");
-
-                        context.Questions.Add(q);
+                        untrackedQuestions.Add(q);
                         break;
                     case QuestionPurposeNames.Segment:
-                        var segment = new Segment {Name = q.Name, ProjectId = projectID};
-                        possibleErrorCause = (segment.Name, "Сегмент");
-
-                        try
-                        {
-                            context.Segments.Add(segment);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new InvalidOperationException(message(possibleErrorCause), ex);
-                        }
-
+                        untrackedSegments.Add(new Segment { Name = q.Name, ProjectId = projectID });
                         break;
-                }
-
-                try
-                {
-                    context.SaveChanges();
-                }
-                catch (DbUpdateException ex)
-                {
-                    throw new InvalidOperationException(message(possibleErrorCause), ex);
                 }
             }
 
-            
+            try
+            {
+                context.Segments.AddRange(untrackedSegments);
+                context.Questions.AddRange(untrackedQuestions);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                var copies1 = FindIntersection(context.Questions, untrackedQuestions, q => q.Name).Select(str => $"Вопрос: {str}");
+                var copies2 = FindIntersection(context.Segments, untrackedSegments, s => s.Name).Select(str => $"Сегмент: {str}");
+
+                throw new InvalidOperationException(
+                    $"Часть элементов уже существует в базе:\n{string.Join(",\n", copies1.Concat(copies2))}", ex);
+            }
+
         }
     }
 }
