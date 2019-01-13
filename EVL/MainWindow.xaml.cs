@@ -66,5 +66,10 @@ namespace EVL
         {
             MainScope.Content = new FactorsView(model, factorsC);
         }
+
+        private void InputWinBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MainScope.Content = new NewDataView();
+        }
     }
 }

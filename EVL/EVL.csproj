@@ -185,6 +185,9 @@
     <Compile Include="Views\FactorsView.xaml.cs">
       <DependentUpon>FactorsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NewDataView.xaml.cs">
+      <DependentUpon>NewDataView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ProjectsView.xaml.cs">
       <DependentUpon>ProjectsView.xaml</DependentUpon>
     </Compile>
@@ -209,6 +212,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FactorsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NewDataView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
