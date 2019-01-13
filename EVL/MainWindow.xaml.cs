@@ -29,13 +29,15 @@ namespace EVL
         private readonly IReadOnlyViewState model;
         private readonly ImportController importC;
         private readonly ProjectController projectC;
+        private readonly DataBaseController databaseC;
 
-        public MainWindow(IReadOnlyViewState model, ImportController importC, ProjectController projectC)
+        public MainWindow(IReadOnlyViewState model, ImportController importC, ProjectController projectC, DataBaseController databaseC)
         {
             InitializeComponent();
             this.model = model;
             this.importC = importC;
             this.projectC = projectC;
+            this.databaseC = databaseC;
         }
 
         private void ImportWinBtn_Click(object sender, RoutedEventArgs e)
@@ -50,7 +52,7 @@ namespace EVL
 
         private void DBWinBtn_Click(object sender, RoutedEventArgs e)
         {
-            MainScope.Content = new DataBaseView();
+            MainScope.Content = new DataBaseView(model, databaseC);
         }
 
         private void FactorsWinBtn_Click(object sender, RoutedEventArgs e)
