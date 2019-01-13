@@ -49,8 +49,8 @@ namespace EVL.Controllers
                         QuestionPurpose = viewState.QuestionPurposes[fields[3]]
                     };
 
-                    context.Questions.Add(q);
-                    context.SaveChanges();
+                    //context.Questions.Add(q);
+                    //context.SaveChanges();
 
                     viewState.AddQuestion(q);
                 }
