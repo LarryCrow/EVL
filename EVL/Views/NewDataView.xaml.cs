@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EVL.Controllers;
+using EVL.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,15 @@ namespace EVL.Views
     /// </summary>
     public partial class NewDataView : UserControl
     {
-        public NewDataView()
+        private readonly NewDataController controller;
+        private readonly IReadOnlyViewState viewState;
+
+        public NewDataView(IReadOnlyViewState viewState, NewDataController controller)
         {
             InitializeComponent();
+
+            this.controller = controller;
+            this.viewState = viewState;
         }
     }
 }
