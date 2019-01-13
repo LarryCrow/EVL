@@ -15,27 +15,33 @@ namespace EVL.Controllers
     /// </summary>
     public class ProjectController
     {
-        private readonly DataBaseContext context;
+        private readonly Func<DataBaseContext> createDbContext;
         private readonly ViewState viewState;
 
-        public ProjectController(ViewState viewState, DataBaseContext context)
+        public ProjectController(ViewState viewState, Func<DataBaseContext> createDbContext)
         {
-            this.context = context;
+            this.createDbContext = createDbContext;
             this.viewState = viewState;
         }
 
         public void AddProject(Project p)
         {
-            context.Projects.Add(p);
-            context.SaveChanges();
+            using (var context = createDbContext())
+            {
+                context.Projects.Add(p);
+                context.SaveChanges();
+            }
 
             viewState.AddProject(p);
         }
 
         public void DeleteProject(Project p)
         {
-            context.Projects.Remove(p);
-            context.SaveChanges();
+            using (var context = createDbContext())
+            {
+                context.Projects.Remove(p);
+                context.SaveChanges();
+            }
 
             viewState.DeleteProject(p);
         }

@@ -14,29 +14,31 @@ namespace EVL
     /// </summary>
     public partial class App : Application, IDesignTimeDbContextFactory<DataBaseContext>
     {
-        // required for migrations (maybe refactor)
-        public DataBaseContext CreateDbContext(string[] args)
+        private readonly DbContextOptions<DataBaseContext> options;
+
+        public App()
         {
             var connString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
-            var options = new DbContextOptionsBuilder().UseSqlite(connString).Options;
-            return new DataBaseContext(options);
+            options = new DbContextOptionsBuilder<DataBaseContext>().UseSqlite(connString).Options;
         }
+
+        // required for migrations (maybe refactor)
+        public DataBaseContext CreateDbContext(string[] args) => new DataBaseContext(options);
+        private DataBaseContext CreateDbContext() => CreateDbContext(null);
+
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            using(var model = CreateDbContext(null))
-            {
-                model.Database.Migrate();
+            using (var model = CreateDbContext()) { model.Database.Migrate(); }
 
-                var viewState = ViewState.RetrieveDataFrom(model);
+            var viewState = ViewState.RetrieveDataFrom(CreateDbContext());
 
-                var projectC = new ProjectController(viewState, model);
-                var importC = new ImportController(viewState, model);
+            var projectC = new ProjectController(viewState, CreateDbContext);
+            var importC = new ImportController(viewState, CreateDbContext);
 
-                var view = new MainWindow(viewState, importC, projectC);
+            var view = new MainWindow(viewState, importC, projectC);
 
-                view.ShowDialog();
-            }
+            view.ShowDialog();
         }
     }
 }

@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace EVL.Utils
 {
-    static class DictionaryExtensions
+    static class ObservableCollectionExtensions
     {
-        public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(
-            this IDictionary<TKey, TValue> dictionary)
-            => new ReadOnlyDictionary<TKey, TValue>(dictionary);
+        public static ReadOnlyObservableCollection<T> AsReadOnly<T>(this ObservableCollection<T> collection) 
+            => new ReadOnlyObservableCollection<T>(collection);
     }
 }

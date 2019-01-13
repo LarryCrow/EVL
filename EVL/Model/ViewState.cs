@@ -1,5 +1,6 @@
 ﻿using EVL.Utils;
 using Model;
+using static Model.QuestionPurposeNames;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,30 +13,27 @@ namespace EVL.Model
     {
         private readonly int projectDisplayingCount = 10;
         private readonly ObservableCollection<Project> projects;
-        private readonly ObservableCollection<Question> questions;
+        private readonly ObservableCollection<QuestionUI> questions;
+
+        ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects => projects.AsReadOnly();
+        ReadOnlyObservableCollection<QuestionUI> IReadOnlyViewState.Questions => questions.AsReadOnly();
+
+        public string[] QuestionTypeNames { get; }
+        public string[] QuestionPurposeNames { get; }
+        public string[] QuestionViewNames { get; }
 
         private ViewState(DataBaseContext context)
         {
             this.projects = new ObservableCollection<Project>(context.Projects.Take(projectDisplayingCount));
-            this.questions = new ObservableCollection<Question>();
+            this.questions = new ObservableCollection<QuestionUI>();
 
-            this.QuestionPurposes = context.QuestionPurposes.ToDictionary(qp => qp.Name).AsReadOnly();
-            this.QuestionTypes = context.QuestionTypes.ToDictionary(qt => qt.Name).AsReadOnly();
-            this.QuestionViews = context.QuestionViews.ToDictionary(qv => qv.Name).AsReadOnly();
+            this.QuestionPurposeNames = context.QuestionPurposes.Select(qp => qp.Name).ToArray();
+            this.QuestionTypeNames = context.QuestionTypes.Select(qt => qt.Name).ToArray();
+            this.QuestionViewNames = context.QuestionViews.Select(qv => qv.Name).ToArray();
         }
 
         public static ViewState RetrieveDataFrom(DataBaseContext context)
             => new ViewState(context);
-
-        ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects
-            => new ReadOnlyObservableCollection<Project>(projects);
-
-        ReadOnlyObservableCollection<Question> IReadOnlyViewState.Questions
-            => new ReadOnlyObservableCollection<Question>(questions);
-
-        public ReadOnlyDictionary<string, QuestionType> QuestionTypes { get; }
-        public ReadOnlyDictionary<string, QuestionPurpose> QuestionPurposes { get; }
-        public ReadOnlyDictionary<string, QuestionView> QuestionViews { get; }
 
         public void AddProject(Project p)
         {
@@ -47,7 +45,7 @@ namespace EVL.Model
             projects.Add(p);
         }
 
-        public void AddQuestion(Question q)
+        public void AddQuestion(QuestionUI q)
         {
             questions.Add(q);
         }
@@ -57,26 +55,14 @@ namespace EVL.Model
             projects.Remove(p);
         }
 
-        public string GetSegmentName()
-        {
-            Question question = questions.Where(q => q.QuestionPurposeId == 3).First();
-            return question.Name;
-        }
 
+        //TODO: move or remove
         public int[] GetClientsIndex()
         {
-            IEnumerable<Question> questions = this.questions.Where(q => q.QuestionPurposeId == 2);
-            List<int> indexes = new List<int>();
-            foreach(Question q in questions)
-            {
-                indexes.Add(this.questions.IndexOf(q));
-            }
-            return indexes.ToArray();
-        }
-
-        public IEnumerable<Question> GetQuestions()
-        {
-            return questions.Where(q => q.QuestionPurposeId != 3 && q.QuestionPurposeId != 4);
+            return questions
+                .Where(q => q.QuestionPurposeName == ClientRating)
+                .Select(questions.IndexOf)
+                .ToArray();
         }
     }
 }

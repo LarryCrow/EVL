@@ -35,9 +35,9 @@ namespace EVL.Views
 
             ProjectList.ItemsSource = viewState.Projects;
             QuestionsTable.ItemsSource = viewState.Questions;
-            TypeComboBox.ItemsSource = viewState.QuestionTypes.Values;
-            ViewComboBox.ItemsSource = viewState.QuestionViews.Values;
-            PurposeComboBox.ItemsSource = viewState.QuestionPurposes.Values;
+            TypeComboBox.ItemsSource = viewState.QuestionTypeNames;
+            ViewComboBox.ItemsSource = viewState.QuestionViewNames;
+            PurposeComboBox.ItemsSource = viewState.QuestionPurposeNames;
         }
 
         private void ChooseFileBtn_Click(object sender, RoutedEventArgs e)
@@ -58,26 +58,36 @@ namespace EVL.Views
 
         private void ImportBtn_Click(object sender, RoutedEventArgs e)
         {
-            bool segment = viewState.Questions.Any(q => q.QuestionPurposeId == 3);
-            bool client = viewState.Questions.Any(q => q.QuestionPurposeId == 2);
-            bool everyoneHasType = viewState.Questions.All(q => !q.QuestionType.Name.Equals(""));
+            bool segment = viewState.Questions.Any(q => q.QuestionPurposeName == QuestionPurposeNames.Segment);
+            bool client = viewState.Questions.Any(q => q.QuestionPurposeName == QuestionPurposeNames.ClientRating);
+
+            bool everyoneHasType = viewState.Questions.All(q => !string.IsNullOrWhiteSpace(q.QuestionTypeName));
+
             if (segment != true && client != true)
             {
                 MessageBox.Show("Выберите поля для сегментирования и формирования клиентской базы." +
                     "Необходимо присвоить значение Сегмент и Название клиента.");
-                return;
             }
             else if (segment == true && client != true)
             {
                 MessageBox.Show("Выберите поля для формирования клиентской базы. Необходимо присвоить значение Название клиента.");
-                return;
             }
             else if (segment != true && client == true)
             {
                 MessageBox.Show("Выберите поля для сегментирования. Необходимо присвоить значение Сегмент.");
-                return;
             }
-            controller.ImportData(false, 1, 1);
+            else
+            {
+                try
+                {
+                    controller.ImportData(viewState.Questions);
+                    MessageBox.Show("Данные импортированы");
+                }
+                catch(InvalidOperationException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
 
         private void DisplayBtn_Click(object sender, RoutedEventArgs e)
