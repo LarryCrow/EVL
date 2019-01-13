@@ -33,8 +33,9 @@ namespace EVL
                 var projectC = new ProjectController(viewState, model);
                 var importC = new ImportController(viewState, model);
                 var databaseC = new DataBaseController(viewState, model);
+                var factorsC = new FactorsController(viewState, model);
 
-                var view = new MainWindow(viewState, importC, projectC, databaseC);
+                var view = new MainWindow(viewState, importC, projectC, databaseC, factorsC);
 
                 view.ShowDialog();
             }
