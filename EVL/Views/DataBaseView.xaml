@@ -6,26 +6,44 @@
         xmlns:local="clr-namespace:EVL.Views"
         mc:Ignorable="d">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <DataGrid>
-            
+        <DataGrid x:Name="ClientsTable" Margin="5,5,20,0" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding Date}"/>
+            </DataGrid.Columns>
+            <DataGrid.Items>
+            </DataGrid.Items>
         </DataGrid>
-        <DataGrid Grid.Column="1">
-            
+        <DataGrid x:Name="SegmentsTable" Grid.Column="1" Margin="0, 5, 5, 0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Сегмент" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Вероятность" Binding="{Binding Date}"/>
+            </DataGrid.Columns>
+            <DataGrid.Items>
+            </DataGrid.Items>
         </DataGrid>
-        <DataGrid Grid.Row="1">
-
+        <DataGrid x:Name="QuestionsTable" Grid.Row="1" Margin="5, 5, 20, 0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Свойство" Binding="{Binding Name}"/>
+            </DataGrid.Columns>
+            <DataGrid.Items>
+            </DataGrid.Items>
         </DataGrid>
-        <DataGrid Grid.Column="1" Grid.Row="1">
-
+        <DataGrid x:Name="AnswersTable" Grid.Row="1" Grid.Column="1" Margin="0, 5, 5, 0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Ответ" Binding="{Binding value}"/>
+                <DataGridTextColumn Header="Вероятность" Binding="{Binding prop}"/>
+            </DataGrid.Columns>
+            <DataGrid.Items>
+            </DataGrid.Items>
         </DataGrid>
     </Grid>
 </UserControl>

@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using EVL.Model;
+using EVL.Controllers;
 
 namespace EVL.Views
 {
@@ -19,9 +21,15 @@ namespace EVL.Views
     /// </summary>
     public partial class DataBaseView : UserControl
     {
-        public DataBaseView()
+        private readonly DataBaseController controller;
+        private readonly IReadOnlyViewState viewState;
+
+        public DataBaseView(IReadOnlyViewState viewState, DataBaseController controller)
         {
             InitializeComponent();
+
+            this.controller = controller;
+            this.viewState = viewState;
         }
     }
 }
