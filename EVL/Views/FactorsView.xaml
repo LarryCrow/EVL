@@ -6,12 +6,7 @@
         xmlns:local="clr-namespace:EVL.Views"
         mc:Ignorable="d">
     <Grid>
-        <ToolBar VerticalAlignment="Top">
-            <Button>Добавить</Button>
-            <Button>Удалить</Button>
-            <Button>Сохранить</Button>
-        </ToolBar>
-        <Grid Margin="0,32,0,0">
+        <Grid Margin="0, 0, 0, 50">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="1.6*"></ColumnDefinition>
@@ -20,7 +15,7 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-            <DataGrid Grid.ColumnSpan="2">
+            <DataGrid x:Name="SegmentsTable" Grid.ColumnSpan="2" Margin="5">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="1*" Header="Сегмент"/>
                     <DataGridTextColumn Width="1*" Header="Вероятность"/>
@@ -28,14 +23,14 @@
                 <DataGrid.Items>
                 </DataGrid.Items>
             </DataGrid>
-            <DataGrid Grid.Row="1">
+            <DataGrid x:Name="QuestionsTable" Grid.Row="1" Margin="5, 0, 0, 5">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="1*" Header="Свойство"/>
                 </DataGrid.Columns>
                 <DataGrid.Items>
                 </DataGrid.Items>
             </DataGrid>
-            <DataGrid Grid.Column="1" Grid.Row="1">
+            <DataGrid x:Name="AnswersTable" Grid.Column="1" Grid.Row="1" Margin="5, 0, 5, 5">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="1*" Header="Ответ"/>
                     <DataGridTextColumn Width="1*" Header="Вероятность"/>
@@ -44,5 +39,8 @@
                 </DataGrid.Items>
             </DataGrid>
         </Grid>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+            <Button Margin="5, 0, 0, 10" Height="25">Сохранить изменения</Button>
+        </StackPanel>
     </Grid>
 </UserControl>

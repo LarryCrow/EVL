@@ -81,8 +81,6 @@ namespace Model.Migrations
 
                     b.Property<int>("QuestionId");
 
-                    b.Property<string>("W");
-
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
@@ -197,7 +195,8 @@ namespace Model.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<int>("ProjectId");
 
@@ -207,7 +206,11 @@ namespace Model.Migrations
 
                     b.Property<int>("QuestionViewId");
 
+                    b.Property<double>("Weight");
+
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("Name");
 
                     b.HasIndex("ProjectId");
 
@@ -230,6 +233,28 @@ namespace Model.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("QuestionPurposes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Свойство"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Оценка клиента"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Сегмент"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Неиспользуемое"
+                        });
                 });
 
             modelBuilder.Entity("Model.QuestionType", b =>
@@ -242,6 +267,23 @@ namespace Model.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("QuestionTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Вещественный"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Строковый"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Дата/Время"
+                        });
                 });
 
             modelBuilder.Entity("Model.QuestionView", b =>
@@ -254,6 +296,13 @@ namespace Model.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("QuestionViews");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Непрерывный"
+                        });
                 });
 
             modelBuilder.Entity("Model.RAnswer", b =>
@@ -311,11 +360,14 @@ namespace Model.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<int>("ProjectId");
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("Name");
 
                     b.HasIndex("ProjectId");
 

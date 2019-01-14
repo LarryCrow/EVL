@@ -35,9 +35,9 @@ namespace EVL.Views
 
             ProjectList.ItemsSource = viewState.Projects;
             QuestionsTable.ItemsSource = viewState.Questions;
-            TypeComboBox.ItemsSource = viewState.QuestionTypes;
-            ViewComboBox.ItemsSource = viewState.QuestionViews;
-            PurposeComboBox.ItemsSource = viewState.QuestionPurposes;
+            TypeComboBox.ItemsSource = viewState.QuestionTypeNames;
+            ViewComboBox.ItemsSource = viewState.QuestionViewNames;
+            PurposeComboBox.ItemsSource = viewState.QuestionPurposeNames;
         }
 
         private void ChooseFileBtn_Click(object sender, RoutedEventArgs e)
@@ -58,60 +58,44 @@ namespace EVL.Views
 
         private void ImportBtn_Click(object sender, RoutedEventArgs e)
         {
-            bool segment = viewState.Questions.Any(q => q.QuestionPurposeId == 3);
-            bool client = viewState.Questions.Any(q => q.QuestionPurposeId == 2);
-            bool everyoneHasType = viewState.Questions.All(q => !q.QuestionType.Name.Equals(""));
+            bool segment = viewState.Questions.Any(q => q.QuestionPurposeName == QuestionPurposeNames.Segment);
+            bool client = viewState.Questions.Any(q => q.QuestionPurposeName == QuestionPurposeNames.ClientRating);
+
+            bool everyoneHasType = viewState.Questions.All(q => !string.IsNullOrWhiteSpace(q.QuestionTypeName));
+
             if (segment != true && client != true)
             {
                 MessageBox.Show("Выберите поля для сегментирования и формирования клиентской базы." +
                     "Необходимо присвоить значение Сегмент и Название клиента.");
-                return;
             }
             else if (segment == true && client != true)
             {
                 MessageBox.Show("Выберите поля для формирования клиентской базы. Необходимо присвоить значение Название клиента.");
-                return;
             }
             else if (segment != true && client == true)
             {
                 MessageBox.Show("Выберите поля для сегментирования. Необходимо присвоить значение Сегмент.");
-                return;
             }
-
-            int projectID = -1;
-            try
-            {
-                projectID = ((Project)ProjectList.SelectedValue).Id;
-            }
-            catch (NullReferenceException ex)
-            {
-                MessageBox.Show("Выберите проект из списка.");
-                return;
-            }
-
-            bool hasHeader = HeaderCheckBox.IsChecked ?? false;
-            int startRow;
-            if (!StartRowInput.Text.ToString().Equals(""))
+            else
             {
                 try
                 {
-                    startRow = Convert.ToInt32(StartRowInput.Text.ToString());
+                    controller.ImportData(viewState.Questions);
+                    MessageBox.Show("Данные импортированы");
                 }
-                catch (FormatException ex)
+                catch(InvalidOperationException ex)
                 {
-                    MessageBox.Show("Введено некорретное значение номера строки. Необходимо ввести целое число");
-                    return;
+                    MessageBox.Show(ex.Message);
                 }
-            } else
-            {
-                startRow = 1;
             }
-
-            controller.ImportData(hasHeader, 1, projectID);
         }
 
         private void DisplayBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (FilePathInput.Text.ToString().Equals(""))
+            {
+                MessageBox.Show("Выберите файл для импорта");
+            }
             string separator = ChooseSeparator();
             if (separator.Equals(null))
             {

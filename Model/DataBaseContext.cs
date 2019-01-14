@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Model
 {
@@ -32,5 +33,18 @@ namespace Model
 
         public DbSet<Experiment> Experiments { get; set; }
         public DbSet<Company> Companies { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Question>().HasAlternateKey(q => q.Name);
+            modelBuilder.Entity<Segment>().HasAlternateKey(s => s.Name);
+
+            modelBuilder.Entity<QuestionType>()
+                .HasData(QuestionTypeNames.All.Select((qt, i) => new QuestionType {Id = i+1, Name = qt}));
+            modelBuilder.Entity<QuestionView>()
+                .HasData(QuestionViewNames.All.Select((qv, i) => new QuestionView {Id = i+1, Name = qv}));
+            modelBuilder.Entity<QuestionPurpose>()
+                .HasData(QuestionPurposeNames.All.Select((qp, i) => new QuestionPurpose {Id = i+1, Name = qp}));
+        }
     }
 }

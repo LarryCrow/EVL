@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using EVL.Model;
+using EVL.Controllers;
 
 namespace EVL.Views
 {
@@ -19,9 +21,15 @@ namespace EVL.Views
     /// </summary>
     public partial class FactorsView : UserControl
     {
-        public FactorsView()
+        private readonly FactorsController controller;
+        private readonly IReadOnlyViewState viewState;
+
+        public FactorsView(IReadOnlyViewState viewState, FactorsController controller)
         {
             InitializeComponent();
+
+            this.controller = controller;
+            this.viewState = viewState;
         }
     }
 }
