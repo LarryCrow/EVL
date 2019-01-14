@@ -60,7 +60,7 @@ namespace EVL.Controllers
         public void ImportData(bool hasHeader, int startRow, int projectID)
         {
             // Запись сегмента
-            viewState.GetSegments();
+            //viewState.GetSegments();
 
             // Запись вопросов (посмотри метод внутри, я там по айдишникам сравнивал, может что-то нужно изменить)
             context.Questions.AddRange(viewState.GetQuestions());

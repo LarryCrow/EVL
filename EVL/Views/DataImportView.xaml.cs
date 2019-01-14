@@ -77,12 +77,81 @@ namespace EVL.Views
                 MessageBox.Show("Выберите поля для сегментирования. Необходимо присвоить значение Сегмент.");
                 return;
             }
-            controller.ImportData(false, 1, 1);
+
+            int projectID = -1;
+            try
+            {
+                projectID = ((Project)ProjectList.SelectedValue).Id;
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show("Выберите проект из списка.");
+                return;
+            }
+
+            bool hasHeader = HeaderCheckBox.IsChecked ?? false;
+            int startRow;
+            if (!StartRowInput.Text.ToString().Equals(""))
+            {
+                try
+                {
+                    startRow = Convert.ToInt32(StartRowInput.Text.ToString());
+                }
+                catch (FormatException ex)
+                {
+                    MessageBox.Show("Введено некорретное значение номера строки. Необходимо ввести целое число");
+                    return;
+                }
+            } else
+            {
+                startRow = 1;
+            }
+
+            controller.ImportData(hasHeader, 1, projectID);
         }
 
         private void DisplayBtn_Click(object sender, RoutedEventArgs e)
         {
-            controller.ParseFile(FilePathInput.Text, ",", 1);
+            string separator = ChooseSeparator();
+            if (separator.Equals(null))
+            {
+                MessageBox.Show("Выберите разделитель для отображения файла.");
+                return;
+            }
+            int projectID = -1;
+            try
+            {
+                projectID = ((Project)ProjectList.SelectedValue).Id;
+            } catch (NullReferenceException ex)
+            {
+                MessageBox.Show("Выберите проект из списка.");
+                return;
+            }
+            controller.ParseFile(FilePathInput.Text, separator, projectID);
+        }
+
+        private string ChooseSeparator()
+        {
+            if (TabRB.IsChecked == true)
+            {
+                return "    ";
+            } else if (SpaceRB.IsChecked == true)
+            {
+                return " ";
+            } else if (PointRB.IsChecked == true)
+            {
+                return ".";
+            } else if (SemicolonRB.IsChecked == true)
+            {
+                return ";";
+            } else if (CommaRB.IsChecked == true)
+            {
+                return ",";
+            } else if (OtherRB.IsChecked == true)
+            {
+                return OtherSeparatorInput.Text.ToString();
+            }
+            return null;
         }
     }
 }
