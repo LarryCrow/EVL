@@ -30,6 +30,12 @@ namespace EVL.Views
 
             this.controller = controller;
             this.viewState = viewState;
+            AnswersTable.ItemsSource = null;
+        }
+
+        public void AddRow_Click(object source, RoutedEventArgs args)
+        {
+
         }
     }
 }

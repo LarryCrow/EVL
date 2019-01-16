@@ -30,8 +30,15 @@
                 <DataGrid.Items>
                 </DataGrid.Items>
             </DataGrid>
-            <DataGrid x:Name="AnswersTable" Grid.Column="1" Grid.Row="1" Margin="5, 0, 5, 5">
+            <DataGrid x:Name="AnswersTable" Grid.Column="1" Grid.Row="1" Margin="5, 0, 5, 5" CanUserAddRows="True" AutoGenerateColumns="False">
                 <DataGrid.Columns>
+                    <DataGridTemplateColumn CanUserResize="False" CellStyle="{StaticResource EmptyColumnCellStyle}">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Button Style="{StaticResource AddColumnHeaderButtonStyle}" Click="AddRow_Click"></Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Width="0.8*" Header="Ответ"/>
                     <DataGridTextColumn Width="2*" Header="Описание"></DataGridTextColumn>
                     <DataGridTextColumn Width="1.25*">
