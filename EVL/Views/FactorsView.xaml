@@ -18,22 +18,27 @@
             <DataGrid x:Name="SegmentsTable" Grid.ColumnSpan="2" Margin="5">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="1*" Header="Сегмент"/>
-                    <DataGridTextColumn Width="1*" Header="Вероятность"/>
+                    <DataGridTextColumn Width="1.6*" Header="Вероятность"/>
                 </DataGrid.Columns>
                 <DataGrid.Items>
                 </DataGrid.Items>
             </DataGrid>
             <DataGrid x:Name="QuestionsTable" Grid.Row="1" Margin="5, 0, 0, 5">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="1*" Header="Свойство"/>
+                    <DataGridTextColumn IsReadOnly="True" Width="1*" Header="Свойство"/>
                 </DataGrid.Columns>
                 <DataGrid.Items>
                 </DataGrid.Items>
             </DataGrid>
             <DataGrid x:Name="AnswersTable" Grid.Column="1" Grid.Row="1" Margin="5, 0, 5, 5">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="1*" Header="Ответ"/>
-                    <DataGridTextColumn Width="1*" Header="Вероятность"/>
+                    <DataGridTextColumn Width="0.8*" Header="Ответ"/>
+                    <DataGridTextColumn Width="2*" Header="Описание"></DataGridTextColumn>
+                    <DataGridTextColumn Width="1.25*">
+                        <DataGridTextColumn.Header>
+                            <TextBlock Text="Вероятность" ToolTip="Вероятность появления ответа на выбранный вопрос в выбранном сегменте"></TextBlock>
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
                 <DataGrid.Items>
                 </DataGrid.Items>
