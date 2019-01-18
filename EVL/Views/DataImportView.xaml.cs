@@ -88,7 +88,50 @@ namespace EVL.Views
 
         private void DisplayBtn_Click(object sender, RoutedEventArgs e)
         {
-            controller.ParseFile(FilePathInput.Text, ",", 1);
+            if (FilePathInput.Text.ToString().Equals(""))
+            {
+                MessageBox.Show("Выберите файл для импорта");
+            }
+            string separator = ChooseSeparator();
+            if (separator.Equals(null))
+            {
+                MessageBox.Show("Выберите разделитель для отображения файла.");
+                return;
+            }
+            int projectID = -1;
+            try
+            {
+                projectID = ((Project)ProjectList.SelectedValue).Id;
+            } catch (NullReferenceException ex)
+            {
+                MessageBox.Show("Выберите проект из списка.");
+                return;
+            }
+            controller.ParseFile(FilePathInput.Text, separator, projectID);
+        }
+
+        private string ChooseSeparator()
+        {
+            if (TabRB.IsChecked == true)
+            {
+                return "    ";
+            } else if (SpaceRB.IsChecked == true)
+            {
+                return " ";
+            } else if (PointRB.IsChecked == true)
+            {
+                return ".";
+            } else if (SemicolonRB.IsChecked == true)
+            {
+                return ";";
+            } else if (CommaRB.IsChecked == true)
+            {
+                return ",";
+            } else if (OtherRB.IsChecked == true)
+            {
+                return OtherSeparatorInput.Text.ToString();
+            }
+            return null;
         }
     }
 }
