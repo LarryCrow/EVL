@@ -1,6 +1,5 @@
 ﻿using EVL.Utils;
 using Model;
-using static Model.QuestionPurposeNames;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,18 +17,13 @@ namespace EVL.Model
         ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects => projects.AsReadOnly();
         ReadOnlyObservableCollection<QuestionUI> IReadOnlyViewState.Questions => questions.AsReadOnly();
 
-        public string[] QuestionTypeNames { get; }
         public string[] QuestionPurposeNames { get; }
-        public string[] QuestionViewNames { get; }
 
         private ViewState(DataBaseContext context)
         {
             this.projects = new ObservableCollection<Project>(context.Projects.Take(projectDisplayingCount));
             this.questions = new ObservableCollection<QuestionUI>();
-
-            this.QuestionPurposeNames = context.QuestionPurposes.Select(qp => qp.Name).ToArray();
-            this.QuestionTypeNames = context.QuestionTypes.Select(qt => qt.Name).ToArray();
-            this.QuestionViewNames = context.QuestionViews.Select(qv => qv.Name).ToArray();
+            this.QuestionPurposeNames = Model.QuestionPurposeNames.All;
         }
 
         public static ViewState RetrieveDataFrom(DataBaseContext context)
@@ -60,7 +54,7 @@ namespace EVL.Model
         public int[] GetClientsIndex()
         {
             return questions
-                .Where(q => q.QuestionPurposeName == ClientRating)
+                .Where(q => q.QuestionPurposeName == Model.QuestionPurposeNames.ClientRating)
                 .Select(questions.IndexOf)
                 .ToArray();
         }

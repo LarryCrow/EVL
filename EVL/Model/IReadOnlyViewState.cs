@@ -10,9 +10,7 @@ namespace EVL.Model
     {
         ReadOnlyObservableCollection<Project> Projects { get; }
         ReadOnlyObservableCollection<QuestionUI> Questions { get; }
-
-        string[] QuestionTypeNames { get; }
-        string[] QuestionViewNames { get; }
+        
         string[] QuestionPurposeNames { get; }
     }
 }

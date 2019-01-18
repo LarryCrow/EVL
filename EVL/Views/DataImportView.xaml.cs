@@ -35,8 +35,6 @@ namespace EVL.Views
 
             ProjectList.ItemsSource = viewState.Projects;
             QuestionsTable.ItemsSource = viewState.Questions;
-            TypeComboBox.ItemsSource = viewState.QuestionTypeNames;
-            ViewComboBox.ItemsSource = viewState.QuestionViewNames;
             PurposeComboBox.ItemsSource = viewState.QuestionPurposeNames;
         }
 
@@ -61,8 +59,6 @@ namespace EVL.Views
             bool segment = viewState.Questions.Any(q => q.QuestionPurposeName == QuestionPurposeNames.Segment);
             bool client = viewState.Questions.Any(q => q.QuestionPurposeName == QuestionPurposeNames.ClientRating);
 
-            bool everyoneHasType = viewState.Questions.All(q => !string.IsNullOrWhiteSpace(q.QuestionTypeName));
-
             if (segment != true && client != true)
             {
                 MessageBox.Show("Выберите поля для сегментирования и формирования клиентской базы." +
@@ -80,7 +76,7 @@ namespace EVL.Views
             {
                 try
                 {
-                    controller.ImportData(viewState.Questions);
+                    controller.ImportData(1, viewState.Questions);
                     MessageBox.Show("Данные импортированы");
                 }
                 catch(InvalidOperationException ex)

@@ -62,10 +62,9 @@
                     <DataGrid x:Name="QuestionsTable" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Название свойства" Binding="{Binding Name}" />
-                            <DataGridComboBoxColumn x:Name="TypeComboBox" Header="Тип" SelectedItemBinding="{Binding QuestionTypeName}"/>
-                            <DataGridComboBoxColumn x:Name="ViewComboBox" Header="Вид" SelectedItemBinding="{Binding QuestionViewName}"/>
                             <DataGridComboBoxColumn x:Name="PurposeComboBox" Header="Назначение" SelectedItemBinding="{Binding QuestionPurposeName}"/>
-                            <DataGridTextColumn Header="Удельный вес"/>
+                            <DataGridTextColumn Header="Удельный вес" Binding="{Binding Weight}"/>
+                            <DataGridTextColumn Header="Описание" Binding="{Binding Description}"/>
                         </DataGrid.Columns>
                         <DataGrid.Items>
 
