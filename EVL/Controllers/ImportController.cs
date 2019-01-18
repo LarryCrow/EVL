@@ -24,7 +24,7 @@ namespace EVL.Controllers
         }
 
         // move to model
-        public void ParseFile(string filename, string separator, int projectID)
+        public void ParseFile(string filename, string separator)
         {
             using (TextFieldParser parser = new TextFieldParser(filename))
             {
