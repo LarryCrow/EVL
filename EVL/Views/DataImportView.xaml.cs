@@ -51,7 +51,7 @@ namespace EVL.Views
             {
                 FilePathInput.Text = myDialog.FileName;
             }
-            
+
         }
 
         private void ImportBtn_Click(object sender, RoutedEventArgs e)
@@ -74,40 +74,50 @@ namespace EVL.Views
             }
             else
             {
-                try
+                int? projectID = ((Project)ProjectList.SelectedValue)?.Id;
+                bool weights = viewState.Questions
+                    .Where(q => q.QuestionPurposeName == QuestionPurposeNames.ClientRating)
+                    .All(q => q.Weight.HasValue);
+
+                if (!weights)
                 {
-                    controller.ImportData(1, viewState.Questions);
-                    MessageBox.Show("Данные импортированы");
+                    MessageBox.Show("Установите веса для оценок клиента");
                 }
-                catch(InvalidOperationException ex)
+                else if (projectID.HasValue)
                 {
-                    MessageBox.Show(ex.Message);
+                    try
+                    {
+                        controller.ImportData(projectID.Value, viewState.Questions);
+                        MessageBox.Show("Данные импортированы");
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Выберите проект из списка.");
                 }
             }
         }
 
         private void DisplayBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (FilePathInput.Text.ToString().Equals(""))
+            if (string.IsNullOrWhiteSpace(FilePathInput.Text))
             {
                 MessageBox.Show("Выберите файл для импорта");
+                return;
             }
+
             string separator = ChooseSeparator();
-            if (separator.Equals(null))
+            if (separator == null)
             {
                 MessageBox.Show("Выберите разделитель для отображения файла.");
                 return;
             }
-            int projectID = -1;
-            try
-            {
-                projectID = ((Project)ProjectList.SelectedValue).Id;
-            } catch (NullReferenceException ex)
-            {
-                MessageBox.Show("Выберите проект из списка.");
-                return;
-            }
-            controller.ParseFile(FilePathInput.Text, separator, projectID);
+
+            controller.ParseFile(FilePathInput.Text, separator);
         }
 
         private string ChooseSeparator()
@@ -115,19 +125,24 @@ namespace EVL.Views
             if (TabRB.IsChecked == true)
             {
                 return "    ";
-            } else if (SpaceRB.IsChecked == true)
+            }
+            else if (SpaceRB.IsChecked == true)
             {
                 return " ";
-            } else if (PointRB.IsChecked == true)
+            }
+            else if (PointRB.IsChecked == true)
             {
                 return ".";
-            } else if (SemicolonRB.IsChecked == true)
+            }
+            else if (SemicolonRB.IsChecked == true)
             {
                 return ";";
-            } else if (CommaRB.IsChecked == true)
+            }
+            else if (CommaRB.IsChecked == true)
             {
                 return ",";
-            } else if (OtherRB.IsChecked == true)
+            }
+            else if (OtherRB.IsChecked == true)
             {
                 return OtherSeparatorInput.Text.ToString();
             }
