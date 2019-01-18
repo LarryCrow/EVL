@@ -45,9 +45,6 @@ namespace EVL.Controllers
                     QuestionUI q = new QuestionUI
                     {
                         Name = fields[0],
-                        ProjectId = projectID,
-                        QuestionTypeName = fields[1],
-                        QuestionViewName = fields[2],
                         QuestionPurposeName = fields[3]
                     };
 
@@ -59,43 +56,44 @@ namespace EVL.Controllers
             }
         }
 
-        public void ImportData(IEnumerable<QuestionUI> newQuestions)
+        public void ImportData(int projectId, IEnumerable<QuestionUI> newQuestions)
         {
             IEnumerable<string> FindIntersection<K>(IEnumerable<K> source1, IEnumerable<K> source2, Func<K, string> func)
                 => source2.Select(func).Intersect(source1.Select(func));
 
             var untrackedSegments = new List<Segment>();
-            var untrackedQuestions = new List<Question>();
-            
-            
+            var untrackedMetrics = new List<Metric>();
+            var untrackedCharacteristics = new List<Characteristic>();
 
             using (var context = createDbContext())
             {
-                var qps = context.QuestionPurposes.ToDictionary(qp => qp.Name, qp => qp.Id);
-                var qvs = context.QuestionViews.ToDictionary(qv => qv.Name, qv => qv.Id);
-                var qts = context.QuestionTypes.ToDictionary(qt => qt.Name, qt => qt.Id);
-
                 foreach (var q in newQuestions)
                 {
                     switch (q.QuestionPurposeName)
                     {
                         case QuestionPurposeNames.Characteristic:
-                        case QuestionPurposeNames.ClientRating:
-                            untrackedQuestions.Add(new Question
+                            untrackedCharacteristics.Add(new Characteristic
                             {
                                 Name = q.Name,
-                                Weight = q.Weight,
-                                ProjectId = q.ProjectId,
-                                QuestionPurposeId = qps[q.QuestionPurposeName],
-                                QuestionTypeId = qts[q.QuestionTypeName],
-                                QuestionViewId = qvs[q.QuestionViewName]
+                                ProjectId = projectId,
+                                Description = q.Description
+                            });
+                            break;
+                        case QuestionPurposeNames.ClientRating:
+                            untrackedMetrics.Add(new Metric
+                            {
+                                Name = q.Name,
+                                Weight = q.Weight.Value,
+                                ProjectId = projectId,
+                                Description = q.Description
                             });
                             break;
                         case QuestionPurposeNames.Segment:
                             untrackedSegments.Add(new Segment
                             {
                                 Name = q.Name,
-                                ProjectId = q.ProjectId
+                                ProjectId = projectId,
+                                Description = q.Description
                             });
                             break;
                     }
@@ -104,16 +102,22 @@ namespace EVL.Controllers
                 try
                 {
                     context.Segments.AddRange(untrackedSegments);
-                    context.Questions.AddRange(untrackedQuestions);
+                    context.Metrics.AddRange(untrackedMetrics);
+                    context.Characteristics.AddRange(untrackedCharacteristics);
                     context.SaveChanges();
                 }
                 catch (Exception ex)
                 {
-                    var copies1 = FindIntersection(context.Questions, untrackedQuestions, q => q.Name).Select(str => $"Вопрос: {str}");
-                    var copies2 = FindIntersection(context.Segments, untrackedSegments, s => s.Name).Select(str => $"Сегмент: {str}");
+                    var copies1 = FindIntersection(context.Metrics, untrackedMetrics, q => q.Name)
+                        .Select(str => $"{QuestionPurposeNames.ClientRating}: {str}");
+                    var copies2 = FindIntersection(context.Segments, untrackedSegments, s => s.Name)
+                        .Select(str => $"{QuestionPurposeNames.Segment}: {str}");
+                    var copies3 = FindIntersection(context.Characteristics, untrackedCharacteristics, c => c.Name)
+                        .Select(str => $"{QuestionPurposeNames.Characteristic}: {str}");
 
                     throw new InvalidOperationException(
-                        $"Часть элементов уже существует в базе:\n{string.Join(",\n", copies1.Concat(copies2))}", ex);
+                        "Часть элементов уже существует в базе:\n" +
+                        string.Join(",\n", copies1.Concat(copies2).Concat(copies3)), ex);
                 }
             }
         }
