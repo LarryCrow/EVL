@@ -8,24 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <DockPanel>
-            <UniformGrid DockPanel.Dock="Bottom" Columns="3" Background="LightGray">
-                <UniformGrid.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="MinWidth" Value="120"></Setter>
-                        <Setter Property="Margin" Value="10 5"></Setter>
-                    </Style>
-                </UniformGrid.Resources>
-
-                <Button>Добавить в базу</Button>
-                <Button>Рассчитать</Button>
-                <Button>Начать эксперименты</Button>
-            </UniformGrid>
             <Grid Margin="0 2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition MinWidth="300"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
                 <DockPanel>
                     <Grid DockPanel.Dock="Top" Margin="0 2">
                         <Grid.Resources>
@@ -49,24 +32,27 @@
                     </Grid>
                     <Grid Margin="0 2">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
-                        <DataGrid x:Name="AQuestionsTable" Margin="0 0 2 0">
+                        <DataGrid x:Name="QuestionsTable" Margin="0 0 2 0">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Свойство" Binding="{Binding Question.Name}"/>
+                                <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Свойство"/>
+                                <DataGridCheckBoxColumn Width="1*" Header="Ответ"/>
                             </DataGrid.Columns>
                             <DataGrid.Items>
                             </DataGrid.Items>
                         </DataGrid>
-                        <DataGrid x:Name="AAnswersTable" Grid.Column="1" Margin="2 0 0 0">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Ответ" Binding="{Binding Answer.Name}"/>
-                                <DataGridTextColumn Header="avalue" Binding="{Binding Value}"/>
-                            </DataGrid.Columns>
-                            <DataGrid.Items>
-                            </DataGrid.Items>
-                        </DataGrid>
+                        <StackPanel Grid.Column="1">
+                            <StackPanel.Resources>
+                                <Style TargetType="Button">
+                                    <Setter Property="MinWidth" Value="120"></Setter>
+                                    <Setter Property="Margin" Value="10 5"></Setter>
+                                </Style>
+                            </StackPanel.Resources>
+                            <Button>Добавить в базу</Button>
+                            <Button>Рассчитать</Button>
+                        </StackPanel>
                     </Grid>
                 </DockPanel>
             </Grid>

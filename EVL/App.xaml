@@ -4,6 +4,65 @@
              xmlns:local="clr-namespace:EVL"
              Startup="Application_Startup">
     <Application.Resources>
-         
+        <Style x:Key="AddColumnHeaderButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="Transparent" BorderBrush="Transparent" Cursor="Hand">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Content="+"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="EmptyColumnCellStyle" TargetType="Control">
+            <Setter Property="Background" Value="Gray"></Setter>
+            <Setter Property="IsTabStop" Value="False"></Setter>
+        </Style>
+
     </Application.Resources>
+
+    <!--                        
+        =====SAMPLE DATA=====
+        
+        <DataGrid x:Name="SampleGrid" CanUserAddRows="True" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn CanUserResize="False" CellStyle="{StaticResource CellStyle}">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Button Style="{StaticResource HeaderButtonStyle}" Click="AddRow_Click"></Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Свойство1" Binding="{Binding Property1}" Width="*"/>
+                <DataGridTextColumn Header="Свойство2" Binding="{Binding Property2}" Width="*"/>
+            </DataGrid.Columns>
+            <DataGrid.Items>
+            </DataGrid.Items>
+        </DataGrid>         
+    
+        ===== C# =====
+        
+        // on initializing:
+            public SomeView(ViewState viewState, ...)
+            {
+                ...
+                SampleGrid.ItemsSource = viewState.SampleCollection;
+                ...
+            }
+        
+        // on event:
+            public void AddRow_Click(object source, RoutedEventArgs args)
+            {
+                // add empty object to collection
+                viewState.SampleCollection.Add(new SampleObject(/* no params */));
+            }
+    -->
+
 </Application>
