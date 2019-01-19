@@ -59,6 +59,12 @@ namespace EVL.Views
             bool segment = viewState.Questions.Any(q => q.QuestionPurposeName == QuestionPurposeNames.Segment);
             bool client = viewState.Questions.Any(q => q.QuestionPurposeName == QuestionPurposeNames.ClientRating);
 
+            int? projectID = ((Project)ProjectList.SelectedValue)?.Id;
+            bool weights = viewState.Questions
+                .All(q => q.QuestionPurposeName == QuestionPurposeNames.ClientRating
+                          || q.QuestionPurposeName == QuestionPurposeNames.Metric 
+                          && q.Weight.HasValue);
+
             if (segment != true && client != true)
             {
                 MessageBox.Show("Выберите поля для сегментирования и формирования клиентской базы." +
@@ -72,82 +78,57 @@ namespace EVL.Views
             {
                 MessageBox.Show($"Выберите поля для сегментирования. Необходимо присвоить значение \"{QuestionPurposeNames.Segment}\".");
             }
+            else if (!weights)
+            {
+                MessageBox.Show($"Установите веса для объектов типа \"{QuestionPurposeNames.ClientRating}\" и \"{QuestionPurposeNames.Metric}\"");
+            }
+            else if (!projectID.HasValue)
+            {
+                MessageBox.Show("Выберите проект из списка.");
+            }
             else
             {
-                int? projectID = ((Project)ProjectList.SelectedValue)?.Id;
-                bool weights = viewState.Questions
-                    .Where(q => q.QuestionPurposeName == QuestionPurposeNames.ClientRating 
-                                || q.QuestionPurposeName == QuestionPurposeNames.Metric)
-                    .All(q => q.Weight.HasValue);
-
-                if (!weights)
+                try
                 {
-                    MessageBox.Show($"Установите веса для объектов типа \"{QuestionPurposeNames.ClientRating}\" и \"{QuestionPurposeNames.Metric}\"");
+                    controller.ImportData(projectID.Value, viewState.Questions);
+                    MessageBox.Show("Данные импортированы");
                 }
-                else if (projectID.HasValue)
+                catch (InvalidOperationException ex)
                 {
-                    try
-                    {
-                        controller.ImportData(projectID.Value, viewState.Questions);
-                        MessageBox.Show("Данные импортированы");
-                    }
-                    catch (InvalidOperationException ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Выберите проект из списка.");
+                    MessageBox.Show(ex.Message);
                 }
             }
         }
 
         private void DisplayBtn_Click(object sender, RoutedEventArgs e)
         {
+            string separator = ChooseSeparator();
+
             if (string.IsNullOrWhiteSpace(FilePathInput.Text))
             {
                 MessageBox.Show("Выберите файл для импорта");
-                return;
             }
-
-            string separator = ChooseSeparator();
-            if (separator == null)
+            else if (separator == null)
             {
                 MessageBox.Show("Выберите разделитель для отображения файла.");
-                return;
             }
-
-            controller.ParseFile(FilePathInput.Text, separator);
+            else
+            {
+                controller.ParseFile(FilePathInput.Text, separator);
+            }
         }
 
         private string ChooseSeparator()
         {
-            if (TabRB.IsChecked == true)
-            {
-                return "    ";
-            }
-            else if (SpaceRB.IsChecked == true)
-            {
-                return " ";
-            }
-            else if (PointRB.IsChecked == true)
-            {
-                return ".";
-            }
-            else if (SemicolonRB.IsChecked == true)
-            {
-                return ";";
-            }
-            else if (CommaRB.IsChecked == true)
-            {
-                return ",";
-            }
-            else if (OtherRB.IsChecked == true)
-            {
-                return OtherSeparatorInput.Text.ToString();
-            }
-            return null;
+            var os = OtherSeparatorInput.Text;
+
+            return TabRB.IsChecked == true ? "    "
+                : SpaceRB.IsChecked == true ? " "
+                : PointRB.IsChecked == true ? "."
+                : SemicolonRB.IsChecked == true ? ";"
+                : CommaRB.IsChecked == true ? ","
+                : OtherRB.IsChecked == true && !string.IsNullOrEmpty(os) ? os
+                : null;
         }
     }
 }

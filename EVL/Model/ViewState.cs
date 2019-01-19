@@ -11,7 +11,6 @@ namespace EVL.Model
 {
     public class ViewState : IReadOnlyViewState
     {
-        private readonly int projectDisplayingCount = 10;
         public readonly ObservableCollection<Project> projects;
         public readonly ObservableCollection<QuestionUI> questions;
         private int currentProjectID;
@@ -31,7 +30,6 @@ namespace EVL.Model
             PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
-
         ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects => projects.AsReadOnly();
         ReadOnlyObservableCollection<QuestionUI> IReadOnlyViewState.Questions => questions.AsReadOnly();
 
@@ -39,7 +37,7 @@ namespace EVL.Model
 
         private ViewState(DataBaseContext context)
         {
-            this.projects = new ObservableCollection<Project>(context.Projects.Take(projectDisplayingCount));
+            this.projects = new ObservableCollection<Project>(context.Projects);
             this.questions = new ObservableCollection<QuestionUI>();
             this.QuestionPurposeNames = Model.QuestionPurposeNames.All;
             this.currentProjectID = -1;
