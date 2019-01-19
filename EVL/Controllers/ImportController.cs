@@ -31,14 +31,6 @@ namespace EVL.Controllers
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(separator);
 
-                /*if (hasHeader == true && !parser.EndOfData)
-                {
-                    parser.ReadFields();
-                }
-
-                while (parser.LineNumber < startRow && !parser.EndOfData)
-                    parser.ReadFields();*/
-
                 while (!parser.EndOfData)
                 {
                     string[] fields = parser.ReadFields();
@@ -48,10 +40,7 @@ namespace EVL.Controllers
                         QuestionPurposeName = fields[3]
                     };
 
-                    //context.Questions.Add(q);
-                    //context.SaveChanges();
-
-                    viewState.AddQuestion(q);
+                    viewState.questions.Add(q);
                 }
             }
         }

@@ -11,8 +11,8 @@ namespace EVL.Model
     public class ViewState : IReadOnlyViewState
     {
         private readonly int projectDisplayingCount = 10;
-        private readonly ObservableCollection<Project> projects;
-        private readonly ObservableCollection<QuestionUI> questions;
+        public readonly ObservableCollection<Project> projects;
+        public readonly ObservableCollection<QuestionUI> questions;
 
         ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects => projects.AsReadOnly();
         ReadOnlyObservableCollection<QuestionUI> IReadOnlyViewState.Questions => questions.AsReadOnly();
@@ -28,27 +28,6 @@ namespace EVL.Model
 
         public static ViewState RetrieveDataFrom(DataBaseContext context)
             => new ViewState(context);
-
-        public void AddProject(Project p)
-        {
-            if (projects.Count >= projectDisplayingCount)
-            {
-                projects.RemoveAt(0);
-            }
-
-            projects.Add(p);
-        }
-
-        public void AddQuestion(QuestionUI q)
-        {
-            questions.Add(q);
-        }
-
-        public void DeleteProject(Project p)
-        {
-            projects.Remove(p);
-        }
-
 
         //TODO: move or remove
         public int[] GetClientsIndex()
