@@ -75,5 +75,17 @@ namespace EVL.Views
             else
                 MessageBox.Show("Элемент не выбран!");
         }
+
+        private void ChooseProject_Click(object sender, RoutedEventArgs e)
+        {
+            if (ProjectsTable.SelectedItem != null)
+            {
+                controller.ChooseProject(((Project)ProjectsTable.SelectedItem).Id);
+            }
+            else
+            {
+                MessageBox.Show("Выберите проект");
+            }
+        }
     }
 }

@@ -45,5 +45,10 @@ namespace EVL.Controllers
 
             viewState.projects.Remove(p);
         }
+
+        public void ChooseProject(int projectID)
+        {
+            viewState.CurrentProjectID = projectID;
+        }
     }
 }
