@@ -10,7 +10,6 @@ namespace EVL.Model
 {
     public class ViewState : IReadOnlyViewState
     {
-        private readonly int projectDisplayingCount = 10;
         private readonly ObservableCollection<Project> projects;
         private readonly ObservableCollection<QuestionUI> questions;
 
@@ -21,7 +20,7 @@ namespace EVL.Model
 
         private ViewState(DataBaseContext context)
         {
-            this.projects = new ObservableCollection<Project>(context.Projects.Take(projectDisplayingCount));
+            this.projects = new ObservableCollection<Project>(context.Projects);
             this.questions = new ObservableCollection<QuestionUI>();
             this.QuestionPurposeNames = Model.QuestionPurposeNames.All;
         }
@@ -31,11 +30,6 @@ namespace EVL.Model
 
         public void AddProject(Project p)
         {
-            if (projects.Count >= projectDisplayingCount)
-            {
-                projects.RemoveAt(0);
-            }
-
             projects.Add(p);
         }
 
