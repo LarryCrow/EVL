@@ -48,7 +48,7 @@ namespace EVL.Controllers
 
         public void ChooseProject(int projectID)
         {
-            viewState.CurrentProject = projectID;
+            viewState.CurrentProjectID = projectID;
         }
     }
 }
