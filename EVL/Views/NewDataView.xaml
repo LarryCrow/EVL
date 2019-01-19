@@ -35,10 +35,10 @@
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
-                        <DataGrid x:Name="QuestionsTable" Margin="0 0 2 0">
+                        <DataGrid x:Name="QuestionsAnswersTable" Margin="0 0 2 0">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Свойство"/>
-                                <DataGridCheckBoxColumn Width="1*" Header="Ответ"/>
+                                <DataGridComboBoxColumn x:Name="AnswersComboBox" Width="1*" Header="Ответ"/>
                             </DataGrid.Columns>
                             <DataGrid.Items>
                             </DataGrid.Items>
