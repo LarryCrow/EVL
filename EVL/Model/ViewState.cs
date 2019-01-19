@@ -13,7 +13,9 @@ namespace EVL.Model
     {
         public readonly ObservableCollection<Project> projects;
         public readonly ObservableCollection<QuestionUI> questions;
-        public readonly ObservableCollection<QuestionAnswers> questionAnswers;
+        public readonly ObservableCollection<MetricQuestionAnswer> metricQA;
+        public readonly ObservableCollection<CharacteristicQuestionAnswer> characteristicQA;
+        public readonly ObservableCollection<ClientRatingQuestionAnswer> ratingQA;
         private int currentProjectID;
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public int CurrentProjectID
@@ -33,7 +35,9 @@ namespace EVL.Model
 
         ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects => projects.AsReadOnly();
         ReadOnlyObservableCollection<QuestionUI> IReadOnlyViewState.Questions => questions.AsReadOnly();
-        ReadOnlyObservableCollection<QuestionAnswers> IReadOnlyViewState.QuestionAnswers => questionAnswers.AsReadOnly();
+        ReadOnlyObservableCollection<MetricQuestionAnswer> IReadOnlyViewState.MetricQA => metricQA.AsReadOnly();
+        ReadOnlyObservableCollection<CharacteristicQuestionAnswer> IReadOnlyViewState.CharacteristicQA => characteristicQA.AsReadOnly();
+        ReadOnlyObservableCollection<ClientRatingQuestionAnswer> IReadOnlyViewState.ClientRatingQA => ratingQA.AsReadOnly();
 
         public string[] QuestionPurposeNames { get; }
 
@@ -41,7 +45,7 @@ namespace EVL.Model
         {
             this.projects = new ObservableCollection<Project>(context.Projects);
             this.questions = new ObservableCollection<QuestionUI>();
-            this.questionAnswers = new ObservableCollection<QuestionAnswers>();
+            this.metricQA = new ObservableCollection<MetricQuestionAnswer>();
             this.QuestionPurposeNames = Model.QuestionPurposeNames.All;
             this.currentProjectID = -1;
         }

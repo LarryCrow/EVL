@@ -31,9 +31,9 @@ namespace EVL.Views
 
             this.controller = controller;
             this.viewState = viewState;
-            QuestionsAnswersTable.ItemsSource = this.viewState.QuestionAnswers;
+            MetricsTable.ItemsSource = this.viewState.QuestionAnswers;
 
-            this.controller.FillTable();
+            //this.controller.FillTable();
         }
     }
 }

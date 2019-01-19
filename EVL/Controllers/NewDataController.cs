@@ -29,18 +29,40 @@ namespace EVL.Controllers
 
             foreach(Metric m in metrics)
             {
-                IEnumerable<MetricValue> values = context.MetricValues.Where(mv => mv.MetricId == m.Id);
-                Dictionary<int, double> d = new Dictionary<int, double>();
-                foreach(MetricValue mv in values)
+                IEnumerable<MetricValue> mValues = m.MetricValues;
+                List<string> answers = new List<string>();
+                foreach(MetricValue mv in mValues)
                 {
-                    d.Add(mv.Id, mv.Value);
+                    answers.Add(mv.Value.ToString());
                 }
-                viewState.questionAnswers.Add(new QuestionAnswers {
+                viewState.metricQA.Add(new MetricQuestionAnswer {
                     QuestionId = m.Id,
                     QuestionName = m.Name,
                     QuestionDescription = m.Description,
                     QuestionPurposeName = QuestionPurposeNames.Metric,
-                    Answers = new Dictionary<int, double>(d)
+                    Answers = answers
+                });
+            }
+
+            foreach (Characteristic ch in characteristics)
+            {
+                viewState.characteristicQA.Add(new CharacteristicQuestionAnswer
+                {
+                    QuestionId = ch.Id,
+                    QuestionName = ch.Name,
+                    QuestionDescription = ch.Description,
+                    QuestionPurposeName = QuestionPurposeNames.Characteristic
+                });
+            }
+
+            foreach (ClientRating cr in clientsRating)
+            {
+                viewState.ratingQA.Add(new ClientRatingQuestionAnswer
+                {
+                    QuestionId = cr.Id,
+                    QuestionName = cr.Name,
+                    QuestionDescription = cr.Description,
+                    QuestionPurposeName = QuestionPurposeNames.ClientRating
                 });
             }
         }
