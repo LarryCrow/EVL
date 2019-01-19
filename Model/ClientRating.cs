@@ -5,13 +5,15 @@ using System.Text;
 
 namespace Model
 {
-    // название клиента
-    public class Characteristic
+    // оценка клиента
+    public class ClientRating
     {
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
+        public double Weight { get; set; }
 
         public int ProjectId { get; set; }
         public Project Project { get; set; }

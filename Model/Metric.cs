@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Model
 {
+    // свойство
     public class Metric
     {
         [Key]
@@ -16,5 +17,7 @@ namespace Model
 
         public int ProjectId { get; set; }
         public Project Project { get; set; }
+
+        public ICollection<MetricValue> MetricValues { get; set; }
     }
 }

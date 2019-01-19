@@ -53,6 +53,7 @@ namespace EVL.Controllers
             var untrackedSegments = new List<Segment>();
             var untrackedMetrics = new List<Metric>();
             var untrackedCharacteristics = new List<Characteristic>();
+            var untrackedRatings = new List<ClientRating>();
 
             using (var context = createDbContext())
             {
@@ -68,13 +69,23 @@ namespace EVL.Controllers
                                 Description = q.Description
                             });
                             break;
-                        case QuestionPurposeNames.ClientRating:
+                        case QuestionPurposeNames.Metric:
                             untrackedMetrics.Add(new Metric
                             {
                                 Name = q.Name,
                                 Weight = q.Weight.Value,
                                 ProjectId = projectId,
                                 Description = q.Description
+                            });
+                            break;
+
+                        case QuestionPurposeNames.ClientRating:
+                            untrackedRatings.Add(new ClientRating
+                            {
+                                Name = q.Name,
+                                ProjectId = projectId,
+                                Description = q.Description,
+                                Weight = q.Weight.Value
                             });
                             break;
                         case QuestionPurposeNames.Segment:
@@ -93,20 +104,23 @@ namespace EVL.Controllers
                     context.Segments.AddRange(untrackedSegments);
                     context.Metrics.AddRange(untrackedMetrics);
                     context.Characteristics.AddRange(untrackedCharacteristics);
+                    context.ClientRatings.AddRange(untrackedRatings);
                     context.SaveChanges();
                 }
                 catch (Exception ex)
                 {
-                    var copies1 = FindIntersection(context.Metrics, untrackedMetrics, q => q.Name)
+                    var copies1 = FindIntersection(context.ClientRatings, untrackedRatings, q => q.Name)
                         .Select(str => $"{QuestionPurposeNames.ClientRating}: {str}");
                     var copies2 = FindIntersection(context.Segments, untrackedSegments, s => s.Name)
                         .Select(str => $"{QuestionPurposeNames.Segment}: {str}");
                     var copies3 = FindIntersection(context.Characteristics, untrackedCharacteristics, c => c.Name)
                         .Select(str => $"{QuestionPurposeNames.Characteristic}: {str}");
+                    var copies4 = FindIntersection(context.Metrics, untrackedMetrics, q => q.Name)
+                        .Select(str => $"{QuestionPurposeNames.Metric}: {str}");
 
                     throw new InvalidOperationException(
                         "Часть элементов уже существует в базе:\n" +
-                        string.Join(",\n", copies1.Concat(copies2).Concat(copies3)), ex);
+                        string.Join(",\n", copies1.Concat(copies2).Concat(copies3).Concat(copies4)), ex);
                 }
             }
         }
