@@ -61,9 +61,9 @@ namespace EVL.Views
 
             int? projectID = ((Project)ProjectList.SelectedValue)?.Id;
             bool weights = viewState.Questions
-                .All(q => q.QuestionPurposeName == QuestionPurposeNames.ClientRating
-                          || q.QuestionPurposeName == QuestionPurposeNames.Metric 
-                          && q.Weight.HasValue);
+                .Where(q => q.QuestionPurposeName == QuestionPurposeNames.ClientRating
+                          || q.QuestionPurposeName == QuestionPurposeNames.Metric)
+                .All(q => q.Weight.HasValue);
 
             if (segment != true && client != true)
             {
