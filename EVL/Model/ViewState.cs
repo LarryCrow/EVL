@@ -46,6 +46,8 @@ namespace EVL.Model
             this.projects = new ObservableCollection<Project>(context.Projects);
             this.questions = new ObservableCollection<QuestionUI>();
             this.metricQA = new ObservableCollection<MetricQuestionAnswer>();
+            this.characteristicQA = new ObservableCollection<CharacteristicQuestionAnswer>();
+            this.ratingQA = new ObservableCollection<ClientRatingQuestionAnswer>();
             this.QuestionPurposeNames = Model.QuestionPurposeNames.All;
             this.currentProjectID = -1;
         }

@@ -35,7 +35,7 @@ namespace EVL.Views
             CharacteristicTable.ItemsSource = this.viewState.CharacteristicQA;
             RatingsTable.ItemsSource = this.viewState.ClientRatingQA;
 
-            //this.controller.FillTable();
+            this.controller.FillTable();
         }
     }
 }

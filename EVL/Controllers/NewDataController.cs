@@ -31,9 +31,12 @@ namespace EVL.Controllers
             {
                 IEnumerable<MetricValue> mValues = m.MetricValues;
                 List<string> answers = new List<string>();
-                foreach(MetricValue mv in mValues)
+                if (mValues != null)
                 {
-                    answers.Add(mv.Value.ToString());
+                    foreach (MetricValue mv in mValues)
+                    {
+                        answers.Add(mv.Value.ToString());
+                    }
                 }
                 viewState.metricQA.Add(new MetricQuestionAnswer {
                     QuestionId = m.Id,

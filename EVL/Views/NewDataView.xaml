@@ -52,8 +52,8 @@
                             <TextBlock>Характеристики</TextBlock>
                             <DataGrid x:Name="MetricsTable" Width="auto" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Свойство"/>
-                                    <DataGridComboBoxColumn x:Name="MetricsValueComboBox" Width="1*" Header="Ответ"/>
+                                    <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Свойство" Binding="{Binding QuestionName}"/>
+                                    <DataGridComboBoxColumn x:Name="MetricsValueComboBox" Width="1*" Header="Ответ" ItemsSource="{Binding Answers}" SelectedValueBinding="{Binding SelectedAnswer}"/>
                                 </DataGrid.Columns>
                                 <DataGrid.Items>
                                 </DataGrid.Items>
@@ -61,8 +61,8 @@
                             <TextBlock Grid.Column="1">Оценка клиента</TextBlock>
                             <DataGrid x:Name="RatingsTable" Grid.Column="1" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Свойство"/>
-                                    <DataGridTextColumn x:Name="RatingTextBox" Width="1*" Header="Ответ"/>
+                                    <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Свойство" Binding="{Binding QuestionName}"/>
+                                    <DataGridTextColumn x:Name="RatingTextBox" Width="1*" Header="Ответ" Binding="{Binding Answer}"/>
                                 </DataGrid.Columns>
                                 <DataGrid.Items>
                                 </DataGrid.Items>
@@ -70,8 +70,8 @@
                             <TextBlock Grid.Column="2">Информация о клиенте</TextBlock>
                             <DataGrid x:Name="CharacteristicTable" Grid.Column="2" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Свойство"/>
-                                    <DataGridTextColumn x:Name="CharacteristicTextBox" Width="1*" Header="Ответ"/>
+                                    <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Свойство" Binding="{Binding QuestionName}"/>
+                                    <DataGridTextColumn x:Name="CharacteristicTextBox" Width="1*" Header="Ответ" Binding="{Binding Answer}"/>
                                 </DataGrid.Columns>
                                 <DataGrid.Items>
                                 </DataGrid.Items>
