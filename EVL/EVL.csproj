@@ -173,8 +173,10 @@
     <Compile Include="Controllers\NewDataController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\ImportController.cs" />
+    <Compile Include="Model\CharacteristicQuestionAnswer.cs" />
+    <Compile Include="Model\ClientRatingQuestionAnswer.cs" />
     <Compile Include="Model\IReadOnlyViewState.cs" />
-    <Compile Include="Model\QuestionAnswers.cs" />
+    <Compile Include="Model\MetricQuestionAnswers.cs" />
     <Compile Include="Model\QuestionUI.cs" />
     <Compile Include="Model\StringUtils.cs" />
     <Compile Include="Model\ViewState.cs" />

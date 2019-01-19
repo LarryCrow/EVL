@@ -62,9 +62,37 @@ namespace EVL.Controllers
                     QuestionId = cr.Id,
                     QuestionName = cr.Name,
                     QuestionDescription = cr.Description,
+                    QuestionWeight = cr.Weight,
                     QuestionPurposeName = QuestionPurposeNames.ClientRating
                 });
             }
+        }
+
+        public void CalculateLoyalty()
+        {
+            var context = createDbContext();
+            double perceptualLoyalty = CalculatePerceptualLoyalty();
+            double[] conditionalProbabilities = new double[context.Segments.Where(s => s.Id == viewState.CurrentProjectID).Count()];
+            for (int i = 0; i < conditionalProbabilities.Count(); i++)
+            {
+                conditionalProbabilities[i] = CalctulateConditionalProbability();
+            }
+
+        }
+
+        public double CalculatePerceptualLoyalty()
+        {
+            double result = 0;
+            foreach (ClientRatingQuestionAnswer cr in viewState.ratingQA)
+            {
+                result += cr.Answer * cr.QuestionWeight;
+            }
+            return (result / viewState.ratingQA.Count);
+        }
+
+        public double CalctulateConditionalProbability()
+        {
+            return 0;
         }
     }
 }
