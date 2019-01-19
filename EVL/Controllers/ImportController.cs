@@ -106,6 +106,7 @@ namespace EVL.Controllers
                     context.Characteristics.AddRange(untrackedCharacteristics);
                     context.ClientRatings.AddRange(untrackedRatings);
                     context.SaveChanges();
+                    viewState.questions.Clear();
                 }
                 catch (Exception ex)
                 {
