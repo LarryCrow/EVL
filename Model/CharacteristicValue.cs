@@ -2,6 +2,7 @@
 
 namespace Model
 {
+    // название клиента
     public class CharacteristicValue
     {
         [Key]

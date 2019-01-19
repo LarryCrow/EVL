@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Model
 {
+    // клиент
     public class Company
     {
         public int Id { get; set; }

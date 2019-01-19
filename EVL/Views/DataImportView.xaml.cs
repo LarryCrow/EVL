@@ -62,26 +62,27 @@ namespace EVL.Views
             if (segment != true && client != true)
             {
                 MessageBox.Show("Выберите поля для сегментирования и формирования клиентской базы." +
-                    "Необходимо присвоить значение Сегмент и Название клиента.");
+                    $"Необходимо присвоить значение {QuestionPurposeNames.Segment} и {QuestionPurposeNames.Characteristic}.");
             }
             else if (segment == true && client != true)
             {
-                MessageBox.Show("Выберите поля для формирования клиентской базы. Необходимо присвоить значение Название клиента.");
+                MessageBox.Show($"Выберите поля для формирования клиентской базы. Необходимо присвоить значение \"{QuestionPurposeNames.Characteristic}\".");
             }
             else if (segment != true && client == true)
             {
-                MessageBox.Show("Выберите поля для сегментирования. Необходимо присвоить значение Сегмент.");
+                MessageBox.Show($"Выберите поля для сегментирования. Необходимо присвоить значение \"{QuestionPurposeNames.Segment}\".");
             }
             else
             {
                 int? projectID = ((Project)ProjectList.SelectedValue)?.Id;
                 bool weights = viewState.Questions
-                    .Where(q => q.QuestionPurposeName == QuestionPurposeNames.ClientRating)
+                    .Where(q => q.QuestionPurposeName == QuestionPurposeNames.ClientRating 
+                                || q.QuestionPurposeName == QuestionPurposeNames.Metric)
                     .All(q => q.Weight.HasValue);
 
                 if (!weights)
                 {
-                    MessageBox.Show("Установите веса для оценок клиента");
+                    MessageBox.Show($"Установите веса для объектов типа \"{QuestionPurposeNames.ClientRating}\" и \"{QuestionPurposeNames.Metric}\"");
                 }
                 else if (projectID.HasValue)
                 {

@@ -9,8 +9,8 @@ using Model;
 namespace Model.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20190118153145_Initial3")]
-    partial class Initial3
+    [Migration("20190119085945_Add tables")]
+    partial class Addtables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,7 +32,7 @@ namespace Model.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("Name");
+                    b.HasAlternateKey("Name", "ProjectId");
 
                     b.HasIndex("ProjectId");
 
@@ -57,6 +57,49 @@ namespace Model.Migrations
                     b.HasIndex("CompanyId");
 
                     b.ToTable("CharacteristicValues");
+                });
+
+            modelBuilder.Entity("Model.ClientRating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<int>("ProjectId");
+
+                    b.Property<double>("Weight");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Name", "ProjectId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ClientRatings");
+                });
+
+            modelBuilder.Entity("Model.ClientRatingValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ClientRatingId");
+
+                    b.Property<int>("CompanyId");
+
+                    b.Property<double>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientRatingId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("ClientRatingValues");
                 });
 
             modelBuilder.Entity("Model.Company", b =>
@@ -89,7 +132,7 @@ namespace Model.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("Name");
+                    b.HasAlternateKey("Name", "ProjectId");
 
                     b.HasIndex("ProjectId");
 
@@ -125,7 +168,7 @@ namespace Model.Migrations
 
                     b.Property<int>("MetricId");
 
-                    b.Property<double>("Value");
+                    b.Property<int>("Value");
 
                     b.HasKey("Id");
 
@@ -171,7 +214,7 @@ namespace Model.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("Name");
+                    b.HasAlternateKey("Name", "ProjectId");
 
                     b.HasIndex("ProjectId");
 
@@ -195,6 +238,27 @@ namespace Model.Migrations
 
                     b.HasOne("Model.Company", "Company")
                         .WithMany("CharacteristicValues")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Model.ClientRating", b =>
+                {
+                    b.HasOne("Model.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Model.ClientRatingValue", b =>
+                {
+                    b.HasOne("Model.ClientRating", "ClientRating")
+                        .WithMany()
+                        .HasForeignKey("ClientRatingId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Model.Company", "Company")
+                        .WithMany()
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -228,7 +292,7 @@ namespace Model.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Model.Metric", "Metric")
-                        .WithMany()
+                        .WithMany("MetricValues")
                         .HasForeignKey("MetricId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

@@ -15,24 +15,20 @@ namespace EVL.Model
         private readonly ObservableCollection<Project> projects;
         private readonly ObservableCollection<QuestionUI> questions;
         private int currentProjectID;
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public int CurrentProjectID
         {
             get { return currentProjectID; }
             set
             {
                 currentProjectID = value;
-                OnPropertyChanged("CurrentProjectID");
+                OnPropertyChanged(nameof(CurrentProjectID));
             }
         }
 
         protected void OnPropertyChanged(string name)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
+            PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
 

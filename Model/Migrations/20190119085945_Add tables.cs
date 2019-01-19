@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Model.Migrations
 {
-    public partial class Initial3 : Migration
+    public partial class Addtables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,9 +50,32 @@ namespace Model.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Characteristics", x => x.Id);
-                    table.UniqueConstraint("AK_Characteristics_Name", x => x.Name);
+                    table.UniqueConstraint("AK_Characteristics_Name_ProjectId", x => new { x.Name, x.ProjectId });
                     table.ForeignKey(
                         name: "FK_Characteristics_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientRatings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Weight = table.Column<double>(nullable: false),
+                    ProjectId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientRatings", x => x.Id);
+                    table.UniqueConstraint("AK_ClientRatings_Name_ProjectId", x => new { x.Name, x.ProjectId });
+                    table.ForeignKey(
+                        name: "FK_ClientRatings_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
@@ -73,7 +96,7 @@ namespace Model.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Metrics", x => x.Id);
-                    table.UniqueConstraint("AK_Metrics_Name", x => x.Name);
+                    table.UniqueConstraint("AK_Metrics_Name_ProjectId", x => new { x.Name, x.ProjectId });
                     table.ForeignKey(
                         name: "FK_Metrics_Projects_ProjectId",
                         column: x => x.ProjectId,
@@ -96,7 +119,7 @@ namespace Model.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Segments", x => x.Id);
-                    table.UniqueConstraint("AK_Segments_Name", x => x.Name);
+                    table.UniqueConstraint("AK_Segments_Name_ProjectId", x => new { x.Name, x.ProjectId });
                     table.ForeignKey(
                         name: "FK_Segments_Projects_ProjectId",
                         column: x => x.ProjectId,
@@ -133,12 +156,39 @@ namespace Model.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MetricValues",
+                name: "ClientRatingValues",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Value = table.Column<double>(nullable: false),
+                    ClientRatingId = table.Column<int>(nullable: false),
+                    CompanyId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientRatingValues", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClientRatingValues_ClientRatings_ClientRatingId",
+                        column: x => x.ClientRatingId,
+                        principalTable: "ClientRatings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClientRatingValues_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MetricValues",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Value = table.Column<int>(nullable: false),
                     MetricId = table.Column<int>(nullable: false),
                     CompanyId = table.Column<int>(nullable: false)
                 },
@@ -202,6 +252,21 @@ namespace Model.Migrations
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClientRatings_ProjectId",
+                table: "ClientRatings",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientRatingValues_ClientRatingId",
+                table: "ClientRatingValues",
+                column: "ClientRatingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientRatingValues_CompanyId",
+                table: "ClientRatingValues",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Metrics_ProjectId",
                 table: "Metrics",
                 column: "ProjectId");
@@ -238,6 +303,9 @@ namespace Model.Migrations
                 name: "CharacteristicValues");
 
             migrationBuilder.DropTable(
+                name: "ClientRatingValues");
+
+            migrationBuilder.DropTable(
                 name: "MetricValues");
 
             migrationBuilder.DropTable(
@@ -245,6 +313,9 @@ namespace Model.Migrations
 
             migrationBuilder.DropTable(
                 name: "Characteristics");
+
+            migrationBuilder.DropTable(
+                name: "ClientRatings");
 
             migrationBuilder.DropTable(
                 name: "Companies");
