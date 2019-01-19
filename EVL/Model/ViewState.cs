@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace EVL.Model
 {
@@ -13,6 +14,27 @@ namespace EVL.Model
         private readonly int projectDisplayingCount = 10;
         private readonly ObservableCollection<Project> projects;
         private readonly ObservableCollection<QuestionUI> questions;
+        private int currentProjectID;
+        public event PropertyChangedEventHandler PropertyChanged;
+        public int CurrentProjectID
+        {
+            get { return currentProjectID; }
+            set
+            {
+                currentProjectID = value;
+                OnPropertyChanged("CurrentProjectID");
+            }
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
 
         ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects => projects.AsReadOnly();
         ReadOnlyObservableCollection<QuestionUI> IReadOnlyViewState.Questions => questions.AsReadOnly();
@@ -24,6 +46,7 @@ namespace EVL.Model
             this.projects = new ObservableCollection<Project>(context.Projects.Take(projectDisplayingCount));
             this.questions = new ObservableCollection<QuestionUI>();
             this.QuestionPurposeNames = Model.QuestionPurposeNames.All;
+            this.currentProjectID = -1;
         }
 
         public static ViewState RetrieveDataFrom(DataBaseContext context)
@@ -48,7 +71,6 @@ namespace EVL.Model
         {
             projects.Remove(p);
         }
-
 
         //TODO: move or remove
         public int[] GetClientsIndex()

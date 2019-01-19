@@ -62,17 +62,38 @@ namespace EVL
 
         private void DBWinBtn_Click(object sender, RoutedEventArgs e)
         {
-            MainScope.Content = new DataBaseView(model, databaseC);
+            if (model.CurrentProjectID != -1)
+            {
+                MainScope.Content = new DataBaseView(model, databaseC);
+            }
+            else
+            {
+                MessageBox.Show("Выберите проект в окне 'Проекты'");
+            }
         }
 
         private void FactorsWinBtn_Click(object sender, RoutedEventArgs e)
-        {
-            MainScope.Content = new FactorsView(model, factorsC);
+        { 
+            if (model.CurrentProjectID != -1)
+            {
+                MainScope.Content = new FactorsView(model, factorsC);
+            }
+            else
+            {
+                MessageBox.Show("Выберите проект в окне 'Проекты'");
+            }
         }
 
         private void InputWinBtn_Click(object sender, RoutedEventArgs e)
         {
-            MainScope.Content = new NewDataView(model, newdataC);
+            if (model.CurrentProjectID != -1)
+            {
+                MainScope.Content = new NewDataView(model, newdataC);
+            }
+            else
+            {
+                MessageBox.Show("Выберите проект в окне 'Проекты'");
+            }
         }
     }
 }
