@@ -13,6 +13,7 @@ namespace EVL.Model
         private readonly int projectDisplayingCount = 10;
         private readonly ObservableCollection<Project> projects;
         private readonly ObservableCollection<QuestionUI> questions;
+        public int CurrentProject { get; set; } 
 
         ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects => projects.AsReadOnly();
         ReadOnlyObservableCollection<QuestionUI> IReadOnlyViewState.Questions => questions.AsReadOnly();
