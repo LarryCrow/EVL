@@ -11,13 +11,16 @@ namespace EVL.Model
 {
     public class ViewState : IReadOnlyViewState
     {
-        public readonly ObservableCollection<Project> projects;
-        public readonly ObservableCollection<QuestionUI> questions;
-        public readonly ObservableCollection<MetricQuestionAnswer> metricQA;
-        public readonly ObservableCollection<CharacteristicQuestionAnswer> characteristicQA;
-        public readonly ObservableCollection<ClientRatingQuestionAnswer> ratingQA;
+        public readonly ObservableCollection<Project> Projects;
+        public readonly ObservableCollection<QuestionUI> Questions;
+        public readonly ObservableCollection<MetricQuestionAnswer> MetricQA;
+        public readonly ObservableCollection<CharacteristicQuestionAnswer> CharacteristicQA;
+        public readonly ObservableCollection<ClientRatingQuestionAnswer> RatingQA;
         private int currentProjectID;
+
+        
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
         public int CurrentProjectID
         {
             get { return currentProjectID; }
@@ -28,40 +31,31 @@ namespace EVL.Model
             }
         }
 
-        protected void OnPropertyChanged(string name)
+        private void OnPropertyChanged(string name)
         {
             PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
-        ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects => projects.AsReadOnly();
-        ReadOnlyObservableCollection<QuestionUI> IReadOnlyViewState.Questions => questions.AsReadOnly();
-        ReadOnlyObservableCollection<MetricQuestionAnswer> IReadOnlyViewState.MetricQA => metricQA.AsReadOnly();
-        ReadOnlyObservableCollection<CharacteristicQuestionAnswer> IReadOnlyViewState.CharacteristicQA => characteristicQA.AsReadOnly();
-        ReadOnlyObservableCollection<ClientRatingQuestionAnswer> IReadOnlyViewState.ClientRatingQA => ratingQA.AsReadOnly();
+        ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects => Projects.AsReadOnly();
+        ReadOnlyObservableCollection<QuestionUI> IReadOnlyViewState.Questions => Questions.AsReadOnly();
+        ReadOnlyObservableCollection<MetricQuestionAnswer> IReadOnlyViewState.MetricQA => MetricQA.AsReadOnly();
+        ReadOnlyObservableCollection<CharacteristicQuestionAnswer> IReadOnlyViewState.CharacteristicQA => CharacteristicQA.AsReadOnly();
+        ReadOnlyObservableCollection<ClientRatingQuestionAnswer> IReadOnlyViewState.ClientRatingQA => RatingQA.AsReadOnly();
 
         public string[] QuestionPurposeNames { get; }
 
         private ViewState(DataBaseContext context)
         {
-            this.projects = new ObservableCollection<Project>(context.Projects);
-            this.questions = new ObservableCollection<QuestionUI>();
-            this.metricQA = new ObservableCollection<MetricQuestionAnswer>();
-            this.characteristicQA = new ObservableCollection<CharacteristicQuestionAnswer>();
-            this.ratingQA = new ObservableCollection<ClientRatingQuestionAnswer>();
+            this.Projects = new ObservableCollection<Project>(context.Projects);
+            this.Questions = new ObservableCollection<QuestionUI>();
+            this.MetricQA = new ObservableCollection<MetricQuestionAnswer>();
+            this.CharacteristicQA = new ObservableCollection<CharacteristicQuestionAnswer>();
+            this.RatingQA = new ObservableCollection<ClientRatingQuestionAnswer>();
             this.QuestionPurposeNames = Model.QuestionPurposeNames.All;
             this.currentProjectID = -1;
         }
 
         public static ViewState RetrieveDataFrom(DataBaseContext context)
             => new ViewState(context);
-
-        //TODO: move or remove
-        public int[] GetClientsIndex()
-        {
-            return questions
-                .Where(q => q.QuestionPurposeName == Model.QuestionPurposeNames.ClientRating)
-                .Select(questions.IndexOf)
-                .ToArray();
-        }
     }
 }

@@ -4,12 +4,12 @@ using System.Text;
 
 namespace Model
 {
-    public class MetricToSegmentConditionalProbability
+    public class MetricValueToSegmentConditionalProbability
     {
         public int Id { get; set; }
 
-        public int MetricId { get; set; }
-        public Metric Metric { get; set; }
+        public int MetricValueId { get; set; }
+        public MetricValue MetricValue { get; set; }
 
         public int SegmentId { get; set; }
         public Segment Segment { get; set; }

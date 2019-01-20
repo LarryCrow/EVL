@@ -38,7 +38,7 @@ namespace EVL.Controllers
                         answers.Add(mv.Value.ToString());
                     }
                 }
-                viewState.metricQA.Add(new MetricQuestionAnswer {
+                viewState.MetricQA.Add(new MetricQuestionAnswer {
                     QuestionId = m.Id,
                     QuestionName = m.Name,
                     QuestionDescription = m.Description,
@@ -49,7 +49,7 @@ namespace EVL.Controllers
 
             foreach (Characteristic ch in characteristics)
             {
-                viewState.characteristicQA.Add(new CharacteristicQuestionAnswer
+                viewState.CharacteristicQA.Add(new CharacteristicQuestionAnswer
                 {
                     QuestionId = ch.Id,
                     QuestionName = ch.Name,
@@ -60,7 +60,7 @@ namespace EVL.Controllers
 
             foreach (ClientRating cr in clientsRating)
             {
-                viewState.ratingQA.Add(new ClientRatingQuestionAnswer
+                viewState.RatingQA.Add(new ClientRatingQuestionAnswer
                 {
                     QuestionId = cr.Id,
                     QuestionName = cr.Name,
@@ -98,11 +98,11 @@ namespace EVL.Controllers
         private double CalculatePerceptualLoyalty()
         {
             double result = 0;
-            foreach (ClientRatingQuestionAnswer cr in viewState.ratingQA)
+            foreach (ClientRatingQuestionAnswer cr in viewState.RatingQA)
             {
                 result += cr.Answer * cr.QuestionWeight;
             }
-            return (result / viewState.ratingQA.Count);
+            return (result / viewState.RatingQA.Count);
         }
 
         private double CalctulateConditionalProbability(Segment segment, IEnumerable<MetricValue> metricValue)

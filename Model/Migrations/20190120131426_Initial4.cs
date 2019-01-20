@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Model.Migrations
 {
-    public partial class Addtables : Migration
+    public partial class Initial4 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -188,23 +188,42 @@ namespace Model.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Value = table.Column<int>(nullable: false),
-                    MetricId = table.Column<int>(nullable: false),
-                    CompanyId = table.Column<int>(nullable: false)
+                    Value = table.Column<string>(nullable: true),
+                    MetricId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MetricValues", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MetricValues_Companies_CompanyId",
+                        name: "FK_MetricValues_Metrics_MetricId",
+                        column: x => x.MetricId,
+                        principalTable: "Metrics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MetricValueVotes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    MetricValueId = table.Column<int>(nullable: false),
+                    CompanyId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MetricValueVotes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MetricValueVotes_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MetricValues_Metrics_MetricId",
-                        column: x => x.MetricId,
-                        principalTable: "Metrics",
+                        name: "FK_MetricValueVotes_MetricValues_MetricValueId",
+                        column: x => x.MetricValueId,
+                        principalTable: "MetricValues",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -215,7 +234,7 @@ namespace Model.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    MetricId = table.Column<int>(nullable: false),
+                    MetricValueId = table.Column<int>(nullable: false),
                     SegmentId = table.Column<int>(nullable: false),
                     ConditionalProbability = table.Column<double>(nullable: false)
                 },
@@ -223,9 +242,9 @@ namespace Model.Migrations
                 {
                     table.PrimaryKey("PK_Probabilities", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Probabilities_Metrics_MetricId",
-                        column: x => x.MetricId,
-                        principalTable: "Metrics",
+                        name: "FK_Probabilities_MetricValues_MetricValueId",
+                        column: x => x.MetricValueId,
+                        principalTable: "MetricValues",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -272,19 +291,24 @@ namespace Model.Migrations
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MetricValues_CompanyId",
-                table: "MetricValues",
-                column: "CompanyId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_MetricValues_MetricId",
                 table: "MetricValues",
                 column: "MetricId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Probabilities_MetricId",
+                name: "IX_MetricValueVotes_CompanyId",
+                table: "MetricValueVotes",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MetricValueVotes_MetricValueId",
+                table: "MetricValueVotes",
+                column: "MetricValueId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Probabilities_MetricValueId",
                 table: "Probabilities",
-                column: "MetricId");
+                column: "MetricValueId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Probabilities_SegmentId",
@@ -306,7 +330,7 @@ namespace Model.Migrations
                 name: "ClientRatingValues");
 
             migrationBuilder.DropTable(
-                name: "MetricValues");
+                name: "MetricValueVotes");
 
             migrationBuilder.DropTable(
                 name: "Probabilities");
@@ -321,10 +345,13 @@ namespace Model.Migrations
                 name: "Companies");
 
             migrationBuilder.DropTable(
-                name: "Metrics");
+                name: "MetricValues");
 
             migrationBuilder.DropTable(
                 name: "Segments");
+
+            migrationBuilder.DropTable(
+                name: "Metrics");
 
             migrationBuilder.DropTable(
                 name: "Projects");

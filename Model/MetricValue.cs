@@ -10,12 +10,11 @@ namespace Model
     {
         [Key]
         public int Id { get; set; }
-        public int Value { get; set; }
+        public string Value { get; set; }
 
         public int MetricId { get; set; }
         public Metric Metric { get; set; }
 
-        public int CompanyId { get; set; }
-        public Company Company { get; set; }
+        public ICollection<MetricValueToSegmentConditionalProbability> Probabilities { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Model
+﻿using System.Collections.Generic;
+
+namespace Model
 {
     public class Segment
     {
@@ -10,5 +12,7 @@
 
         public int ProjectId { get; set; }
         public Project Project { get; set; }
+
+        public ICollection<MetricValueToSegmentConditionalProbability> Probabilities { get; set; }
     }
 }

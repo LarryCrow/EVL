@@ -40,7 +40,7 @@ namespace EVL.Controllers
                         QuestionPurposeName = fields[3]
                     };
 
-                    viewState.questions.Add(q);
+                    viewState.Questions.Add(q);
                 }
             }
         }
@@ -106,7 +106,7 @@ namespace EVL.Controllers
                     context.Characteristics.AddRange(untrackedCharacteristics);
                     context.ClientRatings.AddRange(untrackedRatings);
                     context.SaveChanges();
-                    viewState.questions.Clear();
+                    viewState.Questions.Clear();
                 }
                 catch (Exception ex)
                 {

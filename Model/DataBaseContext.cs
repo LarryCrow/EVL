@@ -13,11 +13,12 @@ namespace Model
 
         public DbSet<MetricValue> MetricValues { get; set; }
         public DbSet<Metric> Metrics { get; set; }
+        public DbSet<MetricValueVote> MetricValueVotes { get; set; }
         public DbSet<ClientRatingValue> ClientRatingValues { get; set; }
         public DbSet<ClientRating> ClientRatings { get; set; }
         public DbSet<Characteristic> Characteristics { get; set; }
         public DbSet<CharacteristicValue> CharacteristicValues { get; set; }
-        public DbSet<MetricToSegmentConditionalProbability> Probabilities { get; set; }
+        public DbSet<MetricValueToSegmentConditionalProbability> Probabilities { get; set; }
 
         public DbSet<Segment> Segments { get; set; }
         public DbSet<Company> Companies { get; set; }

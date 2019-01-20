@@ -54,13 +54,13 @@ namespace EVL.Views
                     Date = date
                 };
 
-                List<MetricValue> mv = new List<MetricValue>();
+                List<MetricValueVote> mv = new List<MetricValueVote>();
                 foreach (MetricQuestionAnswer metricQA in viewState.MetricQA)
                 {
-                    mv.Add(new MetricValue()
+                    mv.Add(new MetricValueVote()
                     {
-                        Value = Convert.ToInt32(metricQA.SelectedAnswer),
-                        MetricId = metricQA.QuestionId,
+                        MetricValue = new MetricValue { Value = metricQA.SelectedAnswer }
+                        //MetricId = metricQA.QuestionId,
                         // TODO CompanyID?
                     });
                 }
@@ -88,12 +88,13 @@ namespace EVL.Views
                     });
                 }
 
-                c.MetricValues = mv;
-                c.ClientRatingValue = crv;
+                c.MetricValueVotes = mv;
+                c.ClientRatingValues = crv;
                 c.CharacteristicValues = cv;
 
                 controller.AddToDataBase(c);
-            } else
+            }
+            else
             {
                 MessageBox.Show("Введите дату в корректном формате.\nНапример: "
                                 + string.Join(" или ", dateFormats));
