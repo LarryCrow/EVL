@@ -26,45 +26,31 @@ namespace EVL
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly MainController mainController;
         private readonly IReadOnlyViewState model;
-        private readonly ImportController importC;
-        private readonly ProjectController projectC;
-        private readonly DataBaseController databaseC;
-        private readonly FactorsController factorsC;
-        private readonly NewDataController newdataC;
 
-        public MainWindow(
-            IReadOnlyViewState model,
-            ImportController importC,
-            ProjectController projectC,
-            DataBaseController databaseC,
-            FactorsController factorsC,
-            NewDataController newdataC)
+        public MainWindow(IReadOnlyViewState model, MainController mainController)
         {
             InitializeComponent();
+            this.mainController = mainController;
             this.model = model;
-            this.importC = importC;
-            this.projectC = projectC;
-            this.databaseC = databaseC;
-            this.factorsC = factorsC;
-            this.newdataC = newdataC;
         }
 
         private void ImportWinBtn_Click(object sender, RoutedEventArgs e)
         {
-            MainScope.Content = new DataImportView(model, importC);
+            MainScope.Content = mainController.CreateDataImportView();
         }
 
         private void ProjectsWinBtn_Click(object sender, RoutedEventArgs e)
         {
-            MainScope.Content = new ProjectsView(model, projectC);
+            MainScope.Content = mainController.CreateProjectsView();
         }
 
         private void DBWinBtn_Click(object sender, RoutedEventArgs e)
         {
             if (model.CurrentProjectID != -1)
             {
-                MainScope.Content = new DataBaseView(model, databaseC);
+                MainScope.Content = mainController.CreateDataBaseView();
             }
             else
             {
@@ -76,7 +62,7 @@ namespace EVL
         { 
             if (model.CurrentProjectID != -1)
             {
-                MainScope.Content = new FactorsView(model, factorsC);
+                MainScope.Content = mainController.CreateFactorsView(model.CurrentProjectID);
             }
             else
             {
@@ -88,7 +74,7 @@ namespace EVL
         {
             if (model.CurrentProjectID != -1)
             {
-                MainScope.Content = new NewDataView(model, newdataC);
+                MainScope.Content = mainController.CreateNewDataView();
             }
             else
             {

@@ -32,7 +32,7 @@ namespace EVL.Controllers
                 context.SaveChanges();
             }
 
-            viewState.projects.Add(p);
+            viewState.Projects.Add(p);
         }
 
         public void DeleteProject(Project p)
@@ -43,7 +43,7 @@ namespace EVL.Controllers
                 context.SaveChanges();
             }
 
-            viewState.projects.Remove(p);
+            viewState.Projects.Remove(p);
         }
 
         public void ChooseProject(int projectID)

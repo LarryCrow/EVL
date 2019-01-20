@@ -12,6 +12,7 @@ namespace Model
         public DateTime Date { get; set; }
 
         public ICollection<CharacteristicValue> CharacteristicValues { get; set; }
-        public ICollection<MetricValue> MetricValues { get; set; }
+        public ICollection<MetricValueVote> MetricValueVotes { get; set; }
+        public ICollection<ClientRatingValue> ClientRatingValues { get; set; }
     }
 }

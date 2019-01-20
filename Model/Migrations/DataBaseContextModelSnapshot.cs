@@ -137,44 +137,58 @@ namespace Model.Migrations
                     b.ToTable("Metrics");
                 });
 
-            modelBuilder.Entity("Model.MetricToSegmentConditionalProbability", b =>
+            modelBuilder.Entity("Model.MetricValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("MetricId");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MetricId");
+
+                    b.ToTable("MetricValues");
+                });
+
+            modelBuilder.Entity("Model.MetricValueToSegmentConditionalProbability", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<double>("ConditionalProbability");
 
-                    b.Property<int>("MetricId");
+                    b.Property<int>("MetricValueId");
 
                     b.Property<int>("SegmentId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MetricId");
+                    b.HasIndex("MetricValueId");
 
                     b.HasIndex("SegmentId");
 
                     b.ToTable("Probabilities");
                 });
 
-            modelBuilder.Entity("Model.MetricValue", b =>
+            modelBuilder.Entity("Model.MetricValueVote", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("CompanyId");
 
-                    b.Property<int>("MetricId");
-
-                    b.Property<int>("Value");
+                    b.Property<int>("MetricValueId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
 
-                    b.HasIndex("MetricId");
+                    b.HasIndex("MetricValueId");
 
-                    b.ToTable("MetricValues");
+                    b.ToTable("MetricValueVotes");
                 });
 
             modelBuilder.Entity("Model.Project", b =>
@@ -256,7 +270,7 @@ namespace Model.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Model.Company", "Company")
-                        .WithMany()
+                        .WithMany("ClientRatingValues")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -269,11 +283,19 @@ namespace Model.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Model.MetricToSegmentConditionalProbability", b =>
+            modelBuilder.Entity("Model.MetricValue", b =>
                 {
                     b.HasOne("Model.Metric", "Metric")
-                        .WithMany()
+                        .WithMany("MetricValues")
                         .HasForeignKey("MetricId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Model.MetricValueToSegmentConditionalProbability", b =>
+                {
+                    b.HasOne("Model.MetricValue", "MetricValue")
+                        .WithMany()
+                        .HasForeignKey("MetricValueId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Model.Segment", "Segment")
@@ -282,16 +304,16 @@ namespace Model.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Model.MetricValue", b =>
+            modelBuilder.Entity("Model.MetricValueVote", b =>
                 {
                     b.HasOne("Model.Company", "Company")
-                        .WithMany("MetricValues")
+                        .WithMany("MetricValueVotes")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Model.Metric", "Metric")
-                        .WithMany("MetricValues")
-                        .HasForeignKey("MetricId")
+                    b.HasOne("Model.MetricValue", "MetricValue")
+                        .WithMany()
+                        .HasForeignKey("MetricValueId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

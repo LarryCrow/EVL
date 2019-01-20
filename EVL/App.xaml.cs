@@ -33,13 +33,7 @@ namespace EVL
 
             var viewState = ViewState.RetrieveDataFrom(CreateDbContext());
 
-            var projectC = new ProjectController(viewState, CreateDbContext);
-            var importC = new ImportController(viewState, CreateDbContext);
-            var databaseC = new DataBaseController(viewState, CreateDbContext);
-            var factorsC = new FactorsController(viewState, CreateDbContext);
-            var newdataC = new NewDataController(viewState, CreateDbContext);
-
-            var view = new MainWindow(viewState, importC, projectC, databaseC, factorsC, newdataC);
+            var view = new MainWindow(viewState, new MainController(viewState, CreateDbContext));
 
             view.ShowDialog();
         }

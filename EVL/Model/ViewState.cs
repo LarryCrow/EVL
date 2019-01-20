@@ -11,10 +11,12 @@ namespace EVL.Model
 {
     public class ViewState : IReadOnlyViewState
     {
-        public readonly ObservableCollection<Project> projects;
-        public readonly ObservableCollection<QuestionUI> questions;
         private int currentProjectID;
+
+        public readonly ObservableCollection<Project> Projects;
+        public readonly ObservableCollection<QuestionUI> Questions;
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
         public int CurrentProjectID
         {
             get { return currentProjectID; }
@@ -25,34 +27,25 @@ namespace EVL.Model
             }
         }
 
-        protected void OnPropertyChanged(string name)
+        private void OnPropertyChanged(string name)
         {
             PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
-        ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects => projects.AsReadOnly();
-        ReadOnlyObservableCollection<QuestionUI> IReadOnlyViewState.Questions => questions.AsReadOnly();
+        ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects => Projects.AsReadOnly();
+        ReadOnlyObservableCollection<QuestionUI> IReadOnlyViewState.Questions => Questions.AsReadOnly();
 
         public string[] QuestionPurposeNames { get; }
 
         private ViewState(DataBaseContext context)
         {
-            this.projects = new ObservableCollection<Project>(context.Projects);
-            this.questions = new ObservableCollection<QuestionUI>();
+            this.Projects = new ObservableCollection<Project>(context.Projects);
+            this.Questions = new ObservableCollection<QuestionUI>();
             this.QuestionPurposeNames = Model.QuestionPurposeNames.All;
             this.currentProjectID = -1;
         }
 
         public static ViewState RetrieveDataFrom(DataBaseContext context)
             => new ViewState(context);
-
-        //TODO: move or remove
-        public int[] GetClientsIndex()
-        {
-            return questions
-                .Where(q => q.QuestionPurposeName == Model.QuestionPurposeNames.ClientRating)
-                .Select(questions.IndexOf)
-                .ToArray();
-        }
     }
 }
