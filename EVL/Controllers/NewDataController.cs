@@ -29,7 +29,7 @@ namespace EVL.Controllers
 
             foreach(Metric m in metrics)
             {
-                IEnumerable<MetricValue> mValues = m.MetricValues;
+                IEnumerable<MetricValue> mValues = context.MetricValues.Where(mv => mv.MetricId == m.Id);
                 List<string> answers = new List<string>();
                 if (mValues != null)
                 {
@@ -84,7 +84,7 @@ namespace EVL.Controllers
         {
             var context = createDbContext();
             double perceptualLoyalty = CalculatePerceptualLoyalty();
-            IEnumerable<Segment> segments = context.Segments.Where(s => s.Id == viewState.CurrentProjectID);
+            IEnumerable<Segment> segments = context.Segments.Where(s => s.ProjectId == viewState.CurrentProjectID);
             double[] conditionalProbabilities = new double[segments.Count()];
             for (int i = 0; i < conditionalProbabilities.Count(); i++)
             {

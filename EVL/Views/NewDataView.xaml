@@ -85,8 +85,8 @@
                                     <Setter Property="Margin" Value="10 5"></Setter>
                                 </Style>
                             </StackPanel.Resources>
-                            <Button>Добавить в базу</Button>
-                            <Button>Рассчитать</Button>
+                            <Button x:Name="AddToDB" Click="AddToDB_Click">Добавить в базу</Button>
+                            <Button x:Name="CalculateLoyalty" Click="CalculateLoyalty_Click">Рассчитать</Button>
                         </StackPanel>
                     </Grid>
                 </DockPanel>

@@ -42,7 +42,7 @@ namespace EVL.Views
             this.controller.FillTable();
         }
 
-        public void AddToDataBase()
+        private void AddToDB_Click(object sender, RoutedEventArgs e)
         {
             var (culture, dtstyle) = (CultureInfo.CurrentUICulture, DateTimeStyles.None);
 
@@ -101,7 +101,7 @@ namespace EVL.Views
             }
         }
 
-        public void CalculateLoyalty()
+        private void CalculateLoyalty_Click(object sender, RoutedEventArgs e)
         {
             controller.CalculateLoyalty();
         }
