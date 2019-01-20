@@ -26,9 +26,9 @@
                         </Grid.ColumnDefinitions>
 
                         <Label>Наименование</Label>
-                        <TextBox Grid.Column="1"></TextBox>
+                        <TextBox x:Name="NameInput" Grid.Column="1"></TextBox>
                         <Label Grid.Row="1">Дата</Label>
-                        <DatePicker Grid.Row="1" Grid.Column="1"></DatePicker>
+                        <DatePicker x:Name="DatePicker" Grid.Row="1" Grid.Column="1"></DatePicker>
                     </Grid>
                     <Grid Margin="0 2">
                         <Grid.Resources>

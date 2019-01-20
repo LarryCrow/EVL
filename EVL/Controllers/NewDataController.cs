@@ -71,19 +71,31 @@ namespace EVL.Controllers
             }
         }
 
+        public void AddToDataBase(Company c)
+        {
+            using(var context = createDbContext())
+            {
+                context.Companies.Add(c);
+                context.SaveChanges();
+            }
+        }
+
         public void CalculateLoyalty()
         {
             var context = createDbContext();
             double perceptualLoyalty = CalculatePerceptualLoyalty();
-            double[] conditionalProbabilities = new double[context.Segments.Where(s => s.Id == viewState.CurrentProjectID).Count()];
+            IEnumerable<Segment> segments = context.Segments.Where(s => s.Id == viewState.CurrentProjectID);
+            double[] conditionalProbabilities = new double[segments.Count()];
             for (int i = 0; i < conditionalProbabilities.Count(); i++)
             {
-                conditionalProbabilities[i] = CalctulateConditionalProbability();
+                Segment s = segments.ElementAt(i);
+                // TODO сделать после изменения модели
+                IEnumerable<MetricValue> mv = null;
+                conditionalProbabilities[i] = CalctulateConditionalProbability(segments.ElementAt(i), mv);
             }
-
         }
 
-        public double CalculatePerceptualLoyalty()
+        private double CalculatePerceptualLoyalty()
         {
             double result = 0;
             foreach (ClientRatingQuestionAnswer cr in viewState.ratingQA)
@@ -93,8 +105,9 @@ namespace EVL.Controllers
             return (result / viewState.ratingQA.Count);
         }
 
-        public double CalctulateConditionalProbability()
+        private double CalctulateConditionalProbability(Segment segment, IEnumerable<MetricValue> metricValue)
         {
+            
             return 0;
         }
     }
