@@ -11,6 +11,9 @@ namespace EVL.Model
     {
         ReadOnlyObservableCollection<Project> Projects { get; }
         ReadOnlyObservableCollection<QuestionUI> Questions { get; }
+        ReadOnlyObservableCollection<MetricQuestionAnswer> MetricQA { get; }
+        ReadOnlyObservableCollection<CharacteristicQuestionAnswer> CharacteristicQA { get; }
+        ReadOnlyObservableCollection<ClientRatingQuestionAnswer> ClientRatingQA { get; }
         int CurrentProjectID { set; get; }
 
         string[] QuestionPurposeNames { get; }

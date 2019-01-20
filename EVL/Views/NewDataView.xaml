@@ -26,23 +26,58 @@
                         </Grid.ColumnDefinitions>
 
                         <Label>Наименование</Label>
-                        <TextBox Grid.Column="1"></TextBox>
+                        <TextBox x:Name="NameInput" Grid.Column="1"></TextBox>
                         <Label Grid.Row="1">Дата</Label>
-                        <DatePicker Grid.Row="1" Grid.Column="1"></DatePicker>
+                        <DatePicker x:Name="DatePicker" Grid.Row="1" Grid.Column="1"></DatePicker>
                     </Grid>
                     <Grid Margin="0 2">
+                        <Grid.Resources>
+                            <Style TargetType="DataGrid">
+                                <Setter Property="Margin" Value="5 22 2 0"></Setter>
+                            </Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Margin" Value="7 0 0 0"></Setter>
+                            </Style>
+                        </Grid.Resources>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="5*"/>
                             <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
-                        <DataGrid x:Name="QuestionsTable" Margin="0 0 2 0">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Свойство"/>
-                                <DataGridCheckBoxColumn Width="1*" Header="Ответ"/>
-                            </DataGrid.Columns>
-                            <DataGrid.Items>
-                            </DataGrid.Items>
-                        </DataGrid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock>Характеристики</TextBlock>
+                            <DataGrid x:Name="MetricsTable" Width="auto" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Свойство" Binding="{Binding QuestionName}"/>
+                                    <DataGridComboBoxColumn x:Name="MetricsValueComboBox" Width="1*" Header="Ответ" ItemsSource="{Binding Answers}" SelectedValueBinding="{Binding SelectedAnswer}"/>
+                                </DataGrid.Columns>
+                                <DataGrid.Items>
+                                </DataGrid.Items>
+                            </DataGrid>
+                            <TextBlock Grid.Column="1">Оценка клиента</TextBlock>
+                            <DataGrid x:Name="RatingsTable" Grid.Column="1" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Свойство" Binding="{Binding QuestionName}"/>
+                                    <DataGridTextColumn x:Name="RatingTextBox" Width="1*" Header="Ответ" Binding="{Binding Answer}"/>
+                                </DataGrid.Columns>
+                                <DataGrid.Items>
+                                </DataGrid.Items>
+                            </DataGrid>
+                            <TextBlock Grid.Column="2">Информация о клиенте</TextBlock>
+                            <DataGrid x:Name="CharacteristicTable" Grid.Column="2" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Свойство" Binding="{Binding QuestionName}"/>
+                                    <DataGridTextColumn x:Name="CharacteristicTextBox" Width="1*" Header="Ответ" Binding="{Binding Answer}"/>
+                                </DataGrid.Columns>
+                                <DataGrid.Items>
+                                </DataGrid.Items>
+                            </DataGrid>
+                            
+                        </Grid>
                         <StackPanel Grid.Column="1">
                             <StackPanel.Resources>
                                 <Style TargetType="Button">

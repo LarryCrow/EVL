@@ -17,5 +17,7 @@ namespace Model
 
         public int ProjectId { get; set; }
         public Project Project { get; set; }
+
+        IEnumerable<ClientRatingValue> ClientRatingValues { get; set; }
     }
 }

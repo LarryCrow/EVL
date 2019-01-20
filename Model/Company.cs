@@ -13,5 +13,6 @@ namespace Model
 
         public ICollection<CharacteristicValue> CharacteristicValues { get; set; }
         public ICollection<MetricValue> MetricValues { get; set; }
+        public ICollection<ClientRatingValue> ClientRatingValue { get; set; }
     }
 }
