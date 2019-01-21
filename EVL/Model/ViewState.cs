@@ -13,9 +13,6 @@ namespace EVL.Model
     {
         public readonly ObservableCollection<Project> Projects;
         public readonly ObservableCollection<QuestionUI> Questions;
-        public readonly ObservableCollection<MetricQuestionAnswer> MetricQA;
-        public readonly ObservableCollection<CharacteristicQuestionAnswer> CharacteristicQA;
-        public readonly ObservableCollection<ClientRatingQuestionAnswer> RatingQA;
         private int currentProjectID;
 
         
@@ -38,9 +35,6 @@ namespace EVL.Model
 
         ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects => Projects.AsReadOnly();
         ReadOnlyObservableCollection<QuestionUI> IReadOnlyViewState.Questions => Questions.AsReadOnly();
-        ReadOnlyObservableCollection<MetricQuestionAnswer> IReadOnlyViewState.MetricQA => MetricQA.AsReadOnly();
-        ReadOnlyObservableCollection<CharacteristicQuestionAnswer> IReadOnlyViewState.CharacteristicQA => CharacteristicQA.AsReadOnly();
-        ReadOnlyObservableCollection<ClientRatingQuestionAnswer> IReadOnlyViewState.ClientRatingQA => RatingQA.AsReadOnly();
 
         public string[] QuestionPurposeNames { get; }
 
@@ -48,9 +42,6 @@ namespace EVL.Model
         {
             this.Projects = new ObservableCollection<Project>(context.Projects);
             this.Questions = new ObservableCollection<QuestionUI>();
-            this.MetricQA = new ObservableCollection<MetricQuestionAnswer>();
-            this.CharacteristicQA = new ObservableCollection<CharacteristicQuestionAnswer>();
-            this.RatingQA = new ObservableCollection<ClientRatingQuestionAnswer>();
             this.QuestionPurposeNames = Model.QuestionPurposeNames.All;
             this.currentProjectID = -1;
         }

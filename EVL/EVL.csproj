@@ -181,6 +181,7 @@
     <Compile Include="Model\FactorsViewState.cs" />
     <Compile Include="Model\MetricUI.cs" />
     <Compile Include="Model\MetricValueInfoUI.cs" />
+    <Compile Include="Model\NewDataViewState.cs" />
     <Compile Include="Model\QuestionUI.cs" />
     <Compile Include="Model\SegmentUI.cs" />
     <Compile Include="Model\StringUtils.cs" />

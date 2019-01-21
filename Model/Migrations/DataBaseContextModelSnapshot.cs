@@ -111,6 +111,8 @@ namespace Model.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<double>("PriorLoyalty");
+
                     b.Property<int>("SegmentId");
 
                     b.HasKey("Id");

@@ -14,6 +14,7 @@ namespace Model
         public Segment Segment { get; set; }
         public int SegmentId { get; set; }
 
+        public double PriorLoyalty { get; set; }
         public double Loyalty { get; set; }
 
         public ICollection<CharacteristicValue> CharacteristicValues { get; set; }

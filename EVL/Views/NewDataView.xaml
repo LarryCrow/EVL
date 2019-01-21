@@ -53,7 +53,13 @@
                             <DataGrid x:Name="MetricsTable" Width="auto" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Свойство" Binding="{Binding QuestionName}"/>
-                                    <DataGridComboBoxColumn x:Name="MetricsValueComboBox" Width="1*" Header="Ответ" ItemsSource="{Binding Answers}" SelectedValueBinding="{Binding SelectedAnswer}"/>
+                                    <DataGridTemplateColumn Width="1*" Header="Ответ" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox ItemsSource="{Binding Path=Answers, BindsDirectlyToSource=True}" SelectedItem="{Binding SelectedAnswer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                                 <DataGrid.Items>
                                 </DataGrid.Items>
@@ -85,8 +91,8 @@
                                     <Setter Property="Margin" Value="10 5"></Setter>
                                 </Style>
                             </StackPanel.Resources>
-                            <Button>Добавить в базу</Button>
-                            <Button>Рассчитать</Button>
+                            <Button x:Name="AddToDB" Click="AddToDB_Click">Добавить в базу</Button>
+                            <Button x:Name="CalculateLoyalty" Click="CalculateLoyalty_Click">Рассчитать</Button>
                         </StackPanel>
                     </Grid>
                 </DockPanel>

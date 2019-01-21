@@ -9,8 +9,8 @@ using Model;
 namespace Model.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20190121100236_Initial5")]
-    partial class Initial5
+    [Migration("20190121110420_Initial6")]
+    partial class Initial6
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -112,6 +112,8 @@ namespace Model.Migrations
                     b.Property<double>("Loyalty");
 
                     b.Property<string>("Name");
+
+                    b.Property<double>("PriorLoyalty");
 
                     b.Property<int>("SegmentId");
 

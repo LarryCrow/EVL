@@ -25,74 +25,36 @@ namespace EVL.Views
     public partial class NewDataView : UserControl
     {
         private readonly NewDataController controller;
-        private readonly IReadOnlyViewState viewState;
+        private readonly IReadOnlyNewDataViewState viewState;
 
         private readonly string[] dateFormats = new[] { "dd.MM.yyyy", "dd/MM/yyyy" };
 
-        public NewDataView(IReadOnlyViewState viewState, NewDataController controller)
+        public NewDataView(IReadOnlyNewDataViewState viewState, NewDataController controller)
         {
             InitializeComponent();
 
             this.controller = controller;
             this.viewState = viewState;
+            
+            this.controller.FillTable();
+            
             MetricsTable.ItemsSource = this.viewState.MetricQA;
             CharacteristicTable.ItemsSource = this.viewState.CharacteristicQA;
             RatingsTable.ItemsSource = this.viewState.ClientRatingQA;
-
-            this.controller.FillTable();
         }
 
-        public void AddToDataBase()
+        private void AddToDB_Click(object sender, RoutedEventArgs e)
         {
+            if (viewState.ClientLoyalty == -1)
+            {
+                MessageBox.Show("Сначала требуется рассчитать лояльность");
+                return;
+            }
             var (culture, dtstyle) = (CultureInfo.CurrentUICulture, DateTimeStyles.None);
 
             if (DateTime.TryParseExact(DatePicker.Text, dateFormats, culture, dtstyle, out DateTime date))
             {
-                Company c = new Company()
-                {
-                    Name = NameInput.Text,
-                    Date = date
-                };
-
-                List<MetricValueVote> mv = new List<MetricValueVote>();
-                foreach (MetricQuestionAnswer metricQA in viewState.MetricQA)
-                {
-                    mv.Add(new MetricValueVote()
-                    {
-                        MetricValue = new MetricValue { Value = metricQA.SelectedAnswer }
-                        //MetricId = metricQA.QuestionId,
-                        // TODO CompanyID?
-                    });
-                }
-
-                List<ClientRatingValue> crv = new List<ClientRatingValue>();
-                foreach (ClientRatingQuestionAnswer ratingQA in viewState.ClientRatingQA)
-                {
-                    crv.Add(new ClientRatingValue()
-                    {
-                        Value = ratingQA.Answer,
-                        ClientRatingId = ratingQA.QuestionId,
-                        // TODO CompanyID?
-
-                    });
-                }
-
-                List<CharacteristicValue> cv = new List<CharacteristicValue>();
-                foreach (CharacteristicQuestionAnswer characteristicQA in viewState.CharacteristicQA)
-                {
-                    cv.Add(new CharacteristicValue()
-                    {
-                        Value = characteristicQA.Answer,
-                        CharacteristicId = characteristicQA.QuestionId,
-                        // TODO CompanyID?
-                    });
-                }
-
-                c.MetricValueVotes = mv;
-                c.ClientRatingValues = crv;
-                c.CharacteristicValues = cv;
-
-                controller.AddToDataBase(c);
+                controller.AddToDataBase(NameInput.Text, date);
             }
             else
             {
@@ -101,7 +63,7 @@ namespace EVL.Views
             }
         }
 
-        public void CalculateLoyalty()
+        private void CalculateLoyalty_Click(object sender, RoutedEventArgs e)
         {
             controller.CalculateLoyalty();
         }
