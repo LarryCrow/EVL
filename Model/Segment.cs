@@ -13,6 +13,7 @@ namespace Model
         public int ProjectId { get; set; }
         public Project Project { get; set; }
 
+        public ICollection<Company> Companies { get; set; }
         public ICollection<MetricValueToSegmentConditionalProbability> Probabilities { get; set; }
     }
 }

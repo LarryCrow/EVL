@@ -3,24 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Model.Migrations
 {
-    public partial class Initial4 : Migration
+    public partial class Initial5 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Companies",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true),
-                    Date = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Companies", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
@@ -129,6 +115,75 @@ namespace Model.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MetricValues",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Value = table.Column<string>(nullable: true),
+                    MetricId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MetricValues", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MetricValues_Metrics_MetricId",
+                        column: x => x.MetricId,
+                        principalTable: "Metrics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Companies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    SegmentId = table.Column<int>(nullable: false),
+                    Loyalty = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Companies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Companies_Segments_SegmentId",
+                        column: x => x.SegmentId,
+                        principalTable: "Segments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Probabilities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    MetricValueId = table.Column<int>(nullable: false),
+                    SegmentId = table.Column<int>(nullable: false),
+                    ConditionalProbability = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Probabilities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Probabilities_MetricValues_MetricValueId",
+                        column: x => x.MetricValueId,
+                        principalTable: "MetricValues",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Probabilities_Segments_SegmentId",
+                        column: x => x.SegmentId,
+                        principalTable: "Segments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CharacteristicValues",
                 columns: table => new
                 {
@@ -183,26 +238,6 @@ namespace Model.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MetricValues",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Value = table.Column<string>(nullable: true),
-                    MetricId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MetricValues", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MetricValues_Metrics_MetricId",
-                        column: x => x.MetricId,
-                        principalTable: "Metrics",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MetricValueVotes",
                 columns: table => new
                 {
@@ -224,33 +259,6 @@ namespace Model.Migrations
                         name: "FK_MetricValueVotes_MetricValues_MetricValueId",
                         column: x => x.MetricValueId,
                         principalTable: "MetricValues",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Probabilities",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    MetricValueId = table.Column<int>(nullable: false),
-                    SegmentId = table.Column<int>(nullable: false),
-                    ConditionalProbability = table.Column<double>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Probabilities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Probabilities_MetricValues_MetricValueId",
-                        column: x => x.MetricValueId,
-                        principalTable: "MetricValues",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Probabilities_Segments_SegmentId",
-                        column: x => x.SegmentId,
-                        principalTable: "Segments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -284,6 +292,11 @@ namespace Model.Migrations
                 name: "IX_ClientRatingValues_CompanyId",
                 table: "ClientRatingValues",
                 column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Companies_SegmentId",
+                table: "Companies",
+                column: "SegmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Metrics_ProjectId",
