@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Model.Migrations
 {
-    public partial class Initial5 : Migration
+    public partial class Initial6 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -143,6 +143,7 @@ namespace Model.Migrations
                     Name = table.Column<string>(nullable: true),
                     Date = table.Column<DateTime>(nullable: false),
                     SegmentId = table.Column<int>(nullable: false),
+                    PriorLoyalty = table.Column<double>(nullable: false),
                     Loyalty = table.Column<double>(nullable: false)
                 },
                 constraints: table =>

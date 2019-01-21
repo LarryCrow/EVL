@@ -30,9 +30,10 @@ namespace EVL.Controllers
             return new DataBaseView(viewState, new DataBaseController(viewState, createDbContext));
         }
 
-        public NewDataView CreateNewDataView()
+        public NewDataView CreateNewDataView(int projectId)
         {
-            return new NewDataView(viewState, new NewDataController(viewState, createDbContext));
+            var ndvs = new NewDataViewState(projectId);
+            return new NewDataView(ndvs, new NewDataController(ndvs, createDbContext));
         }
 
         public FactorsView CreateFactorsView(int projectId)

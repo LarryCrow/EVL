@@ -24,6 +24,7 @@ namespace Model
         public DbSet<Company> Companies { get; set; }
         public DbSet<Project> Projects { get; set; }
         
+        // TODO добавить ключи
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Metric>().HasAlternateKey(m => new {m.Name, m.ProjectId});
