@@ -35,11 +35,12 @@ namespace EVL.Views
 
             this.controller = controller;
             this.viewState = viewState;
+            
+            this.controller.FillTable();
+
             MetricsTable.ItemsSource = this.viewState.MetricQA;
             CharacteristicTable.ItemsSource = this.viewState.CharacteristicQA;
             RatingsTable.ItemsSource = this.viewState.ClientRatingQA;
-
-            this.controller.FillTable();
         }
 
         private void AddToDB_Click(object sender, RoutedEventArgs e)
