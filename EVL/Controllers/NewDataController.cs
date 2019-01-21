@@ -91,7 +91,7 @@ namespace EVL.Controllers
                 double[] charProbabilityInSegment = CalctulateCharacteristicProbabilitiesInSegment(segments);
 
                 double fullProbability = GetFullProbability(segments, charProbabilityInSegment);
-                double[] conditionalProbabilities = new double[charProbabilityInSegment.Count() - 1];
+                double[] conditionalProbabilities = new double[charProbabilityInSegment.Count()];
                 for (int i = 0; i < conditionalProbabilities.Count(); i++)
                 {
                     Segment s = segments.ElementAt(i);
@@ -124,7 +124,7 @@ namespace EVL.Controllers
 
         private double[] CalctulateCharacteristicProbabilitiesInSegment(IEnumerable<Segment> segments)
         {
-            double[] result = new double[segments.Count()];
+            double[] result = Enumerable.Repeat((double)1, segments.Count()).ToArray();
             int index = 0;
             foreach (Segment s in segments)
             {
@@ -144,6 +144,16 @@ namespace EVL.Controllers
                 index++;
             }
 
+            return result;
+        }
+
+        private double SegmentLoyalty(Segment s)
+        {
+            double result = 0;
+            using(var context = createDbContext())
+            {
+                IEnumerable<Company> companies = context.Companies.Where(c => c.SegmentID == s.Id); 
+            }
             return result;
         }
     }

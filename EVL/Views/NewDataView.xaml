@@ -56,7 +56,7 @@
                                     <DataGridTemplateColumn Width="1*" Header="Ответ" >
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <ComboBox ItemsSource="{Binding Path=Answers, BindsDirectlyToSource=True}" SelectedItem="{Binding SelectedAnswer, BindsDirectlyToSource=True}"/>
+                                                <ComboBox ItemsSource="{Binding Path=Answers, BindsDirectlyToSource=True}" SelectedItem="{Binding SelectedAnswer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
