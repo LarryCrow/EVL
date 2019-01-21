@@ -82,17 +82,22 @@ namespace EVL.Controllers
 
         public void CalculateLoyalty()
         {
-            var context = createDbContext();
-            double perceptualLoyalty = CalculatePerceptualLoyalty();
-            IEnumerable<Segment> segments = context.Segments.Where(s => s.ProjectId == viewState.CurrentProjectID);
-            double[] conditionalProbabilities = new double[segments.Count()];
-            for (int i = 0; i < conditionalProbabilities.Count(); i++)
+            using (var context = createDbContext())
             {
-                Segment s = segments.ElementAt(i);
-                // TODO сделать после изменения модели
-                IEnumerable<MetricValue> mv = null;
-                conditionalProbabilities[i] = CalctulateConditionalProbability(segments.ElementAt(i), mv);
-            }
+                double perceptualLoyalty = CalculatePerceptualLoyalty();
+
+                IEnumerable<Segment> segments = context.Segments.Where(s => s.ProjectId == viewState.CurrentProjectID);
+
+                double[] charProbabilityInSegment = CalctulateCharacteristicProbabilitiesInSegment(segments);
+
+                double fullProbability = GetFullProbability(segments, charProbabilityInSegment);
+                double[] conditionalProbabilities = new double[charProbabilityInSegment.Count() - 1];
+                for (int i = 0; i < conditionalProbabilities.Count(); i++)
+                {
+                    Segment s = segments.ElementAt(i);
+                    conditionalProbabilities[i] = (charProbabilityInSegment[i] * s.Probability) / fullProbability;
+                }
+            }       
         }
 
         private double CalculatePerceptualLoyalty()
@@ -105,10 +110,41 @@ namespace EVL.Controllers
             return (result / viewState.RatingQA.Count);
         }
 
-        private double CalctulateConditionalProbability(Segment segment, IEnumerable<MetricValue> metricValue)
+        private double GetFullProbability(IEnumerable<Segment> segments, double[] charProbabilityInSegment)
         {
-            
-            return 0;
+            double fullProbability = 0;
+            for (int i = 0; i < charProbabilityInSegment.Count(); i++)
+            {
+                Segment s = segments.ElementAt(i);
+                fullProbability += charProbabilityInSegment[i] * s.Probability;
+            }
+            return fullProbability;
+        }
+
+
+        private double[] CalctulateCharacteristicProbabilitiesInSegment(IEnumerable<Segment> segments)
+        {
+            double[] result = new double[segments.Count()];
+            int index = 0;
+            foreach (Segment s in segments)
+            {
+                var context = createDbContext();
+                IEnumerable<MetricQuestionAnswer> mqa = viewState.MetricQA;
+                List<MetricValue> mv = new List<MetricValue>();
+                foreach (MetricQuestionAnswer m in mqa)
+                {
+                    mv.Add(context.MetricValues.Where(metricV => (metricV.MetricId == m.QuestionId && metricV.Value == m.SelectedAnswer)).First());
+                }
+                foreach (MetricValue m in mv)
+                {
+                    double mvtsProb = context.Probabilities.Where(metricVTS => (m.Id == metricVTS.MetricValueId && metricVTS.SegmentId == s.Id)).First().ConditionalProbability;
+                    result[index] *= mvtsProb;
+                }
+                result[index] /= Math.Pow(s.Probability, mqa.Count() - 1);
+                index++;
+            }
+
+            return result;
         }
     }
 }
