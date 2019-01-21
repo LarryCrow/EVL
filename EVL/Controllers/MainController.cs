@@ -25,9 +25,9 @@ namespace EVL.Controllers
             return new DataImportView(viewState, new ImportController(viewState, createDbContext));
         }
 
-        public DataBaseView CreateDataBaseView()
+        public DataBaseView CreateDataBaseView(int projectId)
         {
-            return new DataBaseView(viewState, new DataBaseController(viewState, createDbContext));
+            return new DataBaseView(new ReadOnlyDatabaseViewState(projectId, createDbContext()));
         }
 
         public NewDataView CreateNewDataView()
