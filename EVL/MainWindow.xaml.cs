@@ -50,7 +50,7 @@ namespace EVL
         {
             if (model.CurrentProjectID != -1)
             {
-                MainScope.Content = mainController.CreateDataBaseView();
+                MainScope.Content = mainController.CreateDataBaseView(model.CurrentProjectID);
             }
             else
             {

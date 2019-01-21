@@ -21,15 +21,20 @@ namespace EVL.Views
     /// </summary>
     public partial class DataBaseView : UserControl
     {
-        private readonly DataBaseController controller;
-        private readonly IReadOnlyViewState viewState;
+        private readonly ReadOnlyDatabaseViewState viewState;
 
-        public DataBaseView(IReadOnlyViewState viewState, DataBaseController controller)
+        public DataBaseView(ReadOnlyDatabaseViewState viewState)
         {
             InitializeComponent();
 
-            this.controller = controller;
             this.viewState = viewState;
+            ClientsTable.ItemsSource = viewState.Companies;
+        }
+
+        private void ClientsTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selected = e.AddedItems.OfType<CompanyUI>().Single();
+            QuestionsTable.ItemsSource = viewState.GetBlanket(selected);
         }
     }
 }

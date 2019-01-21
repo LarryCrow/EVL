@@ -10,40 +10,24 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <DataGrid x:Name="ClientsTable" Margin="5,5,20,0" AutoGenerateColumns="False">
+        <DataGrid x:Name="ClientsTable" Margin="5,5,3,0" IsReadOnly="True" AutoGenerateColumns="False" 
+                  CanUserAddRows="False" SelectionChanged="ClientsTable_SelectionChanged" SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Дата" Binding="{Binding Date}"/>
+                <DataGridTextColumn Header="Наименование" Width="*" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Дата" Width="*" Binding="{Binding DateTime}"/>
+                <DataGridTextColumn Header="Сегмент" Width="*" Binding="{Binding Segment}"/>
+                <DataGridTextColumn Header="Лояльность" Width="*" Binding="{Binding Loyalty}"/>
             </DataGrid.Columns>
-            <DataGrid.Items>
-            </DataGrid.Items>
         </DataGrid>
-        <DataGrid x:Name="SegmentsTable" Grid.Column="1" Margin="0, 5, 5, 0">
+        <DataGrid x:Name="QuestionsTable" Grid.Column="1" Margin="3, 5, 5, 0"
+                  IsReadOnly="True"
+                  AutoGenerateColumns="False" 
+                  CanUserAddRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Сегмент" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Вероятность" Binding="{Binding Date}"/>
+                <DataGridTextColumn Header="Свойство" Width="*" Binding="{Binding QuestionName}"/>
+                <DataGridTextColumn Header="Назначение" Width="*" Binding="{Binding QuestionPurpose}"/>
+                <DataGridTextColumn Header="Ответ" Width="*" Binding="{Binding Answer}"/>
             </DataGrid.Columns>
-            <DataGrid.Items>
-            </DataGrid.Items>
-        </DataGrid>
-        <DataGrid x:Name="QuestionsTable" Grid.Row="1" Margin="5, 5, 20, 0">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Свойство" Binding="{Binding Name}"/>
-            </DataGrid.Columns>
-            <DataGrid.Items>
-            </DataGrid.Items>
-        </DataGrid>
-        <DataGrid x:Name="AnswersTable" Grid.Row="1" Grid.Column="1" Margin="0, 5, 5, 0">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Ответ" Binding="{Binding value}"/>
-                <DataGridTextColumn Header="Вероятность" Binding="{Binding prop}"/>
-            </DataGrid.Columns>
-            <DataGrid.Items>
-            </DataGrid.Items>
         </DataGrid>
     </Grid>
 </UserControl>
