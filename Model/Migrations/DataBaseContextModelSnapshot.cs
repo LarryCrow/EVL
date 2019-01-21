@@ -107,9 +107,15 @@ namespace Model.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<double>("Loyalty");
+
                     b.Property<string>("Name");
 
+                    b.Property<int>("SegmentId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SegmentId");
 
                     b.ToTable("Companies");
                 });
@@ -275,6 +281,14 @@ namespace Model.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Model.Company", b =>
+                {
+                    b.HasOne("Model.Segment", "Segment")
+                        .WithMany("Companies")
+                        .HasForeignKey("SegmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Model.Metric", b =>
                 {
                     b.HasOne("Model.Project", "Project")
@@ -294,12 +308,12 @@ namespace Model.Migrations
             modelBuilder.Entity("Model.MetricValueToSegmentConditionalProbability", b =>
                 {
                     b.HasOne("Model.MetricValue", "MetricValue")
-                        .WithMany()
+                        .WithMany("Probabilities")
                         .HasForeignKey("MetricValueId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Model.Segment", "Segment")
-                        .WithMany()
+                        .WithMany("Probabilities")
                         .HasForeignKey("SegmentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
