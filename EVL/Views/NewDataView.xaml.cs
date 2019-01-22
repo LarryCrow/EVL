@@ -50,6 +50,10 @@ namespace EVL.Views
                 MessageBox.Show("Сначала требуется рассчитать лояльность");
                 return;
             }
+            if (NameInput.Text == "")
+            {
+                MessageBox.Show("Заполните поле 'Наименование'");
+            }
             var (culture, dtstyle) = (CultureInfo.CurrentUICulture, DateTimeStyles.None);
 
             if (DateTime.TryParseExact(DatePicker.Text, dateFormats, culture, dtstyle, out DateTime date))
@@ -65,7 +69,24 @@ namespace EVL.Views
 
         private void CalculateLoyalty_Click(object sender, RoutedEventArgs e)
         {
-            controller.CalculateLoyalty();
+            bool metricsValue = viewState.MetricQA.All(m => m.SelectedAnswer != null);
+            bool clientRatingsValue = viewState.ClientRatingQA.All(cr => cr.Answer > 0 && cr.Answer < 10);
+            bool characteristicsValue = viewState.CharacteristicQA.All(ch => ch.Answer != null);
+
+            if (metricsValue == false || clientRatingsValue == false || characteristicsValue == false)
+            {
+                string message = "Пожалуйста, ответьте на все вопросы в таблицах:" +
+                    (metricsValue == false ? "\nХарактеристика" : "") +
+                    (clientRatingsValue == false ? "\nОценка клиента" : "") +
+                    (characteristicsValue == false ? "\nИнформация о клиенте" : "");
+
+                MessageBox.Show(message);
+            }
+            else
+            {
+                controller.CalculateLoyalty();
+            }
+
         }
     }
 }
