@@ -78,14 +78,14 @@ namespace EVL.Views
         private void CalculateLoyalty_Click(object sender, RoutedEventArgs e)
         {
             bool metricsValue = viewState.MetricQA.All(m => m.SelectedAnswer != null);
-            bool clientRatingsValue = viewState.ClientRatingQA.All(cr => cr.Answer > 0 && cr.Answer < 10);
+            bool clientRatingsValue = viewState.ClientRatingQA.All(cr => cr.Answer > 0 && cr.Answer <= 10);
             bool characteristicsValue = viewState.CharacteristicQA.All(ch => ch.Answer != null);
 
             if (metricsValue == false || clientRatingsValue == false || characteristicsValue == false)
             {
                 string message = "Пожалуйста, ответьте на все вопросы в таблицах:" +
                     (metricsValue == false ? "\nХарактеристика" : "") +
-                    (clientRatingsValue == false ? "\nОценка клиента" : "") +
+                    (clientRatingsValue == false ? "\nОценка клиента(в диапазоне от 1 до 10)" : "") +
                     (characteristicsValue == false ? "\nИнформация о клиенте" : "");
 
                 MessageBox.Show(message);
@@ -93,6 +93,7 @@ namespace EVL.Views
             else
             {
                 controller.CalculateLoyalty();
+                MessageBox.Show("Расчёт проивзедён успешно. Лояльность клиента " + viewState.ClientLoyalty);
             }
 
         }
