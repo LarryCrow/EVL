@@ -58,7 +58,15 @@ namespace EVL.Views
 
             if (DateTime.TryParseExact(DatePicker.Text, dateFormats, culture, dtstyle, out DateTime date))
             {
-                controller.AddToDataBase(NameInput.Text, date);
+                try
+                {
+                    controller.AddToDataBase(NameInput.Text, date);
+                    MessageBox.Show("Добавление прошло успешно");
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("В базе уже имеется элемент с таким наименованием");
+                }
             }
             else
             {

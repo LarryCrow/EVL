@@ -17,6 +17,8 @@ namespace Model
         public double PriorLoyalty { get; set; }
         public double Loyalty { get; set; }
 
+        public int ProjectID { get; set; }
+
         public ICollection<CharacteristicValue> CharacteristicValues { get; set; }
         public ICollection<MetricValueVote> MetricValueVotes { get; set; }
         public ICollection<ClientRatingValue> ClientRatingValues { get; set; }

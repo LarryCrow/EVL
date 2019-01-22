@@ -32,6 +32,7 @@ namespace Model
             modelBuilder.Entity<Characteristic>().HasAlternateKey(ch => new { ch.Name, ch.ProjectId });
             modelBuilder.Entity<Segment>().HasAlternateKey(s => new { s.Name, s.ProjectId });
             modelBuilder.Entity<Project>().HasAlternateKey(p => p.Name);
+            modelBuilder.Entity<Company>().HasAlternateKey(c => new { c.Name, c.ProjectID });
         }
     }
 }

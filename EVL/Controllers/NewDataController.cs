@@ -81,7 +81,8 @@ namespace EVL.Controllers
                     Date = date,
                     Loyalty = viewState.ClientLoyalty,
                     PriorLoyalty = viewState.PriorClientLoyalty,
-                    SegmentId = viewState.SegmentID
+                    SegmentId = viewState.SegmentID,
+                    ProjectID = viewState.ProjectID
                 };
 
                 List<MetricValueVote> mv = new List<MetricValueVote>();

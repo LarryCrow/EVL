@@ -140,15 +140,17 @@ namespace Model.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     SegmentId = table.Column<int>(nullable: false),
                     PriorLoyalty = table.Column<double>(nullable: false),
-                    Loyalty = table.Column<double>(nullable: false)
+                    Loyalty = table.Column<double>(nullable: false),
+                    ProjectID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Companies", x => x.Id);
+                    table.UniqueConstraint("AK_Companies_Name_ProjectID", x => new { x.Name, x.ProjectID });
                     table.ForeignKey(
                         name: "FK_Companies_Segments_SegmentId",
                         column: x => x.SegmentId,

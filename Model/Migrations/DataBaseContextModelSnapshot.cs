@@ -109,13 +109,18 @@ namespace Model.Migrations
 
                     b.Property<double>("Loyalty");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<double>("PriorLoyalty");
+
+                    b.Property<int>("ProjectID");
 
                     b.Property<int>("SegmentId");
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("Name", "ProjectID");
 
                     b.HasIndex("SegmentId");
 
