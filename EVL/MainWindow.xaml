@@ -23,7 +23,6 @@
                     <MenuItem x:Name="FactorsWinBtn" Header="Факторы" Click="FactorsWinBtn_Click"></MenuItem>
                 </MenuItem>
                 <MenuItem x:Name="InputWinBtn" Header="Ввод новой информации" Click="InputWinBtn_Click"></MenuItem>
-                <MenuItem x:Name="AppDescriptionWinBtn" Header="О программе" ></MenuItem>
             </Menu>
 
             <ContentPresenter x:Name="MainScope"

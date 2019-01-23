@@ -1,9 +1,4 @@
-﻿using EVL.Utils;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-
-namespace EVL.Model
+﻿namespace EVL.Model
 {
     public class SegmentUI
     {

@@ -11,7 +11,7 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="5">Название:</TextBlock>
                 <TextBox x:Name ="TitleInput" Width="130" Margin="0 5"></TextBox>
-                <TextBlock Margin="10 5">Дата добаления:</TextBlock>
+                <TextBlock Margin="10 5">Дата добавления:</TextBlock>
                 <TextBox x:Name="DateInput" Width="130" Margin="0 5"></TextBox>
                 <TextBlock Margin="10 5">Описание:</TextBlock>
                 <TextBox x:Name="DescriptionInput" Width="130" Margin="0 5"></TextBox>

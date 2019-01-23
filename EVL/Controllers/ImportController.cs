@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Model;
-using EVL.Views;
 using Microsoft.VisualBasic.FileIO;
 using EVL.Model;
-using Microsoft.EntityFrameworkCore;
-using System.Collections;
 
 namespace EVL.Controllers
 {

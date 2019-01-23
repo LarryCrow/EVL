@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Model;
 using System.Configuration;
-using System.Linq;
 using System.Windows;
 
 namespace EVL
