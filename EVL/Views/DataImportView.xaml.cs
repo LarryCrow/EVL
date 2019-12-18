@@ -23,7 +23,6 @@ namespace EVL.Views
             this.viewState = viewState;
             this.controller = importController;
 
-            ProjectList.ItemsSource = viewState.Projects;
             QuestionsTable.ItemsSource = viewState.Questions;
         }
 
@@ -45,47 +44,14 @@ namespace EVL.Views
 
         private void ImportBtn_Click(object sender, RoutedEventArgs e)
         {
-            bool segment = viewState.Questions.Any(q => q.QuestionPurposeName == QuestionPurposeNames.Segment);
-            bool client = viewState.Questions.Any(q => q.QuestionPurposeName == QuestionPurposeNames.ClientRating);
-
-            int? projectID = ((Project)ProjectList.SelectedValue)?.Id;
-            bool weights = viewState.Questions
-                .Where(q => q.QuestionPurposeName == QuestionPurposeNames.ClientRating
-                          || q.QuestionPurposeName == QuestionPurposeNames.Metric)
-                .All(q => q.Weight.HasValue);
-
-            if (segment != true && client != true)
+            try
             {
-                MessageBox.Show("Выберите поля для сегментирования и формирования клиентской базы." +
-                    $"Необходимо присвоить значение {QuestionPurposeNames.Segment} и {QuestionPurposeNames.Characteristic}.");
+                controller.ImportData(viewState.Questions);
+                MessageBox.Show("Данные импортированы");
             }
-            else if (segment == true && client != true)
+            catch (InvalidOperationException ex)
             {
-                MessageBox.Show($"Выберите поля для формирования клиентской базы. Необходимо присвоить значение \"{QuestionPurposeNames.Characteristic}\".");
-            }
-            else if (segment != true && client == true)
-            {
-                MessageBox.Show($"Выберите поля для сегментирования. Необходимо присвоить значение \"{QuestionPurposeNames.Segment}\".");
-            }
-            else if (!weights)
-            {
-                MessageBox.Show($"Установите веса для объектов типа \"{QuestionPurposeNames.ClientRating}\" и \"{QuestionPurposeNames.Metric}\"");
-            }
-            else if (!projectID.HasValue)
-            {
-                MessageBox.Show("Выберите проект из списка.");
-            }
-            else
-            {
-                try
-                {
-                    controller.ImportData(projectID.Value, viewState.Questions);
-                    MessageBox.Show("Данные импортированы");
-                }
-                catch (InvalidOperationException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                MessageBox.Show(ex.Message);
             }
         }
 

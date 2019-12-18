@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using EVL.Model;
 using EVL.Controllers;
 using System;
+using evl.Model;
 
 namespace EVL.Views
 {
@@ -15,7 +16,7 @@ namespace EVL.Views
         private readonly FactorsController controller;
         private readonly IReadOnlyFactorsViewState viewState;
 
-        private (MetricUI metric, SegmentUI segment) GetSelected()
+        private (ResultUI metric, QuestionUI segment) GetSelected()
             => (MetricsTable.SelectedItem as MetricUI, SegmentsTable.SelectedItem as SegmentUI);
 
         public FactorsView(IReadOnlyFactorsViewState viewState, FactorsController controller)

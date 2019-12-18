@@ -14,14 +14,9 @@
     <Grid>
         <DockPanel>
             <Menu Height="Auto" DockPanel.Dock="Top">
-                <MenuItem Header="Файл">
-                    <MenuItem x:Name="ImportWinBtn" Header="Импорт данных" Click="ImportWinBtn_Click"></MenuItem>
-                </MenuItem>
+                <MenuItem x:Name="ImportWinBtn" Header="Импорт данных" Click="ImportWinBtn_Click"></MenuItem>
                 <MenuItem x:Name="ProjectsWinBtn" Header="Проект" Click="ProjectsWinBtn_Click" ></MenuItem>
-                <MenuItem Header="Раздел статистики" >
-                    <MenuItem x:Name="DBWinBtn" Header="База данных" Click="DBWinBtn_Click" ></MenuItem>
-                    <MenuItem x:Name="FactorsWinBtn" Header="Факторы" Click="FactorsWinBtn_Click"></MenuItem>
-                </MenuItem>
+                <MenuItem x:Name="FactorsWinBtn" Header="Факторы" Click="FactorsWinBtn_Click"></MenuItem>
                 <MenuItem x:Name="InputWinBtn" Header="Ввод новой информации" Click="InputWinBtn_Click"></MenuItem>
             </Menu>
 

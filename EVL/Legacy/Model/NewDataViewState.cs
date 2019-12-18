@@ -4,7 +4,6 @@ using EVL.Utils;
 
 namespace EVL.Model
 {
-
     public interface IReadOnlyNewDataViewState : INotifyPropertyChanged
     {
         ReadOnlyObservableCollection<MetricQuestionAnswer> MetricQA { get; }

@@ -1,16 +1,14 @@
-﻿using Model;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using evl.Model;
 
 namespace EVL.Model
 {
     public interface IReadOnlyViewState : INotifyPropertyChanged
     {
-        ReadOnlyObservableCollection<Project> Projects { get; }
-        
         ReadOnlyObservableCollection<QuestionUI> Questions { get; }
 
-        int CurrentProjectID { set; get; }
+        ReadOnlyObservableCollection<ResultUI> Results { get; }
 
         string[] QuestionPurposeNames { get; }
     }

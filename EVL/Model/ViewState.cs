@@ -1,45 +1,32 @@
-﻿using EVL.Utils;
+﻿using evl.Model;
+using EVL.Utils;
 using Model;
+using Model.Entites;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 
 namespace EVL.Model
 {
     public class ViewState : IReadOnlyViewState
     {
-        public readonly ObservableCollection<Project> Projects;
-        public readonly ObservableCollection<QuestionUI> Questions;
-        private int currentProjectID;
+        public ObservableCollection<QuestionUI> Questions { get; }
 
+        public ObservableCollection<ResultUI> Results { get; }
         
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
-        public int CurrentProjectID
-        {
-            get { return currentProjectID; }
-            set
-            {
-                currentProjectID = value;
-                OnPropertyChanged(nameof(CurrentProjectID));
-            }
-        }
-
-        private void OnPropertyChanged(string name)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(name));
-        }
-
-        ReadOnlyObservableCollection<Project> IReadOnlyViewState.Projects => Projects.AsReadOnly();
         ReadOnlyObservableCollection<QuestionUI> IReadOnlyViewState.Questions => Questions.AsReadOnly();
+
+        ReadOnlyObservableCollection<ResultUI> IReadOnlyViewState.Results => Results.AsReadOnly();
 
         public string[] QuestionPurposeNames { get; }
 
         private ViewState(EvlContext context)
         {
-            this.Projects = new ObservableCollection<Project>(context.Projects);
+            this.Results = new ObservableCollection<ResultUI>(context.Results.Select(r => new ResultUI { Name = r.Name, Probability = r.Probability }));
             this.Questions = new ObservableCollection<QuestionUI>();
             this.QuestionPurposeNames = Model.QuestionPurposeNames.All;
-            this.currentProjectID = -1;
         }
 
         public static ViewState RetrieveDataFrom(EvlContext context)

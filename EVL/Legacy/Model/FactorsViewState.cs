@@ -1,4 +1,5 @@
-﻿using EVL.Utils;
+﻿using evl.Model;
+using EVL.Utils;
 using Microsoft.EntityFrameworkCore;
 using Model;
 using System.Collections.Generic;
@@ -9,8 +10,8 @@ namespace EVL.Model
 {
     public interface IReadOnlyFactorsViewState
     {
-        IReadOnlyCollection<SegmentUI> Segments { get; }
-        IReadOnlyCollection<MetricUI> Metrics { get; }
+        IReadOnlyCollection<QuestionUI> Questions { get; }
+        IReadOnlyCollection<ResultUI> Results { get; }
         IEnumerable<MetricValueUI> GetMetricValues(MetricUI metric);
         ReadOnlyObservableCollection<MetricValueInfoUI> GetMetricValueInfos(MetricUI metric, SegmentUI segment);
     }
@@ -21,7 +22,7 @@ namespace EVL.Model
             ReadOnlyDictionary<SegmentUI, ObservableCollection<MetricValueInfoUI>>> MetricValues
         { get; }
 
-        public IReadOnlyCollection<SegmentUI> Segments { get; }
+        public IReadOnlyCollection<ResultUI> Results { get; }
 
         public int ProjectId { get; }
 
@@ -29,11 +30,9 @@ namespace EVL.Model
         {
             ProjectId = projectId;
 
-            Segments = context.Segments
-                .Where(s => s.ProjectId == projectId)
-                .Select(s => new SegmentUI
+            Results = context.Results
+                .Select(s => new ResultUI
                 {
-                    Id = s.Id,
                     Name = s.Name,
                     Probability = s.Probability
                 })
