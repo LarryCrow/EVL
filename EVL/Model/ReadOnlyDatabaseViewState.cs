@@ -12,7 +12,7 @@ namespace EVL.Model
         public IEnumerable<CompanyUI> Companies { get; }
         private readonly ReadOnlyDictionary<CompanyUI, ReadOnlyCollection<QuestionAnswerUI>> blankets;
 
-        public ReadOnlyDatabaseViewState(int projectId, DataBaseContext context)
+        public ReadOnlyDatabaseViewState(int projectId, EvlContext context)
         {
             this.blankets =
                 (from c in context.Companies

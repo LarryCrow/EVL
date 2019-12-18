@@ -25,7 +25,7 @@ namespace EVL.Model
 
         public int ProjectId { get; }
 
-        public FactorsViewState(int projectId, DataBaseContext context)
+        public FactorsViewState(int projectId, EvlContext context)
         {
             ProjectId = projectId;
 

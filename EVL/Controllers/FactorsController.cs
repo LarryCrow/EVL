@@ -8,9 +8,9 @@ namespace EVL.Controllers
     public class FactorsController
     {
         private readonly FactorsViewState viewState;
-        private readonly Func<DataBaseContext> createDbContext;
+        private readonly Func<EvlContext> createDbContext;
 
-        public FactorsController(FactorsViewState viewState, Func<DataBaseContext> createDbContext)
+        public FactorsController(FactorsViewState viewState, Func<EvlContext> createDbContext)
         {
             this.viewState = viewState;
             this.createDbContext = createDbContext;
@@ -26,7 +26,7 @@ namespace EVL.Controllers
             using (var context = createDbContext())
             {
                 var segmentPairs = Enumerable.Join(
-                        context.Segments,
+                        context.Questions,
                         viewState.Segments,
                         s => s.Id,
                         s => s.Id,

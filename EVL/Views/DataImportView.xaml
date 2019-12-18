@@ -61,10 +61,8 @@
                     </StackPanel>
                     <DataGrid x:Name="QuestionsTable" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Название свойства" Binding="{Binding Name}" />
-                            <DataGridComboBoxColumn x:Name="PurposeComboBox" Header="Назначение" SelectedItemBinding="{Binding QuestionPurposeName}"/>
-                            <DataGridTextColumn Header="Удельный вес" Binding="{Binding Weight}"/>
-                            <DataGridTextColumn Header="Описание" Binding="{Binding Description}"/>
+                            <DataGridTextColumn Header="Название свойства" Binding="{Binding Property}" />
+                            <DataGridTextColumn Header="Описание" Binding="{Binding QuestionText}"/>
                         </DataGrid.Columns>
                         <DataGrid.Items>
 

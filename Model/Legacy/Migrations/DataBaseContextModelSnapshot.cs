@@ -7,7 +7,7 @@ using Model;
 
 namespace Model.Migrations
 {
-    [DbContext(typeof(DataBaseContext))]
+    [DbContext(typeof(EvlContext))]
     partial class DataBaseContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

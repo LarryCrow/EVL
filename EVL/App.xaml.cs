@@ -11,19 +11,19 @@ namespace EVL
     /// <summary>
     /// Логика взаимодействия для App.xaml
     /// </summary>
-    public partial class App : Application, IDesignTimeDbContextFactory<DataBaseContext>
+    public partial class App : Application, IDesignTimeDbContextFactory<EvlContext>
     {
-        private readonly DbContextOptions<DataBaseContext> options;
+        private readonly DbContextOptions<EvlContext> options;
 
         public App()
         {
             var connString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
-            options = new DbContextOptionsBuilder<DataBaseContext>().UseSqlite(connString).Options;
+            options = new DbContextOptionsBuilder<EvlContext>().UseSqlite(connString).Options;
         }
 
         // required for migrations (maybe refactor)
-        public DataBaseContext CreateDbContext(string[] args) => new DataBaseContext(options);
-        private DataBaseContext CreateDbContext() => CreateDbContext(null);
+        public EvlContext CreateDbContext(string[] args) => new EvlContext(options);
+        private EvlContext CreateDbContext() => CreateDbContext(null);
 
 
         private void Application_Startup(object sender, StartupEventArgs e)

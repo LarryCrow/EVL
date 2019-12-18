@@ -4,15 +4,16 @@ using System.Linq;
 using Model;
 using Microsoft.VisualBasic.FileIO;
 using EVL.Model;
+using Model.Entites;
 
 namespace EVL.Controllers
 {
     public class ImportController
     {
-        private ViewState viewState;
-        private readonly Func<DataBaseContext> createDbContext;
+        private readonly ViewState viewState;
+        private readonly Func<EvlContext> createDbContext;
 
-        public ImportController(ViewState viewState, Func<DataBaseContext> createDbContext)
+        public ImportController(ViewState viewState, Func<EvlContext> createDbContext)
         {
             this.viewState = viewState ?? throw new ArgumentNullException("import model is null");
             this.createDbContext = createDbContext;
@@ -29,10 +30,10 @@ namespace EVL.Controllers
                 while (!parser.EndOfData)
                 {
                     string[] fields = parser.ReadFields();
-                    QuestionUI q = new QuestionUI
+                    var q = new QuestionUI
                     {
-                        Name = fields[0],
-                        QuestionPurposeName = fields[3]
+                        Name = fields[1],
+                        QuestionText = fields[2],
                     };
 
                     viewState.Questions.Add(q);
@@ -40,83 +41,30 @@ namespace EVL.Controllers
             }
         }
 
-        public void ImportData(int projectId, IEnumerable<QuestionUI> newQuestions)
+        public void ImportData(IEnumerable<QuestionUI> newQuestions)
         {
             IEnumerable<string> FindIntersection<K>(IEnumerable<K> source1, IEnumerable<K> source2, Func<K, string> func)
                 => source2.Select(func).Intersect(source1.Select(func));
 
-            var untrackedSegments = new List<Segment>();
-            var untrackedMetrics = new List<Metric>();
-            var untrackedCharacteristics = new List<Characteristic>();
-            var untrackedRatings = new List<ClientRating>();
-
             using (var context = createDbContext())
             {
-                foreach (var q in newQuestions)
-                {
-                    switch (q.QuestionPurposeName)
-                    {
-                        case QuestionPurposeNames.Characteristic:
-                            untrackedCharacteristics.Add(new Characteristic
-                            {
-                                Name = q.Name,
-                                ProjectId = projectId,
-                                Description = q.Description
-                            });
-                            break;
-                        case QuestionPurposeNames.Metric:
-                            untrackedMetrics.Add(new Metric
-                            {
-                                Name = q.Name,
-                                Weight = q.Weight.Value,
-                                ProjectId = projectId,
-                                Description = q.Description
-                            });
-                            break;
-
-                        case QuestionPurposeNames.ClientRating:
-                            untrackedRatings.Add(new ClientRating
-                            {
-                                Name = q.Name,
-                                ProjectId = projectId,
-                                Description = q.Description,
-                                Weight = q.Weight.Value
-                            });
-                            break;
-                        case QuestionPurposeNames.Segment:
-                            untrackedSegments.Add(new Segment
-                            {
-                                Name = q.Name,
-                                ProjectId = projectId,
-                                Description = q.Description
-                            });
-                            break;
-                    }
-                }
+                var untrackedQuestions = newQuestions
+                    .Select(q => new Question { Property = q.Name, QuestionText = q.QuestionText })
+                    .ToList();
 
                 try
                 {
-                    context.Segments.AddRange(untrackedSegments);
-                    context.Metrics.AddRange(untrackedMetrics);
-                    context.Characteristics.AddRange(untrackedCharacteristics);
-                    context.ClientRatings.AddRange(untrackedRatings);
+                    context.Questions.AddRange(untrackedQuestions);
                     context.SaveChanges();
                     viewState.Questions.Clear();
                 }
                 catch (Exception ex)
                 {
-                    var copies1 = FindIntersection(context.ClientRatings, untrackedRatings, q => q.Name)
+                    var copies1 = FindIntersection(context.Questions, untrackedQuestions, q => q.Property)
                         .Select(str => $"{QuestionPurposeNames.ClientRating}: {str}");
-                    var copies2 = FindIntersection(context.Segments, untrackedSegments, s => s.Name)
-                        .Select(str => $"{QuestionPurposeNames.Segment}: {str}");
-                    var copies3 = FindIntersection(context.Characteristics, untrackedCharacteristics, c => c.Name)
-                        .Select(str => $"{QuestionPurposeNames.Characteristic}: {str}");
-                    var copies4 = FindIntersection(context.Metrics, untrackedMetrics, q => q.Name)
-                        .Select(str => $"{QuestionPurposeNames.Metric}: {str}");
 
                     throw new InvalidOperationException(
-                        "Часть элементов уже существует в базе:\n" +
-                        string.Join(",\n", copies1.Concat(copies2).Concat(copies3).Concat(copies4)), ex);
+                        "Часть элементов уже существует в базе:\n" + string.Join(",\n", copies1), ex);
                 }
             }
         }

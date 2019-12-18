@@ -34,7 +34,7 @@ namespace EVL.Model
 
         public string[] QuestionPurposeNames { get; }
 
-        private ViewState(DataBaseContext context)
+        private ViewState(EvlContext context)
         {
             this.Projects = new ObservableCollection<Project>(context.Projects);
             this.Questions = new ObservableCollection<QuestionUI>();
@@ -42,7 +42,7 @@ namespace EVL.Model
             this.currentProjectID = -1;
         }
 
-        public static ViewState RetrieveDataFrom(DataBaseContext context)
+        public static ViewState RetrieveDataFrom(EvlContext context)
             => new ViewState(context);
     }
 }

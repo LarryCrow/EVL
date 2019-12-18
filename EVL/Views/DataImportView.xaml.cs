@@ -14,8 +14,8 @@ namespace EVL.Views
     /// </summary>
     public partial class DataImportView : UserControl
     {
-        private IReadOnlyViewState viewState;
-        private ImportController controller;
+        private readonly IReadOnlyViewState viewState;
+        private readonly ImportController controller;
 
         public DataImportView(IReadOnlyViewState viewState, ImportController importController)
         {
@@ -25,7 +25,6 @@ namespace EVL.Views
 
             ProjectList.ItemsSource = viewState.Projects;
             QuestionsTable.ItemsSource = viewState.Questions;
-            PurposeComboBox.ItemsSource = viewState.QuestionPurposeNames;
         }
 
         private void ChooseFileBtn_Click(object sender, RoutedEventArgs e)
@@ -112,7 +111,7 @@ namespace EVL.Views
         {
             var os = OtherSeparatorInput.Text;
 
-            return TabRB.IsChecked == true ? "    "
+            return TabRB.IsChecked == true ? "\t"
                 : SpaceRB.IsChecked == true ? " "
                 : PointRB.IsChecked == true ? "."
                 : SemicolonRB.IsChecked == true ? ";"

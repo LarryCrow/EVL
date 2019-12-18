@@ -8,7 +8,7 @@ using Model;
 
 namespace Model.Migrations
 {
-    [DbContext(typeof(DataBaseContext))]
+    [DbContext(typeof(EvlContext))]
     [Migration("20190122161942_Initial6")]
     partial class Initial6
     {

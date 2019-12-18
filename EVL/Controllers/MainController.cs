@@ -8,9 +8,9 @@ namespace EVL.Controllers
     public class MainController
     {
         private readonly ViewState viewState;
-        private readonly Func<DataBaseContext> createDbContext;
+        private readonly Func<EvlContext> createDbContext;
 
-        public MainController(ViewState viewState, Func<DataBaseContext> createDbContext)
+        public MainController(ViewState viewState, Func<EvlContext> createDbContext)
         {
             this.viewState = viewState;
             this.createDbContext = createDbContext;

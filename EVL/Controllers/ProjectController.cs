@@ -9,10 +9,10 @@ namespace EVL.Controllers
     /// </summary>
     public class ProjectController
     {
-        private readonly Func<DataBaseContext> createDbContext;
+        private readonly Func<EvlContext> createDbContext;
         private readonly ViewState viewState;
 
-        public ProjectController(ViewState viewState, Func<DataBaseContext> createDbContext)
+        public ProjectController(ViewState viewState, Func<EvlContext> createDbContext)
         {
             this.createDbContext = createDbContext;
             this.viewState = viewState;
