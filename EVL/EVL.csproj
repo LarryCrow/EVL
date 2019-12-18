@@ -176,12 +176,13 @@
     <Compile Include="Legacy\Model\CharacteristicQuestionAnswer.cs" />
     <Compile Include="Legacy\Model\ClientRatingQuestionAnswer.cs" />
     <Compile Include="Legacy\Model\CompanyUI.cs" />
-    <Compile Include="Legacy\Model\IReadOnlyViewState.cs" />
+    <Compile Include="Model\IReadOnlyViewState.cs" />
     <Compile Include="Legacy\Model\MetricQuestionAnswers.cs" />
     <Compile Include="Legacy\Model\FactorsViewState.cs" />
     <Compile Include="Legacy\Model\MetricUI.cs" />
     <Compile Include="Legacy\Model\MetricValueInfoUI.cs" />
     <Compile Include="Legacy\Model\NewDataViewState.cs" />
+    <Compile Include="Model\ResultUI.cs" />
     <Compile Include="Model\QuestionUI.cs" />
     <Compile Include="Legacy\Model\SegmentUI.cs" />
     <Compile Include="Legacy\Model\StringUtils.cs" />

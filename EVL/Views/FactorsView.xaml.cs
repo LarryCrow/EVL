@@ -25,7 +25,7 @@ namespace EVL.Views
 
             this.controller = controller;
             this.viewState = viewState;
-            MetricsTable.ItemsSource = viewState.Metrics;
+            MetricsTable.ItemsSource = viewState.Questions;
             SegmentsTable.ItemsSource = viewState.Segments;
         }
 
