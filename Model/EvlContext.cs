@@ -13,5 +13,12 @@ namespace Model
         public DbSet<Question> Questions { get; set; }
 
         public DbSet<Result> Results { get; set; }
+
+        public DbSet<Weight> Weights { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Weight>().HasAlternateKey(w => new { w.ResultId, w.QuestionId });
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Model.Entites
 {
-    public class QuestionToResultWeight
+    public class Weight
     {
         public double PPlus { get; set; }
 

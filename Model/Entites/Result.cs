@@ -14,6 +14,6 @@ namespace Model.Entites
 
         public string Description { get; set; }
 
-        public ICollection<QuestionToResultWeight> Weights { get; set; }
+        public ICollection<Weight> Weights { get; set; }
     }
 }

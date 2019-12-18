@@ -32,38 +32,6 @@ namespace EVL.Views
             RatingsTable.ItemsSource = this.viewState.ClientRatingQA;
         }
 
-        private void AddToDB_Click(object sender, RoutedEventArgs e)
-        {
-            if (viewState.ClientLoyalty == -1)
-            {
-                MessageBox.Show("Сначала требуется рассчитать лояльность");
-                return;
-            }
-            if (NameInput.Text == "")
-            {
-                MessageBox.Show("Заполните поле 'Наименование'");
-            }
-            var (culture, dtstyle) = (CultureInfo.CurrentUICulture, DateTimeStyles.None);
-
-            if (DateTime.TryParseExact(DatePicker.Text, dateFormats, culture, dtstyle, out DateTime date))
-            {
-                try
-                {
-                    controller.AddToDataBase(NameInput.Text, date);
-                    MessageBox.Show("Добавление прошло успешно");
-                }
-                catch(Exception ex)
-                {
-                    MessageBox.Show("В базе уже имеется элемент с таким наименованием");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Введите дату в корректном формате.\nНапример: "
-                                + string.Join(" или ", dateFormats));
-            }
-        }
-
         private void CalculateLoyalty_Click(object sender, RoutedEventArgs e)
         {
             bool metricsValue = viewState.MetricQA.All(m => m.SelectedAnswer != null);
@@ -84,7 +52,6 @@ namespace EVL.Views
                 controller.CalculateLoyalty();
                 MessageBox.Show("Расчёт проивзедён успешно. Лояльность клиента " + viewState.ClientLoyalty);
             }
-
         }
     }
 }

@@ -53,8 +53,6 @@ namespace EVL.Model
                 OnPropertyChanged(nameof(SegmentID));
             }
         }
-
-        public int ProjectID { get; set; }
         
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         
@@ -62,12 +60,11 @@ namespace EVL.Model
         ReadOnlyObservableCollection<CharacteristicQuestionAnswer> IReadOnlyNewDataViewState.CharacteristicQA => CharacteristicQA.AsReadOnly();
         ReadOnlyObservableCollection<ClientRatingQuestionAnswer> IReadOnlyNewDataViewState.ClientRatingQA => RatingQA.AsReadOnly();
 
-        public NewDataViewState(int projectID)
+        public NewDataViewState()
         {
             this.MetricQA = new ObservableCollection<MetricQuestionAnswer>();
             this.CharacteristicQA = new ObservableCollection<CharacteristicQuestionAnswer>();
             this.RatingQA = new ObservableCollection<ClientRatingQuestionAnswer>();
-            this.ProjectID = projectID;
             this.clientLoyalty = -1;
         }
 

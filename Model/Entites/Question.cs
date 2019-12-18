@@ -8,7 +8,7 @@ namespace Model.Entites
     public class Question
     {
         [Key]
-        public int Id { get; internal set; }
+        public int Id { get; set; }
 
         public string Property { get; set; }
 

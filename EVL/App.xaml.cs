@@ -1,5 +1,4 @@
 ﻿using EVL.Controllers;
-using EVL.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Model;
@@ -21,20 +20,15 @@ namespace EVL
             options = new DbContextOptionsBuilder<EvlContext>().UseSqlite(connString).Options;
         }
 
-        // required for migrations (maybe refactor)
-        public EvlContext CreateDbContext(string[] args) => new EvlContext(options);
-        private EvlContext CreateDbContext() => CreateDbContext(null);
-
-
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            using (var model = CreateDbContext()) { model.Database.Migrate(); }
+            using (var model = new EvlContext(options)) { model.Database.Migrate(); }
 
-            var viewState = ViewState.RetrieveDataFrom(CreateDbContext());
-
-            var view = new MainWindow(viewState, new MainController(viewState, CreateDbContext));
-
-            view.ShowDialog();
+            new MainWindow(new MainController(() => new EvlContext(options))).ShowDialog();
         }
+
+        // required for migrations (maybe refactor)
+        EvlContext IDesignTimeDbContextFactory<EvlContext>.CreateDbContext(string[] args) => new EvlContext(options);
+
     }
 }

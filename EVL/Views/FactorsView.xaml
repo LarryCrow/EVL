@@ -9,51 +9,54 @@
         <Grid Margin="0, 0, 0, 50">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="1.6*"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <DataGrid x:Name="SegmentsTable" Grid.ColumnSpan="2" Margin="5" AutoGenerateColumns="False" CanUserAddRows="False"
+            <DataGrid x:Name="QuestionsTable" Margin="2 5" CanUserAddRows="True" AutoGenerateColumns="False"
                       SelectionChanged="Table_SelectionChanged" SelectionMode="Single">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Width="1*" Header="Сегмент" Binding="{Binding Name}"/>
-                    <DataGridTextColumn Width="1.6*" Header="Вероятность" Binding="{Binding Probability}"/>
-                </DataGrid.Columns>
-                <DataGrid.Items>
-                </DataGrid.Items>
-            </DataGrid>
-            <DataGrid x:Name="MetricsTable" Grid.Row="1" Margin="5, 0, 0, 5" AutoGenerateColumns="False"
-                      SelectionChanged="Table_SelectionChanged" SelectionMode="Single">
-                <DataGrid.Columns>
-                    <DataGridTextColumn IsReadOnly="True" Width="1*" Header="Свойство" Binding="{Binding Name}"/>
-                </DataGrid.Columns>
-                <DataGrid.Items>
-                </DataGrid.Items>
-            </DataGrid>
-            <DataGrid x:Name="AnswersTable" Grid.Column="1" Grid.Row="1" Margin="5, 0, 5, 5" CanUserAddRows="True" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn CanUserResize="False" CellStyle="{StaticResource EmptyColumnCellStyle}">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
-                                <Button Style="{StaticResource AddColumnHeaderButtonStyle}" Click="AddRow_Click"></Button>
+                                <Button Style="{StaticResource AddColumnHeaderButtonStyle}" Click="AddQuestion_Click"></Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Width="0.8*" Header="Ответ" Binding="{Binding MetricValue.Value}"/>
-                    <DataGridTextColumn Width="1.25*" Binding="{Binding Probability}">
-                        <DataGridTextColumn.Header>
-                            <TextBlock Text="Вероятность" ToolTip="Вероятность появления ответа на выбранный вопрос в выбранном сегменте"></TextBlock>
-                        </DataGridTextColumn.Header>
-                    </DataGridTextColumn>
+                    <DataGridTextColumn Width="1*" Header="Property" Binding="{Binding Property}"/>
+                    <DataGridTextColumn Width="1.6*" Header="Question text" Binding="{Binding QuestionText}"/>
+                </DataGrid.Columns>
+                <DataGrid.Items>
+                </DataGrid.Items>
+            </DataGrid>
+            <DataGrid x:Name="ResultsTable" Grid.Column="1" Margin="2 5" CanUserAddRows="True" AutoGenerateColumns="False"
+                      SelectionChanged="Table_SelectionChanged" SelectionMode="Single">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn CanUserResize="False" CellStyle="{StaticResource EmptyColumnCellStyle}">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Button Style="{StaticResource AddColumnHeaderButtonStyle}" Click="AddResult_Click"></Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Width="1*" Header="Result name" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Width="1*" Header="Probability" Binding="{Binding Probability}"/>
+                </DataGrid.Columns>
+                <DataGrid.Items>
+                </DataGrid.Items>
+            </DataGrid>
+            <DataGrid x:Name="WeightsTable" Grid.Column="2" Margin="2 5" CanUserAddRows="False" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Header="rid" Binding="{Binding ResultId}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="qid" Binding="{Binding QuestionId}"/>
+                    <DataGridTextColumn Header="p+" Binding="{Binding PPlus}"/>
+                    <DataGridTextColumn Header="p-" Binding="{Binding PMinus}"/>
                 </DataGrid.Columns>
                 <DataGrid.Items>
                 </DataGrid.Items>
             </DataGrid>
         </Grid>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-            <Button Margin="5, 0, 0, 10" Height="25" Click="SaveButton_Click">Сохранить изменения</Button>
+            <Button Margin="5, 0, 0, 10" Height="25" Click="SaveButton_Click">Save changes</Button>
         </StackPanel>
     </Grid>
 </UserControl>

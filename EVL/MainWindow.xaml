@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:EVL"
         mc:Ignorable="d"
         Title="Оценка лояльности клиентов" Height="375" MinHeight="300" Width="600" MinWidth="600" FontSize="14">
     <Window.Resources>
@@ -14,8 +13,6 @@
     <Grid>
         <DockPanel>
             <Menu Height="Auto" DockPanel.Dock="Top">
-                <MenuItem x:Name="ImportWinBtn" Header="Импорт данных" Click="ImportWinBtn_Click"></MenuItem>
-                <MenuItem x:Name="ProjectsWinBtn" Header="Проект" Click="ProjectsWinBtn_Click" ></MenuItem>
                 <MenuItem x:Name="FactorsWinBtn" Header="Факторы" Click="FactorsWinBtn_Click"></MenuItem>
                 <MenuItem x:Name="InputWinBtn" Header="Ввод новой информации" Click="InputWinBtn_Click"></MenuItem>
             </Menu>
