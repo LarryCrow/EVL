@@ -1,76 +1,24 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Linq;
 using EVL.Utils;
+using Model;
 
 namespace EVL.Model
 {
-    public interface IReadOnlyNewDataViewState : INotifyPropertyChanged
+    public interface IReadOnlyNewDataViewState
     {
-        ReadOnlyObservableCollection<MetricQuestionAnswer> MetricQA { get; }
-        ReadOnlyObservableCollection<CharacteristicQuestionAnswer> CharacteristicQA { get; }
-        ReadOnlyObservableCollection<ClientRatingQuestionAnswer> ClientRatingQA { get; }
-
-        double ClientLoyalty { get; set; }
-        double PriorClientLoyalty { get; set; }
-        int SegmentID { get; set; }
+        ReadOnlyObservableCollection<QuestionAnswerUI> QAList { get; }
     }
 
     public class NewDataViewState : IReadOnlyNewDataViewState
     {
-        public readonly ObservableCollection<MetricQuestionAnswer> MetricQA;
-        public readonly ObservableCollection<CharacteristicQuestionAnswer> CharacteristicQA;
-        public readonly ObservableCollection<ClientRatingQuestionAnswer> RatingQA;
+        private readonly ObservableCollection<QuestionAnswerUI> qaList;
 
-        private double clientLoyalty;
-        public double ClientLoyalty
+        public NewDataViewState(EvlContext context)
         {
-            get { return clientLoyalty; }
-            set
-            {
-                clientLoyalty = value;
-                OnPropertyChanged(nameof(ClientLoyalty));
-            }
+            qaList = new ObservableCollection<QuestionAnswerUI>(context.Questions.Select(q => new QuestionAnswerUI { Question = q }));
         }
 
-        private double priorClientLoyalty;
-        public double PriorClientLoyalty
-        {
-            get { return priorClientLoyalty; }
-            set
-            {
-                priorClientLoyalty = value;
-                OnPropertyChanged(nameof(ClientLoyalty));
-            }
-        }
-
-        private int segmentID;
-        public int SegmentID
-        {
-            get { return segmentID; }
-            set
-            {
-                segmentID = value;
-                OnPropertyChanged(nameof(SegmentID));
-            }
-        }
-        
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-        
-        ReadOnlyObservableCollection<MetricQuestionAnswer> IReadOnlyNewDataViewState.MetricQA => MetricQA.AsReadOnly();
-        ReadOnlyObservableCollection<CharacteristicQuestionAnswer> IReadOnlyNewDataViewState.CharacteristicQA => CharacteristicQA.AsReadOnly();
-        ReadOnlyObservableCollection<ClientRatingQuestionAnswer> IReadOnlyNewDataViewState.ClientRatingQA => RatingQA.AsReadOnly();
-
-        public NewDataViewState()
-        {
-            this.MetricQA = new ObservableCollection<MetricQuestionAnswer>();
-            this.CharacteristicQA = new ObservableCollection<CharacteristicQuestionAnswer>();
-            this.RatingQA = new ObservableCollection<ClientRatingQuestionAnswer>();
-            this.clientLoyalty = -1;
-        }
-
-        private void OnPropertyChanged(string name)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(name));
-        }
+        public ReadOnlyObservableCollection<QuestionAnswerUI> QAList => qaList.AsReadOnly();
     }
 }

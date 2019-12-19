@@ -16,14 +16,20 @@ namespace EVL.Controllers
 
         public NewDataView CreateNewDataView()
         {
-            var ndvs = new NewDataViewState();
-            return new NewDataView(ndvs, new NewDataController(ndvs, createDbContext));
+            using (var context = createDbContext())
+            {
+                var ndvs = new NewDataViewState(context);
+                return new NewDataView(ndvs, new NewDataController(ndvs, createDbContext));
+            }
         }
 
         public FactorsView CreateFactorsView()
         {
-            var fvs = new FactorsViewState(createDbContext());
-            return new FactorsView(fvs, new FactorsController(fvs, createDbContext));
+            using (var context = createDbContext())
+            {
+                var fvs = new FactorsViewState(context);
+                return new FactorsView(fvs, new FactorsController(fvs, createDbContext));
+            }
         }
     }
 }

@@ -176,6 +176,8 @@
     <Compile Include="Controllers\NewDataController.cs" />
     <Compile Include="Model\FactorsViewState.cs" />
     <Compile Include="Model\NewDataViewState.cs" />
+    <Compile Include="Model\QuestionAnswerUI.cs" />
+    <Compile Include="Model\ResultProbabilityUI.cs" />
     <Compile Include="Utils\DictionaryExtensions.cs" />
     <Compile Include="Views\FactorsView.xaml.cs">
       <DependentUpon>FactorsView.xaml</DependentUpon>
