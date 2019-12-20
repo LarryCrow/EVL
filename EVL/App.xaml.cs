@@ -27,8 +27,6 @@ namespace EVL
             new MainWindow(new MainController(() => new EvlContext(options))).ShowDialog();
         }
 
-        // required for migrations (maybe refactor)
         EvlContext IDesignTimeDbContextFactory<EvlContext>.CreateDbContext(string[] args) => new EvlContext(options);
-
     }
 }

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Оценка лояльности клиентов" Height="375" MinHeight="300" Width="600" MinWidth="600" FontSize="14">
+        Title="Оценка лояльности клиентов" Height="600" MinHeight="300" Width="1200" MinWidth="600" FontSize="14">
     <Window.Resources>
         <Style TargetType="MenuItem">
             <Setter Property="FontSize" Value="14"></Setter>

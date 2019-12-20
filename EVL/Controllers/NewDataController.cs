@@ -34,7 +34,7 @@ namespace EVL.Controllers
                 : (1 - qw.PPlus) * p / ((1 - qw.PPlus) * p + (1 - qw.PMinus) * (1 - p));
 
             return Array.ConvertAll(hypotheses, h =>
-                h.Result.Weights.SingleOrDefault(w => w.QuestionId == qa.Question.Id) is Weight qw
+                h.Result.Weights?.SingleOrDefault(w => w.QuestionId == qa.Question.Id) is Weight qw
                 ? new ResultProbabilityUI
                 {
                     Result = h.Result,

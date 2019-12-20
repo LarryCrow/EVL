@@ -13,7 +13,7 @@ namespace EVL.Model
 
         ReadOnlyObservableCollection<Result> Results { get; }
 
-        IEnumerable<Weight> GetWeights(Result result = null, Question question = null);
+        IEnumerable<Weight> GetWeights(IEnumerable<Result> results = null, IEnumerable<Question> questions = null);
     }
 
     public class FactorsViewState : IReadOnlyFactorsViewState
@@ -44,13 +44,19 @@ namespace EVL.Model
             results.Add(new Result { Id = -++resultCounter });
 
         public void AddWeight(Result result, Question question) =>
-            weights.Add(new Weight { Result = result, Question = question });
+            weights.Add(new Weight
+            {
+                ResultId = result.Id,
+                Result = result,
+                QuestionId = question.Id,
+                Question = question
+            });
 
-        public IEnumerable<Weight> GetWeights(Result result = null, Question question = null)
+        public IEnumerable<Weight> GetWeights(IEnumerable<Result> results = null, IEnumerable<Question> questions = null)
         {
             var query = weights.AsEnumerable();
-            if (result != null) query = weights.Where(w => w.Result?.Id == result.Id || w.ResultId == result.Id);
-            if (question != null) query = weights.Where(w => w.Question?.Id == question.Id || w.QuestionId == question.Id);
+            if (results is null || results.Any()) query = query.Where(w => results.Contains(w.Result));
+            if (questions is null || questions.Any()) query = query.Where(w => questions.Contains(w.Question));
 
             return query.ToList();
         }

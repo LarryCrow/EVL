@@ -8,48 +8,60 @@
     <Grid>
         <Grid Margin="0, 0, 0, 50">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="13.5*"></ColumnDefinition>
+                <ColumnDefinition Width="15.5*"></ColumnDefinition>
+                <ColumnDefinition Width="6*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <DataGrid x:Name="QuestionsTable" Margin="2 5" CanUserAddRows="True" AutoGenerateColumns="False"
-                      SelectionChanged="Table_SelectionChanged" SelectionMode="Single">
+            <DataGrid x:Name="QuestionsTable" CanUserAddRows="True" AutoGenerateColumns="False"
+                      SelectionChanged="Table_SelectionChanged"
+                      SelectionMode="Extended" MinRowHeight="25" CanUserDeleteRows="True">
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="LightSkyBlue"/>
+                </DataGrid.Resources>
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn CanUserResize="False" CellStyle="{StaticResource EmptyColumnCellStyle}">
+                    <DataGridTemplateColumn Width="0.5*" CanUserResize="False" CellStyle="{StaticResource EmptyColumnCellStyle}">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
-                                <Button Style="{StaticResource AddColumnHeaderButtonStyle}" Click="AddQuestion_Click"></Button>
+                                <Button Style="{StaticResource AddColumnHeaderButtonStyle}" Click="AddQuestion_Click"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Width="1*" Header="Property" Binding="{Binding Property}"/>
-                    <DataGridTextColumn Width="1.6*" Header="Question text" Binding="{Binding QuestionText}"/>
+                    <DataGridTextColumn Width="*" Header="Id" Binding="{Binding Id, StringFormat='#;\\##;0'}"/>
+                    <DataGridTextColumn Width="4*" Header="Property" Binding="{Binding Property}"/>
+                    <DataGridTextColumn Width="8*" Header="Question text" Binding="{Binding QuestionText}"/>
                 </DataGrid.Columns>
                 <DataGrid.Items>
                 </DataGrid.Items>
             </DataGrid>
-            <DataGrid x:Name="ResultsTable" Grid.Column="1" Margin="2 5" CanUserAddRows="True" AutoGenerateColumns="False"
-                      SelectionChanged="Table_SelectionChanged" SelectionMode="Single">
+            <DataGrid x:Name="ResultsTable" Grid.Column="1" CanUserAddRows="True" AutoGenerateColumns="False" 
+                      SelectionChanged="Table_SelectionChanged"
+                      CanUserResizeRows="True" MinRowHeight="25" SelectionMode="Extended">
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="LightSkyBlue"/>
+                </DataGrid.Resources>
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn CanUserResize="False" CellStyle="{StaticResource EmptyColumnCellStyle}">
+                    <DataGridTemplateColumn Width="0.5*" CanUserResize="False" CellStyle="{StaticResource EmptyColumnCellStyle}">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
                                 <Button Style="{StaticResource AddColumnHeaderButtonStyle}" Click="AddResult_Click"></Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Width="1*" Header="Result name" Binding="{Binding Name}"/>
-                    <DataGridTextColumn Width="1*" Header="Probability" Binding="{Binding Probability}"/>
+                    <DataGridTextColumn Width="*" Header="Id" Binding="{Binding Id, StringFormat='#;\\##;0'}"/>
+                    <DataGridTextColumn Width="4*" Header="Result name" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Width="8*" Header="Description" Binding="{Binding Description}"/>
+                    <DataGridTextColumn Width="2*" Header="p" Binding="{Binding Probability}"/>
                 </DataGrid.Columns>
                 <DataGrid.Items>
                 </DataGrid.Items>
             </DataGrid>
-            <DataGrid x:Name="WeightsTable" Grid.Column="2" Margin="2 5" CanUserAddRows="False" AutoGenerateColumns="False">
+            <DataGrid x:Name="WeightsTable" Grid.Column="2" CanUserAddRows="False" AutoGenerateColumns="False"
+                      MinRowHeight="25">
                 <DataGrid.Columns>
-                    <DataGridTextColumn IsReadOnly="True" Header="rid" Binding="{Binding ResultId}"/>
-                    <DataGridTextColumn IsReadOnly="True" Header="qid" Binding="{Binding QuestionId}"/>
-                    <DataGridTextColumn Header="p+" Binding="{Binding PPlus}"/>
-                    <DataGridTextColumn Header="p-" Binding="{Binding PMinus}"/>
+                    <DataGridTextColumn Width="*" IsReadOnly="True" Header="rid" Binding="{Binding ResultId, StringFormat='#;\\##;0'}"/>
+                    <DataGridTextColumn Width="*" IsReadOnly="True" Header="qid" Binding="{Binding QuestionId, StringFormat='#;\\##;0'}"/>
+                    <DataGridTextColumn Width="2*" Header="p+" Binding="{Binding PPlus}"/>
+                    <DataGridTextColumn Width="2*" Header="p-" Binding="{Binding PMinus}"/>
                 </DataGrid.Columns>
                 <DataGrid.Items>
                 </DataGrid.Items>
@@ -57,6 +69,7 @@
         </Grid>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
             <Button Margin="5, 0, 0, 10" Height="25" Click="SaveButton_Click">Save changes</Button>
+            <Button Margin="5, 0, 0, 10" Height="25" Name="AddWeightButton" Visibility="Collapsed" Click="AddWeight_Click">Add weight</Button>
         </StackPanel>
     </Grid>
 </UserControl>
