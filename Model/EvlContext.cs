@@ -18,7 +18,7 @@ namespace Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Weight>().HasAlternateKey(w => new { w.ResultId, w.QuestionId });
+            modelBuilder.Entity<Weight>().HasKey(w => new { w.ResultId, w.QuestionId });
         }
     }
 }

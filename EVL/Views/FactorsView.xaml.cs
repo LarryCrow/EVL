@@ -6,9 +6,6 @@ using System.Windows.Controls;
 
 namespace EVL.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для FactorsView.xaml
-    /// </summary>
     public partial class FactorsView : UserControl
     {
         private readonly IReadOnlyFactorsViewState dataSource;
@@ -33,14 +30,16 @@ namespace EVL.Views
         private void AddResult_Click(object source, RoutedEventArgs args) =>
             controller.AddResultToState();
 
-        private void SaveButton_Click(object sender, RoutedEventArgs args) =>
+        private void SaveButton_Click(object sender, RoutedEventArgs args)
+        {
             controller.SubmitChanges();
+            MessageBox.Show("Data synched");
+        }
 
         private void Table_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var (result, question) = GetSelected();
             WeightsTable.ItemsSource = dataSource.GetWeights(result, question);
         }
-
     }
 }
