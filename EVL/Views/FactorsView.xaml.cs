@@ -1,10 +1,15 @@
-﻿using EVL.Controllers;
+﻿using evl.Model;
+using EVL.Controllers;
 using EVL.Model;
 using Model.Entites;
+using Prism.Commands;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace EVL.Views
 {
@@ -13,8 +18,8 @@ namespace EVL.Views
         private readonly IReadOnlyFactorsViewState dataSource;
         private readonly FactorsController controller;
 
-        private (IEnumerable<Result> results, IEnumerable<Question> questions) GetSelected()
-            => (ResultsTable.SelectedItems?.OfType<Result>(), QuestionsTable.SelectedItems?.OfType<Question>());
+        private (IEnumerable<DeletableUI<Result>> results, IEnumerable<DeletableUI<Question>> questions) GetSelected()
+            => (ResultsTable.SelectedItems?.OfType<DeletableUI<Result>>(), QuestionsTable.SelectedItems?.OfType<DeletableUI<Question>>());
 
         public FactorsView(IReadOnlyFactorsViewState viewState, FactorsController controller)
         {
@@ -22,6 +27,15 @@ namespace EVL.Views
             this.dataSource = viewState;
             InitializeComponent();
             ForceUpdateView();
+
+            InputGrid.InputBindings.Add(new KeyBinding(new DelegateCommand(DeleteRows_Press), Key.Delete, ModifierKeys.None));
+        }
+
+        private void DeleteRows_Press()
+        {
+            controller.SoftDelete(ResultsTable.SelectedItems?.OfType<DeletableUI<Result>>(),
+                QuestionsTable.SelectedItems?.OfType<DeletableUI<Question>>(),
+                WeightsTable.SelectedItems?.OfType<DeletableUI<Weight>>());
         }
 
         private void AddQuestion_Click(object source, RoutedEventArgs args) =>

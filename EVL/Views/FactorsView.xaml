@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:EVL.Views"
         mc:Ignorable="d">
     <Grid>
-        <Grid Margin="0, 0, 0, 50">
+        <Grid Margin="0, 0, 0, 50" x:Name="InputGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="13.5*"></ColumnDefinition>
                 <ColumnDefinition Width="15.5*"></ColumnDefinition>
@@ -26,9 +26,9 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Width="*" Header="Id" Binding="{Binding Id, StringFormat='#;\\##;0'}"/>
-                    <DataGridTextColumn Width="4*" Header="Property" Binding="{Binding Property}"/>
-                    <DataGridTextColumn Width="8*" Header="Question text" Binding="{Binding QuestionText}"/>
+                    <DataGridTextColumn Width="*" Header="Id" Binding="{Binding Value.Id, StringFormat='#;\\##;0'}"/>
+                    <DataGridTextColumn Width="4*" Header="Property" Binding="{Binding Value.Property}"/>
+                    <DataGridTextColumn Width="8*" Header="Question text" Binding="{Binding Value.QuestionText}"/>
                 </DataGrid.Columns>
                 <DataGrid.Items>
                 </DataGrid.Items>
@@ -47,10 +47,10 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Width="*" Header="Id" Binding="{Binding Id, StringFormat='#;\\##;0'}"/>
-                    <DataGridTextColumn Width="4*" Header="Result name" Binding="{Binding Name}"/>
-                    <DataGridTextColumn Width="8*" Header="Description" Binding="{Binding Description}"/>
-                    <DataGridTextColumn Width="2*" Header="p" Binding="{Binding Probability}"/>
+                    <DataGridTextColumn Width="*" Header="Id" Binding="{Binding Value.Id, StringFormat='#;\\##;0'}"/>
+                    <DataGridTextColumn Width="4*" Header="Result name" Binding="{Binding Value.Name}"/>
+                    <DataGridTextColumn Width="8*" Header="Description" Binding="{Binding Value.Description}"/>
+                    <DataGridTextColumn Width="2*" Header="p" Binding="{Binding Value.Probability}"/>
                 </DataGrid.Columns>
                 <DataGrid.Items>
                 </DataGrid.Items>
@@ -58,10 +58,10 @@
             <DataGrid x:Name="WeightsTable" Grid.Column="2" CanUserAddRows="False" AutoGenerateColumns="False"
                       MinRowHeight="25">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="*" IsReadOnly="True" Header="rid" Binding="{Binding ResultId, StringFormat='#;\\##;0'}"/>
-                    <DataGridTextColumn Width="*" IsReadOnly="True" Header="qid" Binding="{Binding QuestionId, StringFormat='#;\\##;0'}"/>
-                    <DataGridTextColumn Width="2*" Header="p+" Binding="{Binding PPlus}"/>
-                    <DataGridTextColumn Width="2*" Header="p-" Binding="{Binding PMinus}"/>
+                    <DataGridTextColumn Width="*" IsReadOnly="True" Header="rid" Binding="{Binding Value.ResultId, StringFormat='#;\\##;0'}"/>
+                    <DataGridTextColumn Width="*" IsReadOnly="True" Header="qid" Binding="{Binding Value.QuestionId, StringFormat='#;\\##;0'}"/>
+                    <DataGridTextColumn Width="2*" Header="p+" Binding="{Binding Value.PPlus}"/>
+                    <DataGridTextColumn Width="2*" Header="p-" Binding="{Binding Value.PMinus}"/>
                 </DataGrid.Columns>
                 <DataGrid.Items>
                 </DataGrid.Items>
