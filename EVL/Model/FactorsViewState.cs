@@ -1,4 +1,4 @@
-﻿using evl.Model;
+﻿using EVL.Model;
 using EVL.Utils;
 using Model;
 using Model.Entites;
@@ -48,7 +48,7 @@ namespace EVL.Model
         public void AddWeight(DeletableUI<Result> result, DeletableUI<Question> question) =>
             weights.Add(new DeletableUI<Weight>
             {
-                Deleted = result.Deleted || question.Deleted,
+                CascadeDeleted = result.Deleted || question.Deleted,
                 Value = new Weight
                 {
                     ResultId = result.Value.Id,
@@ -58,13 +58,25 @@ namespace EVL.Model
                 }
             });
 
-        public IEnumerable<DeletableUI<Weight>> GetWeights(IEnumerable<DeletableUI<Result>> results = null, IEnumerable<DeletableUI<Question>> questions = null)
+        public IEnumerable<DeletableUI<Weight>> GetWeights(IEnumerable<DeletableUI<Result>> results = null,
+            IEnumerable<DeletableUI<Question>> questions = null)
         {
             var query = weights.AsEnumerable();
-            if (results is null || results.Any()) query = query.Where(w => results.Any(r => r.Value == w.Value.Result));
-            if (questions is null || questions.Any()) query = query.Where(w => questions.Any(q => q.Value == w.Value.Question));
+
+            if (results != null)
+                query = query.Where(w => results.Any(r => r.Value == w.Value.Result));
+
+            if (questions != null) 
+                query = query.Where(w => questions.Any(q => q.Value == w.Value.Question));
 
             return query.ToList();
         }
-}
+
+        public void ClearDeletedObjects()
+        {
+            foreach (var r in results.Where(r => r.Deleted).ToList()) results.Remove(r);
+            foreach (var q in questions.Where(r => r.Deleted).ToList()) questions.Remove(q);
+            foreach (var w in weights.Where(r => r.Deleted).ToList()) weights.Remove(w);
+        }
+    }
 }

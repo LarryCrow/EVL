@@ -1,4 +1,5 @@
 ﻿using EVL.Model;
+using Microsoft.EntityFrameworkCore;
 using Model;
 using Model.Entites;
 using System;
@@ -22,7 +23,7 @@ namespace EVL.Controllers
         {
             using (var context = createDbContext())
             {
-                var initialResults = context.Results.Select(r => new ResultProbabilityUI { Result = r, ConditionalProbability = r.Probability }).ToArray();
+                var initialResults = context.Results.Include(r => r.Weights).Select(r => new ResultProbabilityUI { Result = r, ConditionalProbability = r.Probability }).ToArray();
                 return viewState.QAList.Aggregate(initialResults, CalculatePosteriorProbablilities);
             }
         }

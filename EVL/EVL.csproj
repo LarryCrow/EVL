@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B2427E98-8A4C-401E-AEAF-E3FF4B3829D4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>evl</RootNamespace>
+    <RootNamespace>EVL</RootNamespace>
     <AssemblyName>evl</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -106,6 +106,9 @@
     </Reference>
     <Reference Include="Saritasa.Tools.Common, Version=3.1.0.0, Culture=neutral, PublicKeyToken=4f360dc0155dcceb, processorArchitecture=MSIL">
       <HintPath>..\packages\Saritasa.Tools.Common.3.1.0\lib\net40\Saritasa.Tools.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Saritasa.Tools.Domain, Version=0.5.0.0, Culture=neutral, PublicKeyToken=4f360dc0155dcceb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Saritasa.Tools.Domain.0.5.4\lib\net40\Saritasa.Tools.Domain.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.batteries_green, Version=1.1.11.121, Culture=neutral, PublicKeyToken=a84b7dcfb1391f7f, processorArchitecture=MSIL">
       <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.11\lib\net45\SQLitePCLRaw.batteries_green.dll</HintPath>
