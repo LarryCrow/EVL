@@ -98,6 +98,11 @@ namespace EVL.Controllers
         {
             var exception = new ValidationException();
 
+            if (viewState.Results.ExcludeDeleted().Sum(q => q.Probability) is var sum && sum != 1.0)
+            {
+                exception.AddError("Results", $"Sum of probabilities {sum} is not equal to 1 as expected.");
+            }
+
             foreach (var q in viewState.Questions.ExcludeDeleted())
             {
                 if (string.IsNullOrWhiteSpace(q.Property) || string.IsNullOrWhiteSpace(q.QuestionText))
