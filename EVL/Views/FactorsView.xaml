@@ -7,6 +7,9 @@
         mc:Ignorable="d">
     <Grid>
         <Grid.Resources>
+            <Style TargetType="{x:Type TextBlock}" x:Key="WrapText">
+                <Setter Property="TextWrapping" Value="Wrap"/>
+            </Style>
             <Style TargetType="DataGridRow">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding CascadeDeleted}" Value="True">
@@ -40,8 +43,8 @@
                         </DataGridTemplateColumn.HeaderTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Width="*" Header="Id" IsReadOnly="True" Binding="{Binding Value.Id, StringFormat='#;\\##;0'}"/>
-                    <DataGridTextColumn Width="4*" Header="Property" Binding="{Binding Value.Property}"/>
-                    <DataGridTextColumn Width="8*" Header="Question text" Binding="{Binding Value.QuestionText}"/>
+                    <DataGridTextColumn Width="4*" Header="Property" ElementStyle="{StaticResource WrapText}" Binding="{Binding Value.Property}"/>
+                    <DataGridTextColumn Width="8*" Header="Question text" ElementStyle="{StaticResource WrapText}" Binding="{Binding Value.QuestionText}"/>
                 </DataGrid.Columns>
                 <DataGrid.Items>
                 </DataGrid.Items>
@@ -59,7 +62,7 @@
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Width="*" Header="Id" IsReadOnly="True" Binding="{Binding Value.Id, StringFormat='#;\\##;0'}"/>
                     <DataGridTextColumn Width="4*" Header="Result name" Binding="{Binding Value.Name}"/>
-                    <DataGridTextColumn Width="8*" Header="Description" Binding="{Binding Value.Description}"/>
+                    <DataGridTextColumn Width="8*" Header="Description" ElementStyle="{StaticResource WrapText}" Binding="{Binding Value.Description}"/>
                     <DataGridTextColumn Width="2*" Header="p" Binding="{Binding Value.Probability}"/>
                 </DataGrid.Columns>
                 <DataGrid.Items>

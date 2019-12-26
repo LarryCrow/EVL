@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using EVL.Controllers;
@@ -25,8 +26,8 @@ namespace EVL.Views
 
         private void CalculateLoyalty_Click(object sender, RoutedEventArgs e)
         {
-            var result = Array.ConvertAll(controller.Calculate(), r => $"{r.Result.Name}: {r.ConditionalProbability}");
-            MessageBox.Show($"Results: {string.Join(Environment.NewLine, result)}");
+            var result = controller.Calculate().OrderByDescending(p => p.ConditionalProbability).Select(r => $"{r.Result.Name}: {r.ConditionalProbability:0.000}");
+            MessageBox.Show($"Results:\n{string.Join(Environment.NewLine, result)}");
         }
     }
 }
